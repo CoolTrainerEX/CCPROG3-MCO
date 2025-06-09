@@ -8,6 +8,17 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        // TODO: Write better header
+        System.out.println( "Welcome to JavaJeeps!" );
+
+        try (UserSingleton user = UserSingleton.getInstance()) {
+            boolean close = false;
+            while (!close) {
+                close = user.mainMenu();
+            }
+        }
+
+        // TODO: Write better closer
+        System.out.println("Goodbye!");
     }
 }

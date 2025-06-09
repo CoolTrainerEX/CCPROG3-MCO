@@ -5,7 +5,7 @@ package com.ccprog3;
  * @author Justin Ryan Uy
  */
 public class SpecialCoffeeTruck extends CoffeeTruck {
-    private SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
+    private final SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
 
     /**
      * Special Storage Bin class to contain Syrup Ingredients

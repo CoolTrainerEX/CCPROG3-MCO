@@ -6,7 +6,7 @@ package com.ccprog3;
  */
 public class CoffeeTruck {
     protected Location location;
-    protected StorageBin[] storageBins = new StorageBin[8];
+    protected final StorageBin[] storageBins = new StorageBin[8];
 
     /**
      * Storage Bin class to store Ingredients
