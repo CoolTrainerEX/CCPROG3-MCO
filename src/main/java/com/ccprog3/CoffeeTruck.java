@@ -5,7 +5,16 @@ package com.ccprog3;
  * @author Justin Ryan Uy
  */
 public class CoffeeTruck {
+    /**
+     * Truck Location
+     * @author Justin Ryan Uy
+     */
     protected Location location;
+
+    /**
+     * Storage Bins to store Ingredients
+     * @author Justin Ryan Uy
+     */
     protected final StorageBin[] storageBins = new StorageBin[8];
 
     /**

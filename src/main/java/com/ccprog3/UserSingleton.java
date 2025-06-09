@@ -11,9 +11,28 @@ import java.util.Scanner;
  * @author Justin Ryan Uy
  */
 public class UserSingleton implements AutoCloseable {
+    /**
+     * Singleton instance of the User
+     * @author Justin Ryan Uy
+     */
     private static final UserSingleton instance = new UserSingleton();
+
+    /**
+     * Username to be used for reading and writing to files
+     * @author Justin Ryan Uy
+     */
     private final String username;
+
+    /**
+     * List of Coffee Trucks made by the User
+     * @author Justin Ryan Uy
+     */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
+
+    /**
+     * System in Scanner used by the User
+     * @author Justin Ryan Uy
+     */
     private final Scanner sc = new Scanner(System.in);
 
     /**
@@ -28,6 +47,7 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Gets the singleton instance
      * @return The instance
+     * @author Justin Ryan Uy
      */
     public static UserSingleton getInstance() {
         return instance;
@@ -46,8 +66,9 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Logs the user in
      * @param username Username to log in with
+     * @author Justin Ryan Uy
      */
-    public void login(String username) {
+    private void login(String username) {
         try (Scanner filesc = new Scanner(new File(username))) {
             // TODO: read file
         } catch (FileNotFoundException e) {
@@ -58,6 +79,7 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Main menu for the program
      * @return True if the menu requests to exit; false otherwise
+     * @author Justin Ryan Uy
      */
     public boolean mainMenu() {
         return true;

@@ -1,8 +1,8 @@
 package com.ccprog3;
 
 /**
- * Hello world!
- *
+ * Driver class
+ * @@author Justin Ryan Uy
  */
 public class App 
 {
