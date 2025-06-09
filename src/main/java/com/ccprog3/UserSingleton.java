@@ -30,22 +30,21 @@ public class UserSingleton implements AutoCloseable {
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
 
     /**
-     * System in Scanner used by the User
+     * UI to be used
      * @author Justin Ryan Uy
      */
-    private final Scanner sc = new Scanner(System.in);
+    private final UI ui = CLISingleton.getInstance();
 
     /**
      * User constructor which logs the user in
      * @author Justin Ryan Uy
      */
     private UserSingleton() {
-        System.out.print("Login (A new user will be created if the current user is not found): ");
-        login(username = sc.nextLine());
+        login(username = ui.login());
     }
 
     /**
-     * Gets the singleton instance
+     * Gets the User singleton instance
      * @return The instance
      * @author Justin Ryan Uy
      */
@@ -58,13 +57,13 @@ public class UserSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     public void close() {
-        sc.close();
+        if (ui instanceof CLISingleton) ((CLISingleton) ui).close();
 
         // TODO: Write file
     }
 
     /**
-     * Logs the user in
+     * Logs the user in (opens save file)
      * @param username Username to log in with
      * @author Justin Ryan Uy
      */
@@ -72,13 +71,15 @@ public class UserSingleton implements AutoCloseable {
         try (Scanner filesc = new Scanner(new File(username))) {
             // TODO: read file
         } catch (FileNotFoundException e) {
-            System.out.println("User not found. Will save to new user upon close.");
+            ui.loginErr(username);
         }
     }
 
+    // User commands
+
     /**
-     * Main menu for the program
-     * @return True if the menu requests to exit; false otherwise
+     * User main menu
+     * @return true if user requests exit; false otherwise
      * @author Justin Ryan Uy
      */
     public boolean mainMenu() {
