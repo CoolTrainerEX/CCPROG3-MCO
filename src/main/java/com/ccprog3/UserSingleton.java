@@ -83,6 +83,23 @@ public class UserSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     public boolean mainMenu() {
-        return true;
+        switch (ui.mainMenu(username)) {
+            case '1':
+                
+                break;
+        
+            case '2':
+                
+                break;
+        
+            case '3':
+                
+                break;
+            
+            case 'x':
+                return true;
+        }
+
+        return false;
     }
 }

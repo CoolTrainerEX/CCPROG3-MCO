@@ -1,5 +1,6 @@
 package com.ccprog3;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -51,6 +52,21 @@ public class CLISingleton implements UI, AutoCloseable {
         return input;
     }
 
+    /**
+     * Double user input with text formatting
+     * @return Input string
+     * @author Justin Ryan Uy
+     */
+    private double inputDouble() throws InputMismatchException {
+        System.out.print(": \u001b[4m");
+
+        double input = sc.nextDouble();
+
+        System.out.print("\u001b[0m");
+
+        return input;
+    }
+
     // UI
 
     public String login() {
@@ -72,7 +88,7 @@ public class CLISingleton implements UI, AutoCloseable {
                 [x] Exit
                 """);
 
-        switch (sc.nextLine()) {
+        switch (input()) {
             case "1":
                 
                 break;

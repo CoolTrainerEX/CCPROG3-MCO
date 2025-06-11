@@ -17,7 +17,8 @@ public interface UI {
     public void loginErr(String username);
     
     /**
-     * Main menu for the program
+     * Main menu for the program. [1] Create a Coffee Truck; [2] Perform Coffee Truck features; [3] Dashboard; [x] Exit
+     * @param username Username to display
      * @return Choice input
      * @author Justin Ryan Uy
      */

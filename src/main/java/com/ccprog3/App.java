@@ -12,10 +12,7 @@ public class App
         System.out.println( "\nWelcome to JavaJeeps!\n" );
 
         try (UserSingleton user = UserSingleton.getInstance()) {
-            boolean close = false;
-            while (!close) {
-                close = user.mainMenu();
-            }
+            while (!user.mainMenu());
         }
 
         // TODO: Write better closer
