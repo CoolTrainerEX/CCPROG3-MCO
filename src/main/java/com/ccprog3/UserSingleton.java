@@ -21,28 +21,14 @@ public class UserSingleton implements AutoCloseable {
      * Username to be used for reading and writing to files
      * @author Justin Ryan Uy
      */
-    private final String username;
+    private String username;
 
     /**
      * List of Coffee Trucks made by the User
      * @author Justin Ryan Uy
      */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
-
-    /**
-     * UI to be used
-     * @author Justin Ryan Uy
-     */
-    private final UI ui = CLISingleton.getInstance();
-
-    /**
-     * User constructor which logs the user in
-     * @author Justin Ryan Uy
-     */
-    private UserSingleton() {
-        login(username = ui.login());
-    }
-
+    
     /**
      * Gets the User singleton instance
      * @return The instance
@@ -53,12 +39,10 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Closes the scanner and saves the user data to a file
+     * Saves the user data to a file
      * @author Justin Ryan Uy
      */
     public void close() {
-        if (ui instanceof CLISingleton) ((CLISingleton) ui).close();
-
         // TODO: Write file
     }
 
@@ -67,39 +51,11 @@ public class UserSingleton implements AutoCloseable {
      * @param username Username to log in with
      * @author Justin Ryan Uy
      */
-    private void login(String username) {
+    public void login(String username) throws FileNotFoundException {
+        this.username = username;
+
         try (Scanner filesc = new Scanner(new File(username))) {
             // TODO: read file
-        } catch (FileNotFoundException e) {
-            ui.loginErr(username);
         }
-    }
-
-    // User commands
-
-    /**
-     * User main menu
-     * @return true if user requests exit; false otherwise
-     * @author Justin Ryan Uy
-     */
-    public boolean mainMenu() {
-        switch (ui.mainMenu(username)) {
-            case '1':
-                
-                break;
-        
-            case '2':
-                
-                break;
-        
-            case '3':
-                
-                break;
-            
-            case 'x':
-                return true;
-        }
-
-        return false;
     }
 }

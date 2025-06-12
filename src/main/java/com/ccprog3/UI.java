@@ -7,20 +7,14 @@ package com.ccprog3;
 public interface UI {
     /**
      * Login screen
-     * @return login input string
-     */
-    public String login();
-    /**
-     * Login username not found
      * @author Justin Ryan Uy
      */
-    public void loginErr(String username);
-    
+    public void login();
+
     /**
-     * Main menu for the program. [1] Create a Coffee Truck; [2] Perform Coffee Truck features; [3] Dashboard; [x] Exit
+     * Main menu for the program.
      * @param username Username to display
-     * @return Choice input
      * @author Justin Ryan Uy
      */
-    public char mainMenu(String username);
+    public void mainMenu(String username);
 }

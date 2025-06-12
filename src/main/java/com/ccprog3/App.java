@@ -8,14 +8,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        // TODO: Write better header
-        System.out.println( "\nWelcome to JavaJeeps!\n" );
+        UI ui = new CLISingleton();
 
-        try (UserSingleton user = UserSingleton.getInstance()) {
-            while (!user.mainMenu());
-        }
+        ui.login();
 
-        // TODO: Write better closer
-        System.out.println("\nGoodbye!\n");
+        if (ui instanceof CLISingleton) ((CLISingleton) ui).close();
     }
 }

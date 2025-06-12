@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -21,6 +23,12 @@ public class CLISingleton implements UI, AutoCloseable {
     private final Scanner sc = new Scanner(System.in);
 
     /**
+     * The user to interact with
+     * @author Justin Ryan Uy
+     */
+    private final UserSingleton user = UserSingleton.getInstance();
+
+    /**
      * Gets the CLI singleton instance
      * @return The instance
      * @author Justin Ryan Uy
@@ -28,13 +36,46 @@ public class CLISingleton implements UI, AutoCloseable {
     public static CLISingleton getInstance() {
         return instance;
     }
-
+    
     /**
      * Closes the scanner
      * @author Justin Ryan Uy
      */
     public void close() {
         sc.close();
+    }
+
+    /**
+     * Automatically creates a radio-option display and input checking
+     * @param options The possible options
+     * @return The chosen option
+     */
+    private int radio(String... options) {
+        while (true) {
+            for (int i = 0; i < options.length; i++)
+                System.out.println("[" + (i + 1) + "] " + options[i]);
+
+            System.out.println("[b] Back\n[x] Exit");
+
+            String input = input();
+
+            try {
+                int inputParsed = Integer.parseInt(input);
+
+                if (inputParsed >= 1 && inputParsed <= options.length)
+                    return inputParsed;
+            } catch (NumberFormatException e) {
+                switch (input.toLowerCase()) {
+                    case "b":
+                        return 0;
+                        
+                    case "x":
+                        return -1;
+                }
+            }
+
+            System.err.println("\n\u001b[41mInvalid input. Try again.\u001b[0m\n");
+        }
     }
 
     /**
@@ -57,45 +98,37 @@ public class CLISingleton implements UI, AutoCloseable {
      * @return Input string
      * @author Justin Ryan Uy
      */
-    private double inputDouble() throws InputMismatchException {
-        System.out.print(": \u001b[4m");
+    private double inputDouble() {
+        while (true) {
+            System.out.print(": \u001b[4m");
 
-        double input = sc.nextDouble();
-
-        System.out.print("\u001b[0m");
-
-        return input;
+            try {
+                double input = sc.nextDouble();
+                System.out.print("\u001b[0m");
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.print("\u001b[0m");
+                System.err.println("\n\u001b[41mInput is not a number. Try again.\u001b[0m\n");
+            }
+        }
     }
 
     // UI
 
-    public String login() {
+    public void login() {
         System.out.println("Login (Saves to a new user if not found)");
-        return input();
+        
+        try {
+            user.login(input());
+        } catch (FileNotFoundException e) {
+            System.err.println("\n\u001b[41mUser not found. New user will be saved upon close.\u001b[0m\n");
+        }
     }
 
-    public void loginErr(String username) {
-        System.err.println("User not found. New user will be saved upon close");
-    }
-    
-    public char mainMenu(String username) {
+    public void mainMenu(String username) {
+        // TODO Write better header
         System.out.println("\nWelcome, " + username + "!\n");
 
-        System.out.println("""
-                [1] Create a Coffee Truck
-                [2] Perform Coffee Truck features
-                [3] Dashboard
-                [x] Exit
-                """);
-
-        switch (input()) {
-            case "1":
-                
-                break;
-        
-            default:
-                break;
-        }
-        return 'a';
+        radio("Create a Coffee Truck", "Perform Coffee Truck features", "Dashboard");
     }
 }
