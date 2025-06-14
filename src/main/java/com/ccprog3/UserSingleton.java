@@ -39,6 +39,14 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
+     * Gets the username
+     * @return Username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
      * Saves the user data to a file
      * @author Justin Ryan Uy
      */

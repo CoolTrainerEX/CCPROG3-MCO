@@ -9,13 +9,13 @@ public class Location {
      * Location x coordinate
      * @author Justin Ryan Uy
      */
-    private final double x;
+    private double x;
 
     /**
      * Location y coordinate
      * @author Justin Ryan Uy
      */
-    private final double y;
+    private double y;
 
     /**
      * Create a new Location
@@ -47,12 +47,22 @@ public class Location {
     }
 
     /**
+     * Sets a new location
+     * @param x The x coordinate
+     * @param y The y coordinate
+     */
+    public void setLocation(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
      * Compare if one location is equal to another
      * @param location The location to compare with
      * @return True if they are equal; false otherwise
      * @author Justin Ryan Uy
      */
     public boolean equals(Location location) {
-        return x == location.getX() && y == location.getY();
+        return getX() == location.getX() && getY() == location.getY();
     }
 }

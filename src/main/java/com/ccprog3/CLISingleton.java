@@ -1,15 +1,15 @@
 package com.ccprog3;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.function.Function;
 
 /**
  * CLI user interface
  * @author Justin Ryan Uy
  */
-public class CLISingleton implements UI, AutoCloseable {
+public class CLISingleton implements UI {
     /**
      * Singleton instance of the CLI
      * @author Justin Ryan Uy
@@ -37,14 +37,11 @@ public class CLISingleton implements UI, AutoCloseable {
         return instance;
     }
     
-    /**
-     * Closes the scanner
-     * @author Justin Ryan Uy
-     */
     public void close() {
         sc.close();
+        user.close();
     }
-
+    
     /**
      * Automatically creates a radio-option display and input checking
      * @param options The possible options
@@ -59,25 +56,27 @@ public class CLISingleton implements UI, AutoCloseable {
 
             String input = input();
 
+            // Input checking
+
+            switch (input.toLowerCase()) {
+                case "x":
+                    return -1;
+                    
+                case "b":
+                    return 0;
+            }
+
             try {
                 int inputParsed = Integer.parseInt(input);
 
                 if (inputParsed >= 1 && inputParsed <= options.length)
                     return inputParsed;
             } catch (NumberFormatException e) {
-                switch (input.toLowerCase()) {
-                    case "b":
-                        return 0;
-                        
-                    case "x":
-                        return -1;
-                }
+                System.err.println("\n\u001b[41mInvalid input. Try again.\u001b[0m\n");
             }
-
-            System.err.println("\n\u001b[41mInvalid input. Try again.\u001b[0m\n");
         }
     }
-
+    
     /**
      * String user input with text formatting
      * @return Input string
@@ -125,10 +124,18 @@ public class CLISingleton implements UI, AutoCloseable {
         }
     }
 
-    public void mainMenu(String username) {
+    public void mainMenu() {
         // TODO Write better header
-        System.out.println("\nWelcome, " + username + "!\n");
+        System.out.println("\nWelcome, " + user.getUsername() + "!\n");
 
-        radio("Create a Coffee Truck", "Perform Coffee Truck features", "Dashboard");
+        while (true)
+            switch (radio("Create a Coffee Truck", "Perform Coffee Truck features", "Dashboard")) {
+                case 1:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
     }
 }

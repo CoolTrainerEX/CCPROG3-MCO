@@ -4,7 +4,9 @@ package com.ccprog3;
  * Interface for user display and input
  * @author Justin Ryan Uy
  */
-public interface UI {
+public interface UI extends AutoCloseable {
+    public void close();
+
     /**
      * Login screen
      * @author Justin Ryan Uy
@@ -13,8 +15,7 @@ public interface UI {
 
     /**
      * Main menu for the program.
-     * @param username Username to display
      * @author Justin Ryan Uy
      */
-    public void mainMenu(String username);
+    public void mainMenu();
 }
