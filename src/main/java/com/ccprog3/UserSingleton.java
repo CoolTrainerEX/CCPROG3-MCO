@@ -41,6 +41,7 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Gets the username
      * @return Username
+     * @author Justin Ryan Uy
      */
     public String getUsername() {
         return username;
@@ -65,5 +66,9 @@ public class UserSingleton implements AutoCloseable {
         try (Scanner filesc = new Scanner(new File(username))) {
             // TODO: read file
         }
+    }
+
+    public void addCoffeeTruck() {
+        coffeeTrucks.add(null);
     }
 }
