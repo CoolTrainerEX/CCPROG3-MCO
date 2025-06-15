@@ -13,24 +13,27 @@ public interface UI {
      */
     public int radio(String... options);
 
-    // UI
-
+    
     /**
-     * Login screen
+     * String user input with text formatting
+     * @param prompt Text prompt to display
+     * @param defaultResponse Default return value if input is empty
+     * @return Input string
      * @author Justin Ryan Uy
      */
-    public String login();
+    public String input(String prompt, String defaultResponse);
 
     /**
-     * User not found message
+     * Double user input with text formatting
+     * @param prompt Text prompt to display
+     * @return Input double
      * @author Justin Ryan Uy
      */
-    public void loginErr();
+    public double inputDouble(String prompt);
 
     /**
-     * Asks the user for details on the Coffee Truck creation
-     * @return The created Coffee Truck
-     * @author Justin Ryan Uy
+     * Displays error message
+     * @param e Exception
      */
-    public void createCoffeeTruck();
+    public void displayErr(Exception e);
 }

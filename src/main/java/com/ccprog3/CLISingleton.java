@@ -1,6 +1,5 @@
 package com.ccprog3;
 
-import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 /**
@@ -58,17 +57,12 @@ public class CLISingleton implements UI, AutoCloseable {
                 if (inputParsed >= 1 && inputParsed <= options.length)
                     return inputParsed;
             } catch (NumberFormatException e) {
-                System.err.println("\n\u001b[41mInvalid input. Try again.\u001b[0m\n");
+                displayErr(new InputMismatchException("Invalid input. Try again."));
             }
         }
     }
 
-    /**
-     * String user input with text formatting
-     * @return Input string
-     * @author Justin Ryan Uy
-     */
-    private String input(String prompt, String defaultResponse) {
+    public String input(String prompt, String defaultResponse) {
         System.out.print(prompt + ": \u001b[4m");
 
         String input = sc.nextLine();
@@ -78,12 +72,7 @@ public class CLISingleton implements UI, AutoCloseable {
         return (input == "") ? defaultResponse : input;
     }
 
-    /**
-     * Double user input with text formatting
-     * @return Input string
-     * @author Justin Ryan Uy
-     */
-    private double inputDouble(String prompt) {
+    public double inputDouble(String prompt) {
         while (true) {
             System.out.print(prompt + ": \u001b[4m");
 
@@ -93,19 +82,12 @@ public class CLISingleton implements UI, AutoCloseable {
                 return input;
             } catch (InputMismatchException e) {
                 System.out.print("\u001b[0m");
-                System.err.println("\n\u001b[41mInput is not a number. Try again.\u001b[0m\n");
+                displayErr(new InputMismatchException("Input is not a number. Try again."));
             }
         }
     }
 
-    // UI
-
-    public String login() {
-        return input("Login (Saves to a new user if not found)", "user");
+    public void displayErr(Exception e) {
+        System.err.println("\n\u001b[41m" + e.getLocalizedMessage() + "\u001b[0m\n");
     }
-
-    public void loginErr() {
-        System.err.println("\n\u001b[41mUser not found. Will save to new user upon exit.\u001b[0m\n");
-    }
-
 }

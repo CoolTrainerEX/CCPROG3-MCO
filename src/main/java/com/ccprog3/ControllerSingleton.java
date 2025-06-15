@@ -41,12 +41,18 @@ public class ControllerSingleton implements AutoCloseable {
     }
 
     /**
+     * Typedef of HashMap<String, Supplier<Boolean>> for menu parameter
+     * @author Justin Ryan Uy
+     */
+    private class Options extends HashMap<String, Supplier<Boolean>> {}
+
+    /**
      * Handles menu options
      * @param options Options to choose from
      * @return false = back; true = exit
      * @author Justin Ryan Uy
      */
-    private boolean menu(HashMap<String, Supplier<Boolean>> options) {
+    private boolean menu(Options options) {
         String[] optionTexts = options.keySet().toArray(new String[0]);
         int choice;
 
@@ -65,9 +71,9 @@ public class ControllerSingleton implements AutoCloseable {
      */
     public void login() {
         try {
-            user.login(ui.login());
+            user.login(ui.input("Login (Saves to a new user if not found)", "user"));
         } catch (FileNotFoundException e) {
-            ui.loginErr();
+            ui.displayErr(new FileNotFoundException("User not found. Will save to new user upon exit."));
         }
 
     }
@@ -77,14 +83,23 @@ public class ControllerSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     public void mainMenu() {
-        HashMap<String, Supplier<Boolean>> mainMenu = new HashMap<>();
+        Options mainMenu = new Options();
 
         mainMenu.put("Create a Coffee Truck", () -> {
+            createCoffeeTruck();
             return false;
         });
         mainMenu.put("Perform Coffee Truck features", () -> false);
         mainMenu.put("Dashboard", () -> false);
 
         menu(mainMenu);
+    }
+    
+    /**
+     * Asks the user for details on the Coffee Truck creation
+     * @author Justin Ryan Uy
+     */
+    public void createCoffeeTruck() {
+        Options specialInput = new Options();        
     }
 }

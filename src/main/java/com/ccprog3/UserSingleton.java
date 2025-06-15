@@ -58,6 +58,7 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Logs the user in (opens save file)
      * @param username Username to log in with
+     * @throws FileNotFoundException User not found
      * @author Justin Ryan Uy
      */
     public void login(String username) throws FileNotFoundException {
