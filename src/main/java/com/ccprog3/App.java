@@ -8,9 +8,9 @@ public class App
 {
     public static void main( String[] args )
     {
-        try (UI ui = CLISingleton.getInstance()) {
-            ui.login();
-            ui.mainMenu();
+        try (ControllerSingleton controller = ControllerSingleton.getInstance()) {
+            controller.login();
+            controller.mainMenu();
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.Scanner;
  * CLI user interface
  * @author Justin Ryan Uy
  */
-public class CLISingleton extends UI {
+public class CLISingleton implements UI, AutoCloseable {
     /**
      * Singleton instance of the CLI
      * @author Justin Ryan Uy
@@ -31,17 +31,16 @@ public class CLISingleton extends UI {
     
     public void close() {
         sc.close();
-        user.close();
     }
     
-    protected int radio(String... options) {
+    public int radio(String... options) {
         while (true) {
             for (int i = 0; i < options.length; i++)
                 System.out.println("[" + (i + 1) + "] " + options[i]);
 
             System.out.println("[b] Back\n[x] Exit");
 
-            String input = input("");
+            String input = input("", "");
 
             // Input checking
 
@@ -69,14 +68,14 @@ public class CLISingleton extends UI {
      * @return Input string
      * @author Justin Ryan Uy
      */
-    private String input(String prompt) {
+    private String input(String prompt, String defaultResponse) {
         System.out.print(prompt + ": \u001b[4m");
 
         String input = sc.nextLine();
 
         System.out.println("\u001b[0m");
 
-        return input;
+        return (input == "") ? defaultResponse : input;
     }
 
     /**
@@ -101,16 +100,12 @@ public class CLISingleton extends UI {
 
     // UI
 
-    public void login() {      
-        try {
-            user.login(input("Login (Saves to a new user if not found)"));
-        } catch (FileNotFoundException e) {
-            System.err.println("\n\u001b[41mUser not found. New user will be saved upon close.\u001b[0m\n");
-        }
-
-        // TODO Write better header
-        System.out.println("\nWelcome, " + user.getUsername() + "!\n");
+    public String login() {
+        return input("Login (Saves to a new user if not found)", "user");
     }
 
-    protected void createCoffeeTruck() {}
+    public void loginErr() {
+        System.err.println("\n\u001b[41mUser not found. Will save to new user upon exit.\u001b[0m\n");
+    }
+
 }

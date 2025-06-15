@@ -5,6 +5,10 @@ package com.ccprog3;
  * @author Justin Ryan Uy
  */
 public class SpecialStorageBin extends StorageBin {
+    /**
+     * Syrup Ingredient type stored
+     * @author Justin Ryan Uy
+     */
     private final SyrupIngredient syrupIngredient;
 
     /**

@@ -50,6 +50,7 @@ public class Location {
      * Sets a new location
      * @param x The x coordinate
      * @param y The y coordinate
+     * @author Justin Ryan Uy
      */
     public void setLocation(double x, double y) {
         this.x = x;
