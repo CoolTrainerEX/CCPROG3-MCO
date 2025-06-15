@@ -8,13 +8,13 @@
   <artifactId>mco</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>CCPROG3-MCO1</name>
-  <description>CCPROG3-MCO1 for 2024-2025 Term 3 by Justin Ryan Uy and Kyle Thomas Tiu</description>
+  <name>CCPROG3-MCO</name>
+  <description>CCPROG3-MCO for 2024-2025 Term 3 by Justin Ryan Uy and Kyle Thomas Tiu</description>
   <!-- FIXME change it to the project's website -->
-  <url>https://github.com/CoolTrainerEX/CCPROG3-MCO1.git</url>
+  <url>https://github.com/CoolTrainerEX/CCPROG3-MCO.git</url>
   <organization>
     <name>Group 2</name>
-    <url>https://github.com/CoolTrainerEX/CCPROG3-MCO1.git</url>
+    <url>https://github.com/CoolTrainerEX/CCPROG3-MCO.git</url>
   </organization>
 
   <properties>
