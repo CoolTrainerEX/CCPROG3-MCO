@@ -5,5 +5,10 @@ package com.ccprog3;
  * @author Justin Ryan Uy
  */
 public enum Ingredient {
-
+    SMALL_CUP,
+    MEDIUM_CUP,
+    LARGE_CUP,
+    COFFEE_BEANS,
+    MILK,
+    WATER
 }

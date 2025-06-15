@@ -5,5 +5,9 @@ package com.ccprog3;
  * @author Justin Ryan Uy
  */
 public enum SyrupIngredient {
-
+    HAZELNUT,
+    CHOCOLATE,
+    ALMOND,
+    SWEETENER,
+    VANILLA
 }

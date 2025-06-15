@@ -33,5 +33,5 @@ public class GUISingleton extends UI {
 
     public void login() {}
 
-    protected boolean createCoffeeTruck() { return false; }
+    protected void createCoffeeTruck() {}
 }

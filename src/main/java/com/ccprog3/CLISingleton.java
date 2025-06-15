@@ -112,8 +112,5 @@ public class CLISingleton extends UI {
         System.out.println("\nWelcome, " + user.getUsername() + "!\n");
     }
 
-    protected boolean createCoffeeTruck() {
-        
-        return false;
-    }
+    protected void createCoffeeTruck() {}
 }
