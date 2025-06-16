@@ -41,26 +41,25 @@ public class ControllerSingleton implements AutoCloseable {
     }
 
     /**
-     * Typedef of HashMap<String, Supplier<Boolean>> for menu parameter
+     * Typedef of HashMap<String, Supplier<Boolean>> for menu parameter. Supplier return determines exit.
      * @author Justin Ryan Uy
      */
-    private class Options extends HashMap<String, Supplier<Boolean>> {}
+    private class Menu extends HashMap<String, Supplier<Boolean>> {
+        /**
+         * Handles menu options
+         * @return false = back; true = exit
+         * @author Justin Ryan Uy
+         */
+        private boolean display() {
+            String[] optionTexts = keySet().toArray(new String[0]);
+            int choice;
 
-    /**
-     * Handles menu options
-     * @param options Options to choose from
-     * @return false = back; true = exit
-     * @author Justin Ryan Uy
-     */
-    private boolean menu(Options options) {
-        String[] optionTexts = options.keySet().toArray(new String[0]);
-        int choice;
-
-        while ((choice = ui.radio(optionTexts)) != 0)
-            if (choice == -1 || options.get(optionTexts[choice - 1]).get())
-                return true;
-                
-        return false;
+            while ((choice = ui.menu(optionTexts)) != 0)
+                if (choice == -1 || get(optionTexts[choice - 1]).get())
+                    return true;
+                    
+            return false;
+        }
     }
 
     // Main
@@ -71,7 +70,7 @@ public class ControllerSingleton implements AutoCloseable {
      */
     public void login() {
         try {
-            user.login(ui.input("Login (Saves to a new user if not found)", "user"));
+            user.login(ui.login());
         } catch (FileNotFoundException e) {
             ui.displayErr(new FileNotFoundException("User not found. Will save to new user upon exit."));
         }
@@ -83,23 +82,35 @@ public class ControllerSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     public void mainMenu() {
-        Options mainMenu = new Options();
+        Menu mainMenu = new Menu();
 
         mainMenu.put("Create a Coffee Truck", () -> {
-            createCoffeeTruck();
-            return false;
+            Menu special = new Menu();
+
+            special.put("Regular Coffee Truck", () -> {
+                while (true)
+                    try {
+                        user.addCoffeeTruck(ui.addCoffeeTruck(false));
+                        return false;
+                    } catch (IllegalArgumentException e) {
+                        ui.displayErr(e);
+                    }
+            });
+            special.put("Special Coffee Truck", () -> {
+                while (true)
+                    try {
+                        user.addCoffeeTruck(ui.addCoffeeTruck(true));
+                        return false;
+                    } catch (IllegalArgumentException e) {
+                        ui.displayErr(e);
+                    }
+            });
+
+            return special.display();
         });
         mainMenu.put("Perform Coffee Truck features", () -> false);
         mainMenu.put("Dashboard", () -> false);
 
-        menu(mainMenu);
-    }
-    
-    /**
-     * Asks the user for details on the Coffee Truck creation
-     * @author Justin Ryan Uy
-     */
-    public void createCoffeeTruck() {
-        Options specialInput = new Options();        
+        mainMenu.display();
     }
 }

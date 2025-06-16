@@ -39,5 +39,11 @@ public enum Ingredient {
      * Water
      * @author Justin Ryan Uy
      */
-    WATER
+    WATER,
+
+    /**
+     * Empty
+     * @author Justin Ryan Uy
+     */
+    NONE
 }

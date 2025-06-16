@@ -33,5 +33,11 @@ public enum SyrupIngredient {
      * Vanilla
      * @author Justin Ryan Uy
      */
-    VANILLA
+    VANILLA,
+    
+    /**
+     * Empty
+     * @author Justin Ryan Uy
+     */
+    NONE
 }

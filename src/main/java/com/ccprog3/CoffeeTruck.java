@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.List;
+
 /**
  * Coffee Truck class
  * @author Justin Ryan Uy
@@ -9,13 +11,13 @@ public class CoffeeTruck {
      * Truck Location
      * @author Justin Ryan Uy
      */
-    protected final Location location;
+    protected final String location;
 
     /**
      * Storage Bins to store Ingredients
      * @author Justin Ryan Uy
      */
-    protected final StorageBin[] storageBins = new StorageBin[8];
+    protected final List<StorageBin> storageBins;
 
      /**
       * Coffee Truck constructor
@@ -24,12 +26,12 @@ public class CoffeeTruck {
       * @throws ArrayIndexOutOfBoundsException Too much Storage Bins set
       * @author Justin Ryan Uy
       */
-    public CoffeeTruck(Location location, StorageBin[] storageBins) throws ArrayIndexOutOfBoundsException {
-        if (storageBins.length > this.storageBins.length)
+    public CoffeeTruck(String location, List<StorageBin> storageBins) throws ArrayIndexOutOfBoundsException {
+        if (storageBins.size() > 8)
             throw new ArrayIndexOutOfBoundsException("Too much Storage Bins set");
         
         this.location = location;
-        System.arraycopy(storageBins, 0, this.storageBins, 0, storageBins.length);
+        this.storageBins = storageBins;
     }
 
     /**
@@ -37,7 +39,7 @@ public class CoffeeTruck {
      * @return Truck location
      * @author Justin Ryan Uy
      */
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 }

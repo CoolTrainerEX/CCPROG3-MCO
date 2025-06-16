@@ -69,7 +69,16 @@ public class UserSingleton implements AutoCloseable {
         }
     }
 
-    public void addCoffeeTruck() {
-        coffeeTrucks.add(null);
+    /**
+     * Adds a Coffee Truck
+     * @param coffeeTruck The Coffee Truck to add
+     * @throws IllegalArgumentException Location is already occupied
+     */
+    public void addCoffeeTruck(CoffeeTruck coffeeTruck) throws IllegalArgumentException {
+        for (CoffeeTruck aCoffeeTruck : coffeeTrucks)
+            if (coffeeTruck.getLocation() == aCoffeeTruck.getLocation())
+                throw new IllegalArgumentException("Location is already occupied");
+
+        coffeeTrucks.add(coffeeTruck);
     }
 }

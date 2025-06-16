@@ -21,26 +21,26 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public int radio(String... options) {
+    public int menu(String... options) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'radio'");
-    }
-
-    @Override
-    public String input(String prompt, String defaultResponse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'input'");
-    }
-
-    @Override
-    public double inputDouble(String prompt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'inputDouble'");
     }
 
     @Override
     public void displayErr(Exception e) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'displayErr'");
+    }
+
+    @Override
+    public String login() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
+    @Override
+    public CoffeeTruck addCoffeeTruck(boolean special) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addCoffeeTruck'");
     }
 }

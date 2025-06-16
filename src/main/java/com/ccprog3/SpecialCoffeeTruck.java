@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.List;
+
 /**
  * Special Coffee Truck with special features
  * @author Justin Ryan Uy
@@ -10,7 +12,7 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
      * Special Storage Bins to contain Syrup Ingredients
      * @author Justin Ryan Uy
      */
-    private final SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
+    private final List<SpecialStorageBin> specialStorageBins;
     
      /**
       * Coffee Truck constructor
@@ -20,12 +22,12 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
       * @throws ArrayIndexOutOfBoundsException Too much Storage Bins set
       * @author Justin Ryan Uy
       */
-    public SpecialCoffeeTruck(Location location, StorageBin[] storageBins, SpecialStorageBin[] specialStorageBins) throws ArrayIndexOutOfBoundsException {
+    public SpecialCoffeeTruck(String location, List<StorageBin> storageBins, List<SpecialStorageBin> specialStorageBins) throws ArrayIndexOutOfBoundsException {
         super(location, storageBins);
         
-        if (specialStorageBins.length > this.specialStorageBins.length)
+        if (specialStorageBins.size() > 2)
             throw new ArrayIndexOutOfBoundsException("Too much Special Storage Bins set");
 
-        System.arraycopy(specialStorageBins, 0, this.specialStorageBins, 0, specialStorageBins.length);
+        this.specialStorageBins = specialStorageBins;
     }
 }
