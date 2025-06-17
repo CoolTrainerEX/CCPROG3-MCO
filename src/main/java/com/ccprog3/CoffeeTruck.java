@@ -61,6 +61,11 @@ public class CoffeeTruck {
         return storageBins;
     }
 
+    /**
+     * Gets the Coffee Truck sales
+     * @return Coffee Truck Sales
+     * @author Justin Ryan Uy
+     */
     public Coffee[] getSales() {
         return sales.toArray(new Coffee[0]);
     }
@@ -82,7 +87,7 @@ public class CoffeeTruck {
      * @throws ArithmeticException Quantity is negative or over the max capacity
      * @author Justin Ryan Uy
      */
-    public void addStorageBinQuantity(int quantity, int index) throws ArrayIndexOutOfBoundsException, ArithmeticException {
+    public void addStorageBinQuantity(double quantity, int index) throws ArrayIndexOutOfBoundsException, ArithmeticException {
         storageBins[index].addQuantity(quantity);
     }
 

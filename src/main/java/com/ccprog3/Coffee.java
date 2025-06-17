@@ -39,6 +39,7 @@ public class Coffee {
     /**
      * Gets the Coffee Type
      * @return The Coffee Type
+     * @author Justin Ryan Uy
      */
     public CoffeeType getType() {
         return type;
@@ -47,6 +48,7 @@ public class Coffee {
     /**
      * Gets the Espresso brew
      * @return The Espreso brew
+     * @author Justin Ryan Uy
      */
     public Espresso getEspresso() {
         return espresso;
@@ -55,6 +57,7 @@ public class Coffee {
     /**
      * Gets the Coffee price
      * @return The Coffee price
+     * @author Justin Ryan Uy
      */
     public float getPrice() {
         return price;

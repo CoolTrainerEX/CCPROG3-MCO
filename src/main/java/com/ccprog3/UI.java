@@ -36,4 +36,14 @@ public interface UI {
      * @author Justin Ryan Uy
      */
     public CoffeeTruck addCoffeeTruck(boolean special);
+
+    public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks);
+
+    public int chooseStorageBin(StorageBin[] storageBins);
+
+    public double storageBinAddQuantity();
+
+    public StorageBin setStorageBin(boolean special);
+
+    public String setCoffeeTruckLocation();
 }

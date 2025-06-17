@@ -1,5 +1,8 @@
 package com.ccprog3;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * Special Coffee Truck with special features
  * @author Justin Ryan Uy
@@ -30,36 +33,29 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         }
     }
     
-    /**
-     * Adds to the quantity of the Special Storage Bin. Negative numbers can be used to subtract.
-     * @param quantity The quantity to add
-     * @param index Index of the Special Storage Bin to add
-     * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @throws ArithmeticException Quantity is negative or over the max capacity
-     * @author Justin Ryan Uy
-     */
-    public void addSpecialStorageBinQuantity(int quantity, int index) throws ArrayIndexOutOfBoundsException, ArithmeticException {
-        specialStorageBins[index].addQuantity(quantity);
+    public StorageBin[] getStorageBins() {
+        return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toArray(StorageBin[]::new);
     }
 
-    /**
-     * Sets a new Ingredient into a Special Storage Bin
-     * @param storageBin new Special Storage Bin to be replaced with
-     * @param index Index of the Special Storage Bin to replace
-     * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @author Justin Ryan Uy
-     */
-    public void setSpecialStorageBin(SpecialStorageBin specialStorageBin, int index) throws ArrayIndexOutOfBoundsException {
-        specialStorageBins[index] = specialStorageBin;
+    public void addStorageBinQuantity(double quantity, int index) throws ArrayIndexOutOfBoundsException, ArithmeticException {
+        if (index < storageBins.length)
+            super.addStorageBinQuantity(quantity, index);
+        else
+            specialStorageBins[index - storageBins.length].addQuantity(quantity);
     }
 
-    /**
-     * Empties a Special Storage Bin
-     * @param index Index of the Special Storage Bin to empty
-     * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @author Justin Ryan Uy
-     */
+    public void setStorageBin(StorageBin storageBin, int index) throws ArrayIndexOutOfBoundsException {
+        if (!(storageBin instanceof SpecialStorageBin))
+            super.setStorageBin(storageBin, index);
+        else
+            specialStorageBins[index - storageBins.length] = (SpecialStorageBin) storageBin;
+    }
+
     public void emptyStorageBin(int index) throws ArrayIndexOutOfBoundsException {
-        specialStorageBins[index] = new SpecialStorageBin(SyrupIngredient.NONE, 0);
+        if (index < storageBins.length)
+            super.emptyStorageBin(index);
+        else
+            specialStorageBins[index - storageBins.length] = new SpecialStorageBin(SyrupIngredient.NONE, 0);
+
     }
 }

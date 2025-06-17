@@ -58,7 +58,7 @@ public class StorageBin {
      * @throws ArithmeticException Quantity is negative or over the max capacity
      * @author Justin Ryan Uy
      */
-    public void addQuantity(int quantity) throws ArithmeticException {
+    public void addQuantity(double quantity) throws ArithmeticException {
         if (quantity + this.quantity > ingredient.getMax())
             throw new ArithmeticException("Quantity greater than max capacity");
         if (quantity + this.quantity < 0)

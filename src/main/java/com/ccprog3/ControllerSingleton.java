@@ -105,55 +105,60 @@ public class ControllerSingleton implements AutoCloseable {
 
             return special.display();
         });
-        // mainMenu.put("Perform Coffee Truck features", () -> {
-        //     Menu features = new Menu();
+        mainMenu.put("Perform Coffee Truck features", () -> {
+            if (user.getCoffeeTrucks().length == 0) {
+                ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
+                return false;
+            }
 
-        //     // Ask which truck
-        //     int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
-        //     CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
+            Menu features = new Menu();
 
-        //     features.put("Buy a coffee", null);
-        //     features.put("View truck information", null);
-        //     features.put("Restocking and maintainance", () -> {
-        //         Menu misc = new Menu();
+            // Ask which truck
+            int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
+            CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
 
-        //         misc.put("Restocking", () -> {
-        //             Menu restock = new Menu();
+            features.put("Buy a coffee", null);
+            features.put("View truck information", null);
+            features.put("Restocking and maintainance", () -> {
+                Menu misc = new Menu();
 
-        //             int chosenStorageBinIndex = ui.chooseStorageBin(chosenCoffeeTruck.getStorageBins());
+                misc.put("Restocking", () -> {
+                    Menu restock = new Menu();
 
-        //             restock.put("Replenish Storage Bin", () -> {
-        //                 chosenCoffeeTruck.addStorageBinQuantity(ui.storageBinAddQuantity(), chosenStorageBinIndex);
-        //                 return false;
-        //             });
-        //             restock.put("Replace with a different Ingredient", () -> {
-        //                 chosenCoffeeTruck.setStorageBin(ui.setStorageBin(), chosenStorageBinIndex);
-        //                 return false;
-        //             });
-        //             restock.put("Empty Storage Bin", () -> {
-        //                 chosenCoffeeTruck.emptyStorageBin(chosenStorageBinIndex);
-        //                 return false;
-        //             });
+                    int chosenStorageBinIndex = ui.chooseStorageBin(chosenCoffeeTruck.getStorageBins());
 
-        //             return restock.display();
-        //         });
-        //         misc.put("Maintainance", () -> {
-        //             Menu maintainance = new Menu();
+                    restock.put("Replenish Storage Bin", () -> {
+                        chosenCoffeeTruck.addStorageBinQuantity(ui.storageBinAddQuantity(), chosenStorageBinIndex);
+                        return false;
+                    });
+                    restock.put("Replace with a different Ingredient", () -> {
+                        chosenCoffeeTruck.setStorageBin(ui.setStorageBin(chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin), chosenStorageBinIndex);
+                        return false;
+                    });
+                    restock.put("Empty Storage Bin", () -> {
+                        chosenCoffeeTruck.emptyStorageBin(chosenStorageBinIndex);
+                        return false;
+                    });
 
-        //             maintainance.put("Change truck location", () -> {
-        //                 user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(), chosenCoffeeTruckIndex);
-        //                 return false;
-        //             });
-        //             maintainance.put("Change product prices", null);
+                    return restock.display();
+                });
+                misc.put("Maintainance", () -> {
+                    Menu maintainance = new Menu();
 
-        //             return maintainance.display();
-        //         });
+                    maintainance.put("Change truck location", () -> {
+                        user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(), chosenCoffeeTruckIndex);
+                        return false;
+                    });
+                    maintainance.put("Change product prices", null);
 
-        //         return misc.display();
-        //     });
+                    return maintainance.display();
+                });
 
-        //     return features.display();
-        // });
+                return misc.display();
+            });
+
+            return features.display();
+        });
         mainMenu.put("Dashboard", () -> false);
 
         mainMenu.display();

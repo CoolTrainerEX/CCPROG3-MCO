@@ -50,6 +50,7 @@ public class UserSingleton implements AutoCloseable {
     /**
      * Gets the list of Cofee Trucks
      * @return The array of Cofee Trucks
+     * @author Justin Ryan Uy
      */
     public CoffeeTruck[] getCoffeeTrucks() {
         return coffeeTrucks.toArray(new CoffeeTruck[0]);
@@ -74,15 +75,40 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
+     * Trows an Exception if the location is already occupied
+     * @param location The location to check
+     * @throws IllegalArgumentException Location is already occupied
+     * @author Justin Ryan Uy
+     */
+    private void checkAvailableLocation(String location) throws IllegalArgumentException {
+        for (CoffeeTruck coffeeTruck : coffeeTrucks)
+            if (location.equals(coffeeTruck.getLocation()))
+                throw new IllegalArgumentException("Location is already occupied");
+    }
+
+    /**
      * Adds a Coffee Truck
      * @param coffeeTruck The Coffee Truck to add
      * @throws IllegalArgumentException Location is already occupied
+     * @author Justin Ryan Uy
      */
     public void addCoffeeTruck(CoffeeTruck coffeeTruck) throws IllegalArgumentException {
-        for (CoffeeTruck aCoffeeTruck : coffeeTrucks)
-            if (coffeeTruck.getLocation().equals(aCoffeeTruck.getLocation()))
-                throw new IllegalArgumentException("Location is already occupied");
+        checkAvailableLocation(coffeeTruck.getLocation());
 
         coffeeTrucks.add(coffeeTruck);
+    }
+
+    /**
+     * Sets the new Coffee Truck location
+     * @param location New location
+     * @param index Coffee Truck index
+     * @throws ArrayIndexOutOfBoundsException Index out of bounds
+     * @throws IllegalArgumentException Location is already occupied
+     * @author Justin Ryan Uy
+     */
+    public void setCoffeeTruckLocation(String location, int index) throws IllegalArgumentException, IndexOutOfBoundsException {
+        checkAvailableLocation(location);
+
+        coffeeTrucks.get(index).setLocation(location);
     }
 }

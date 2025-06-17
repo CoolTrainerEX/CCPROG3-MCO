@@ -74,6 +74,7 @@ public class CLISingleton implements UI, AutoCloseable {
      * Dropdown display function
      * @param options Text options to display
      * @return Option number
+     * @author Justin Ryan Uy
      */
     private int dropdown(String... options) {
         while (true) {
@@ -139,16 +140,8 @@ public class CLISingleton implements UI, AutoCloseable {
         String location = input("Location");
         StorageBin[] storageBins = new StorageBin[8];
 
-        Ingredient ingredient;
-
         for (int i = 0; i < storageBins.length; i++)
-            while (true)
-                try {
-                    storageBins[i] = new StorageBin(ingredient = Ingredient.values()[dropdown(Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (ingredient == Ingredient.NONE) ? 0 : inputNumber("Quantity"));
-                    break;
-                } catch (ArithmeticException e) {
-                    displayErr(e);
-                }
+            storageBins[i] = setStorageBin(false);
 
         if (!special)
             return new CoffeeTruck(location, storageBins);
@@ -157,17 +150,47 @@ public class CLISingleton implements UI, AutoCloseable {
 
         SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
 
-        SyrupIngredient syrupIngredient;
-
         for (int i = 0; i < specialStorageBins.length; i++)
+            specialStorageBins[i] = (SpecialStorageBin) setStorageBin(true);
+
+        return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
+    }
+
+    public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
+        return dropdown(Arrays.stream(coffeeTrucks).map((coffeeTruck) -> coffeeTruck + ": " + coffeeTruck.getLocation()).toArray(String[]::new)) - 1;
+    }
+
+    public int chooseStorageBin(StorageBin[] storageBins) {
+        return dropdown(Arrays.stream(storageBins).map((storageBin) -> storageBin + ": " + (storageBin instanceof SpecialStorageBin ? ((SpecialStorageBin) storageBin).getSyrupIngredient() : storageBin.getIngredient()) + " " + storageBin.getQuantity() + " " + storageBin.getIngredient().getUnit()).toArray(String[]::new)) - 1;
+    }
+
+    public double storageBinAddQuantity() {
+        return inputNumber("Add quantity");
+    }
+
+    public StorageBin setStorageBin(boolean special) {
+        if (!special) {
+            Ingredient ingredient;
+    
             while (true)
                 try {
-                    specialStorageBins[i] = new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (syrupIngredient == SyrupIngredient.NONE) ? 0 : inputNumber("Quantity"));
-                    break;
+                    return new StorageBin(ingredient = Ingredient.values()[dropdown(Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], ingredient == Ingredient.NONE ? 0 : inputNumber("Quantity"));
                 } catch (ArithmeticException e) {
                     displayErr(e);
                 }
+        }
 
-        return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
+        SyrupIngredient syrupIngredient;
+
+        while (true)
+            try {
+                return new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], syrupIngredient == SyrupIngredient.NONE ? 0 : inputNumber("Quantity"));
+            } catch (ArithmeticException e) {
+                displayErr(e);
+            }
+    }
+
+    public String setCoffeeTruckLocation() {
+        return input("Set new location");
     }
 }
