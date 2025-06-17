@@ -9,7 +9,7 @@ mvn compile
 ## Execute
 ```
 mvn package
-java -cp .\target\mco-1.0-SNAPSHOT.jar com.ccprog3.app.App
+java -cp .\target\mco-1.0-SNAPSHOT.jar com.ccprog3.App
 ```
 
 ## Javadoc
@@ -32,7 +32,7 @@ javac .\src\main\java\com\ccprog3\*.java -d .\target\manual\classes\
 
 ## Execute
 ```
-java -cp .\target\manual\classes\ App
+java -cp .\target\manual\classes\ com.ccprog3.App
 ```
 
 ## Javadoc

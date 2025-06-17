@@ -42,7 +42,7 @@ public class CLISingleton implements UI, AutoCloseable {
      */
     private String input(String prompt) {
         while (true) {
-            System.out.print(prompt + ": \u001b[4m");
+            System.out.print("\u001b[3;32m" + prompt + "\u001b[0m: \u001b[4m");
 
             String input = sc.nextLine();
 
@@ -78,8 +78,12 @@ public class CLISingleton implements UI, AutoCloseable {
      */
     private int dropdown(String... options) {
         while (true) {
+            System.out.println("\u001b[34m");
+
             for (int i = 0; i < options.length; i++)
                 System.out.println("[" + (i + 1) + "] " + options[i]);
+
+            System.out.println("\u001b[0m");
 
             double input = inputNumber("");
 
@@ -98,10 +102,12 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public int menu(String... options) {
         while (true) {
+            System.out.println("\u001b[34m");
+
             for (int i = 0; i < options.length; i++)
                 System.out.println("[" + (i + 1) + "] " + options[i]);
 
-            System.out.println("[b] Back\n[x] Exit");
+            System.out.println("[b] Back\n[x] Exit\u001b[0m");
 
             String input = input("");
 
