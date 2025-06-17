@@ -16,6 +16,7 @@ public interface UI {
     /**
      * Displays error message
      * @param e Exception
+     * @author Justin Ryan Uy
      */
     public void displayErr(Exception e);
 
@@ -32,6 +33,7 @@ public interface UI {
      * Display for creating a new Coffee Truck
      * @param special Whether it is Special Coffee Truck or Regular Coffee Truck
      * @return The Coffee Truck generated
+     * @author Justin Ryan Uy
      */
     public CoffeeTruck addCoffeeTruck(boolean special);
 }

@@ -1,9 +1,7 @@
 package com.ccprog3;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 /**
  * CLI user interface
@@ -72,6 +70,11 @@ public class CLISingleton implements UI, AutoCloseable {
             }
     }
 
+    /**
+     * Dropdown display function
+     * @param options Text options to display
+     * @return Option number
+     */
     private int dropdown(String... options) {
         while (true) {
             for (int i = 0; i < options.length; i++)
@@ -134,14 +137,14 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public CoffeeTruck addCoffeeTruck(boolean special) {
         String location = input("Location");
-        List<StorageBin> storageBins = new ArrayList<>();
+        StorageBin[] storageBins = new StorageBin[8];
 
         Ingredient ingredient;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < storageBins.length; i++)
             while (true)
                 try {
-                    storageBins.add(new StorageBin(ingredient = Ingredient.values()[dropdown(Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (ingredient == Ingredient.NONE) ? 0f : inputNumber("Quantity")));
+                    storageBins[i] = new StorageBin(ingredient = Ingredient.values()[dropdown(Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (ingredient == Ingredient.NONE) ? 0 : inputNumber("Quantity"));
                     break;
                 } catch (ArithmeticException e) {
                     displayErr(e);
@@ -152,14 +155,14 @@ public class CLISingleton implements UI, AutoCloseable {
 
         // Special
 
-        List<SpecialStorageBin> specialStorageBins = new ArrayList<>();
+        SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
 
         SyrupIngredient syrupIngredient;
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < specialStorageBins.length; i++)
             while (true)
                 try {
-                    specialStorageBins.add(new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (syrupIngredient == SyrupIngredient.NONE) ? 0f : inputNumber("Quantity")));
+                    specialStorageBins[i] = new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], (syrupIngredient == SyrupIngredient.NONE) ? 0 : inputNumber("Quantity"));
                     break;
                 } catch (ArithmeticException e) {
                     displayErr(e);

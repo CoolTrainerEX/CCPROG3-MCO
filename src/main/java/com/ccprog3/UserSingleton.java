@@ -47,10 +47,10 @@ public class UserSingleton implements AutoCloseable {
         return username;
     }
 
-    /**
-     * Saves the user data to a file
-     * @author Justin Ryan Uy
-     */
+    public CoffeeTruck[] getCoffeeTrucks() {
+        return coffeeTrucks.toArray(new CoffeeTruck[0]);
+    }
+
     public void close() {
         // TODO: Write file
     }

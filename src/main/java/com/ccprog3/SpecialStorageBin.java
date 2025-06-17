@@ -19,8 +19,18 @@ public class SpecialStorageBin extends StorageBin {
      * @author Justin Ryan Uy
      */
     public SpecialStorageBin(SyrupIngredient syrupIngredient, double quantity) throws ArithmeticException {
-        super(Ingredient.WATER, quantity); // Water has similar properties
+        super(Ingredient.NONE, quantity); // Default capacity is 640 fl oz
         
         this.syrupIngredient = syrupIngredient;
     }
+
+    /**
+     * Gets the Syrup Ingredient stored
+     * @return The Syrup Ingredient stored
+     * @author Justin Ryan Uy
+     */
+    public SyrupIngredient getSyrupIngredient() {
+        return syrupIngredient;
+    }
+
 }
