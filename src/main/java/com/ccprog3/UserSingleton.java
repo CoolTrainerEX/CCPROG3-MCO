@@ -47,6 +47,10 @@ public class UserSingleton implements AutoCloseable {
         return username;
     }
 
+    /**
+     * Gets the list of Cofee Trucks
+     * @return The array of Cofee Trucks
+     */
     public CoffeeTruck[] getCoffeeTrucks() {
         return coffeeTrucks.toArray(new CoffeeTruck[0]);
     }
@@ -76,7 +80,7 @@ public class UserSingleton implements AutoCloseable {
      */
     public void addCoffeeTruck(CoffeeTruck coffeeTruck) throws IllegalArgumentException {
         for (CoffeeTruck aCoffeeTruck : coffeeTrucks)
-            if (coffeeTruck.getLocation() == aCoffeeTruck.getLocation())
+            if (coffeeTruck.getLocation().equals(aCoffeeTruck.getLocation()))
                 throw new IllegalArgumentException("Location is already occupied");
 
         coffeeTrucks.add(coffeeTruck);

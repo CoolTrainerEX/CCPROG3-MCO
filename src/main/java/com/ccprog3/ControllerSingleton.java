@@ -41,7 +41,7 @@ public class ControllerSingleton implements AutoCloseable {
     }
 
     /**
-     * Typedef of HashMap<String, Supplier<Boolean>> for menu parameter. Supplier return determines exit.
+     * Menu display on the UI. Supplier return determines exit.
      * @author Justin Ryan Uy
      */
     private class Menu extends HashMap<String, Supplier<Boolean>> {
@@ -55,8 +55,15 @@ public class ControllerSingleton implements AutoCloseable {
             int choice;
 
             while ((choice = ui.menu(optionTexts)) != 0)
-                if (choice == -1 || get(optionTexts[choice - 1]).get())
-                    return true;
+                while (true)
+                    try {
+                        if (choice == -1 || get(optionTexts[choice - 1]).get())
+                            return true;
+                            
+                        break;
+                    } catch (Exception e) {
+                        ui.displayErr(e);
+                    }
                     
             return false;
         }
@@ -88,27 +95,65 @@ public class ControllerSingleton implements AutoCloseable {
             Menu special = new Menu();
 
             special.put("Regular Coffee Truck", () -> {
-                while (true)
-                    try {
-                        user.addCoffeeTruck(ui.addCoffeeTruck(false));
-                        return false;
-                    } catch (IllegalArgumentException e) {
-                        ui.displayErr(e);
-                    }
+                user.addCoffeeTruck(ui.addCoffeeTruck(false));
+                return false;
             });
             special.put("Special Coffee Truck", () -> {
-                while (true)
-                    try {
-                        user.addCoffeeTruck(ui.addCoffeeTruck(true));
-                        return false;
-                    } catch (IllegalArgumentException e) {
-                        ui.displayErr(e);
-                    }
+                user.addCoffeeTruck(ui.addCoffeeTruck(true));
+                return false;
             });
 
             return special.display();
         });
-        mainMenu.put("Perform Coffee Truck features", () -> false);
+        // mainMenu.put("Perform Coffee Truck features", () -> {
+        //     Menu features = new Menu();
+
+        //     // Ask which truck
+        //     int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
+        //     CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
+
+        //     features.put("Buy a coffee", null);
+        //     features.put("View truck information", null);
+        //     features.put("Restocking and maintainance", () -> {
+        //         Menu misc = new Menu();
+
+        //         misc.put("Restocking", () -> {
+        //             Menu restock = new Menu();
+
+        //             int chosenStorageBinIndex = ui.chooseStorageBin(chosenCoffeeTruck.getStorageBins());
+
+        //             restock.put("Replenish Storage Bin", () -> {
+        //                 chosenCoffeeTruck.addStorageBinQuantity(ui.storageBinAddQuantity(), chosenStorageBinIndex);
+        //                 return false;
+        //             });
+        //             restock.put("Replace with a different Ingredient", () -> {
+        //                 chosenCoffeeTruck.setStorageBin(ui.setStorageBin(), chosenStorageBinIndex);
+        //                 return false;
+        //             });
+        //             restock.put("Empty Storage Bin", () -> {
+        //                 chosenCoffeeTruck.emptyStorageBin(chosenStorageBinIndex);
+        //                 return false;
+        //             });
+
+        //             return restock.display();
+        //         });
+        //         misc.put("Maintainance", () -> {
+        //             Menu maintainance = new Menu();
+
+        //             maintainance.put("Change truck location", () -> {
+        //                 user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(), chosenCoffeeTruckIndex);
+        //                 return false;
+        //             });
+        //             maintainance.put("Change product prices", null);
+
+        //             return maintainance.display();
+        //         });
+
+        //         return misc.display();
+        //     });
+
+        //     return features.display();
+        // });
         mainMenu.put("Dashboard", () -> false);
 
         mainMenu.display();
