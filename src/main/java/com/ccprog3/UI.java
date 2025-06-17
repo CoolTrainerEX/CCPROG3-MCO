@@ -2,11 +2,13 @@ package com.ccprog3;
 
 /**
  * UI for user display and input
+ * 
  * @author Justin Ryan Uy
  */
 public interface UI {
     /**
      * Radio display function
+     * 
      * @param options Text options to display
      * @return Option number; 0 = back; -1 = exit
      * @author Justin Ryan Uy
@@ -15,6 +17,7 @@ public interface UI {
 
     /**
      * Displays error message
+     * 
      * @param e Exception
      * @author Justin Ryan Uy
      */
@@ -24,6 +27,7 @@ public interface UI {
 
     /**
      * Logs the user in
+     * 
      * @return Username
      * @author Justin Ryan Uy
      */
@@ -31,6 +35,7 @@ public interface UI {
 
     /**
      * Display for creating a new Coffee Truck
+     * 
      * @param special Whether it is Special Coffee Truck or Regular Coffee Truck
      * @return The Coffee Truck generated
      * @author Justin Ryan Uy
@@ -39,6 +44,7 @@ public interface UI {
 
     /**
      * Display for choosing the available Coffee Trucks from the user
+     * 
      * @param coffeeTrucks List of Coffee Trucks of the user
      * @return Index of the chosen Coffee Truck
      * @author Justin Ryan Uy
@@ -47,6 +53,7 @@ public interface UI {
 
     /**
      * Display for choosing the available Storage Bins from the Coffee Truck
+     * 
      * @param storageBins List of Storage Bins of the Coffee Truck
      * @return Index of the chosen Storage Bin
      * @author Justin Ryan Uy
@@ -55,6 +62,7 @@ public interface UI {
 
     /**
      * Display to ask user for the quantity of Ingredient to add to a Storage Bin
+     * 
      * @return Quantity to add
      * @author Justin Ryan Uy
      */
@@ -62,6 +70,7 @@ public interface UI {
 
     /**
      * Display to ask the user for a new Storage Bin to replace the selected one
+     * 
      * @param special Special Storage Bin or regular
      * @return The new Storage Bin to be replace with
      */
@@ -69,6 +78,7 @@ public interface UI {
 
     /**
      * Display to ask the user for a new location
+     * 
      * @return New location
      */
     public String setCoffeeTruckLocation();

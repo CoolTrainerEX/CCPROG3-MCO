@@ -6,28 +6,33 @@ import java.util.function.Supplier;
 
 /**
  * App controller
+ * 
  * @author Justin Ryan Uy
  */
 public class ControllerSingleton implements AutoCloseable {
     /**
      * Singleton instance of the Controller
+     * 
      * @author Justin Ryan Uy
      */
     private static final ControllerSingleton instance = new ControllerSingleton();
     /**
      * The user to interact with
+     * 
      * @author Justin Ryan Uy
      */
     private final UserSingleton user = UserSingleton.getInstance();
 
     /**
      * The UI for display
+     * 
      * @author Justin Ryan Uy
      */
     private final UI ui = CLISingleton.getInstance();
 
     /**
      * Gets the Controller singleton instance
+     * 
      * @return The instance
      * @author Justin Ryan Uy
      */
@@ -37,16 +42,19 @@ public class ControllerSingleton implements AutoCloseable {
 
     public void close() {
         user.close();
-        if (ui instanceof CLISingleton) ((CLISingleton) ui).close();
+        if (ui instanceof CLISingleton)
+            ((CLISingleton) ui).close();
     }
 
     /**
      * Menu display on the UI. Supplier return determines exit.
+     * 
      * @author Justin Ryan Uy
      */
     private class Menu extends HashMap<String, Supplier<Boolean>> {
         /**
          * Handles menu options
+         * 
          * @return false = back; true = exit
          * @author Justin Ryan Uy
          */
@@ -59,20 +67,21 @@ public class ControllerSingleton implements AutoCloseable {
                     try {
                         if (choice == -1 || get(optionTexts[choice - 1]).get())
                             return true;
-                            
+
                         break;
                     } catch (Exception e) {
                         ui.displayErr(e);
                     }
-                    
+
             return false;
         }
     }
 
     // Main
-    
+
     /**
      * Logs the user in
+     * 
      * @author Justin Ryan Uy
      */
     public void login() {
@@ -86,6 +95,7 @@ public class ControllerSingleton implements AutoCloseable {
 
     /**
      * Main menu for the program.
+     * 
      * @author Justin Ryan Uy
      */
     public void mainMenu() {
@@ -132,7 +142,9 @@ public class ControllerSingleton implements AutoCloseable {
                         return false;
                     });
                     restock.put("Replace with a different Ingredient", () -> {
-                        chosenCoffeeTruck.setStorageBin(ui.setStorageBin(chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin), chosenStorageBinIndex);
+                        chosenCoffeeTruck.setStorageBin(ui.setStorageBin(
+                                chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin),
+                                chosenStorageBinIndex);
                         return false;
                     });
                     restock.put("Empty Storage Bin", () -> {

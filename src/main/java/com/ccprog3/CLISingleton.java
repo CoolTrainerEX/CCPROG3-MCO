@@ -3,39 +3,45 @@ package com.ccprog3;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 /**
  * CLI user interface
+ * 
  * @author Justin Ryan Uy
  */
 public class CLISingleton implements UI, AutoCloseable {
     /**
      * Singleton instance of the CLI
+     * 
      * @author Justin Ryan Uy
      */
     private static final CLISingleton instance = new CLISingleton();
 
     /**
      * System in Scanner to be used
+     * 
      * @author Justin Ryan Uy
      */
     private final Scanner sc = new Scanner(System.in);
 
     /**
      * Gets the CLI singleton instance
+     * 
      * @return The instance
      * @author Justin Ryan Uy
      */
     public static CLISingleton getInstance() {
         return instance;
     }
-    
+
     public void close() {
         sc.close();
     }
-    
+
     /**
      * String user input with text formatting
-     * @param prompt Text prompt to display
+     * 
+     * @param prompt          Text prompt to display
      * @param defaultResponse Default return value if input is empty
      * @return Input string
      * @author Justin Ryan Uy
@@ -54,9 +60,10 @@ public class CLISingleton implements UI, AutoCloseable {
             displayErr(new InputMismatchException("Cannot be an empty string"));
         }
     }
-    
+
     /**
      * Double user input with text formatting
+     * 
      * @param prompt Text prompt to display
      * @return Input double
      * @author Justin Ryan Uy
@@ -72,6 +79,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
     /**
      * Dropdown display function
+     * 
      * @param options Text options to display
      * @return Option number
      * @author Justin Ryan Uy
@@ -116,7 +124,7 @@ public class CLISingleton implements UI, AutoCloseable {
             switch (input.toLowerCase()) {
                 case "x":
                     return -1;
-                    
+
                 case "b":
                     return 0;
             }
@@ -126,7 +134,8 @@ public class CLISingleton implements UI, AutoCloseable {
 
                 if (inputParsed >= 1 && inputParsed <= options.length)
                     return inputParsed;
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+            }
 
             displayErr(new InputMismatchException("Invalid input. Try again."));
 
@@ -136,7 +145,6 @@ public class CLISingleton implements UI, AutoCloseable {
     public void displayErr(Exception e) {
         System.err.println("\n\u001b[41m" + e.getLocalizedMessage() + "\u001b[0m\n");
     }
-
 
     public String login() {
         return input("Login (Saves to a new user if not found)");
@@ -163,11 +171,16 @@ public class CLISingleton implements UI, AutoCloseable {
     }
 
     public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
-        return dropdown(Arrays.stream(coffeeTrucks).map((coffeeTruck) -> coffeeTruck + ": " + coffeeTruck.getLocation()).toArray(String[]::new)) - 1;
+        return dropdown(Arrays.stream(coffeeTrucks).map((coffeeTruck) -> coffeeTruck + ": " + coffeeTruck.getLocation())
+                .toArray(String[]::new)) - 1;
     }
 
     public int chooseStorageBin(StorageBin[] storageBins) {
-        return dropdown(Arrays.stream(storageBins).map((storageBin) -> storageBin + ": " + (storageBin instanceof SpecialStorageBin ? ((SpecialStorageBin) storageBin).getSyrupIngredient() : storageBin.getIngredient()) + " " + storageBin.getQuantity() + " " + storageBin.getIngredient().getUnit()).toArray(String[]::new)) - 1;
+        return dropdown(Arrays.stream(storageBins).map((storageBin) -> storageBin + ": "
+                + (storageBin instanceof SpecialStorageBin ? ((SpecialStorageBin) storageBin).getSyrupIngredient()
+                        : storageBin.getIngredient())
+                + " " + storageBin.getQuantity() + " " + storageBin.getIngredient().getUnit()).toArray(String[]::new))
+                - 1;
     }
 
     public double storageBinAddQuantity() {
@@ -177,10 +190,13 @@ public class CLISingleton implements UI, AutoCloseable {
     public StorageBin setStorageBin(boolean special) {
         if (!special) {
             Ingredient ingredient;
-    
+
             while (true)
                 try {
-                    return new StorageBin(ingredient = Ingredient.values()[dropdown(Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], ingredient == Ingredient.NONE ? 0 : inputNumber("Quantity"));
+                    return new StorageBin(
+                            ingredient = Ingredient.values()[dropdown(
+                                    Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1],
+                            ingredient == Ingredient.NONE ? 0 : inputNumber("Quantity"));
                 } catch (ArithmeticException e) {
                     displayErr(e);
                 }
@@ -190,7 +206,9 @@ public class CLISingleton implements UI, AutoCloseable {
 
         while (true)
             try {
-                return new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1], syrupIngredient == SyrupIngredient.NONE ? 0 : inputNumber("Quantity"));
+                return new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(
+                        Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1],
+                        syrupIngredient == SyrupIngredient.NONE ? 0 : inputNumber("Quantity"));
             } catch (ArithmeticException e) {
                 displayErr(e);
             }

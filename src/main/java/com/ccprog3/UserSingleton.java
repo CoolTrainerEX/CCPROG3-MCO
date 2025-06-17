@@ -8,29 +8,34 @@ import java.util.Scanner;
 
 /**
  * User class for the runtime instance
+ * 
  * @author Justin Ryan Uy
  */
 public class UserSingleton implements AutoCloseable {
     /**
      * Singleton instance of the User
+     * 
      * @author Justin Ryan Uy
      */
     private static final UserSingleton instance = new UserSingleton();
 
     /**
      * Username to be used for reading and writing to files
+     * 
      * @author Justin Ryan Uy
      */
     private String username;
 
     /**
      * List of Coffee Trucks made by the User
+     * 
      * @author Justin Ryan Uy
      */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
-    
+
     /**
      * Gets the User singleton instance
+     * 
      * @return The instance
      * @author Justin Ryan Uy
      */
@@ -40,6 +45,7 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Gets the username
+     * 
      * @return Username
      * @author Justin Ryan Uy
      */
@@ -49,6 +55,7 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Gets the list of Cofee Trucks
+     * 
      * @return The array of Cofee Trucks
      * @author Justin Ryan Uy
      */
@@ -62,6 +69,7 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Logs the user in (opens save file)
+     * 
      * @param username Username to log in with
      * @throws FileNotFoundException User not found
      * @author Justin Ryan Uy
@@ -76,6 +84,7 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Trows an Exception if the location is already occupied
+     * 
      * @param location The location to check
      * @throws IllegalArgumentException Location is already occupied
      * @author Justin Ryan Uy
@@ -88,6 +97,7 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Adds a Coffee Truck
+     * 
      * @param coffeeTruck The Coffee Truck to add
      * @throws IllegalArgumentException Location is already occupied
      * @author Justin Ryan Uy
@@ -100,13 +110,15 @@ public class UserSingleton implements AutoCloseable {
 
     /**
      * Sets the new Coffee Truck location
+     * 
      * @param location New location
-     * @param index Coffee Truck index
+     * @param index    Coffee Truck index
      * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @throws IllegalArgumentException Location is already occupied
+     * @throws IllegalArgumentException       Location is already occupied
      * @author Justin Ryan Uy
      */
-    public void setCoffeeTruckLocation(String location, int index) throws IllegalArgumentException, IndexOutOfBoundsException {
+    public void setCoffeeTruckLocation(String location, int index)
+            throws IllegalArgumentException, IndexOutOfBoundsException {
         checkAvailableLocation(location);
 
         coffeeTrucks.get(index).setLocation(location);
