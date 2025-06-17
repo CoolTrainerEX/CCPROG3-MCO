@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class CoffeeTruck {
     /**
-     * Truck Location
+     * Truck location
      * @author Justin Ryan Uy
      */
     protected String location;

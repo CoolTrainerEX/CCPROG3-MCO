@@ -37,13 +37,39 @@ public interface UI {
      */
     public CoffeeTruck addCoffeeTruck(boolean special);
 
+    /**
+     * Display for choosing the available Coffee Trucks from the user
+     * @param coffeeTrucks List of Coffee Trucks of the user
+     * @return Index of the chosen Coffee Truck
+     * @author Justin Ryan Uy
+     */
     public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks);
 
+    /**
+     * Display for choosing the available Storage Bins from the Coffee Truck
+     * @param storageBins List of Storage Bins of the Coffee Truck
+     * @return Index of the chosen Storage Bin
+     * @author Justin Ryan Uy
+     */
     public int chooseStorageBin(StorageBin[] storageBins);
 
+    /**
+     * Display to ask user for the quantity of Ingredient to add to a Storage Bin
+     * @return Quantity to add
+     * @author Justin Ryan Uy
+     */
     public double storageBinAddQuantity();
 
+    /**
+     * Display to ask the user for a new Storage Bin to replace the selected one
+     * @param special Special Storage Bin or regular
+     * @return The new Storage Bin to be replace with
+     */
     public StorageBin setStorageBin(boolean special);
 
+    /**
+     * Display to ask the user for a new location
+     * @return New location
+     */
     public String setCoffeeTruckLocation();
 }
