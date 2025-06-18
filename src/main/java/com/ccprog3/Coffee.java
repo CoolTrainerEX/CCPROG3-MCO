@@ -11,63 +11,39 @@ public class Coffee {
      * 
      * @author Justin Ryan Uy
      */
-    private final CoffeeType type;
+    protected final CoffeeType type;
 
     /**
-     * Espresso brew
+     * Cup size of the Coffee
      * 
      * @author Justin Ryan Uy
      */
-    private final Espresso espresso;
+    protected final Ingredient cup;
 
     /**
-     * Coffee price
+     * Coffee class constructor
      * 
+     * @param type Type of Coffee
+     * @param cup  Cup size
+     * @throws IllegalArgumentException Ingredient is not a cup
      * @author Justin Ryan Uy
      */
-    private final float price;
+    public Coffee(CoffeeType type, Ingredient cup) throws IllegalArgumentException {
+        switch (cup) {
+            case SMALL_CUP:
+            case MEDIUM_CUP:
+            case LARGE_CUP:
+                break;
 
-    /**
-     * Coffee constructor
-     * 
-     * @param type     Type of Coffee
-     * @param espresso Espresso brew
-     * @param price    Coffee price
-     * @author Justin Ryan Uy
-     */
-    public Coffee(CoffeeType type, Espresso espresso, float price) {
+            default:
+                throw new IllegalArgumentException("Ingredient is not a cup");
+        }
+
         this.type = type;
-        this.espresso = espresso;
-        this.price = price;
+        this.cup = cup;
     }
 
-    /**
-     * Gets the Coffee Type
-     * 
-     * @return The Coffee Type
-     * @author Justin Ryan Uy
-     */
-    public CoffeeType getType() {
-        return type;
-    }
-
-    /**
-     * Gets the Espresso brew
-     * 
-     * @return The Espreso brew
-     * @author Justin Ryan Uy
-     */
-    public Espresso getEspresso() {
-        return espresso;
-    }
-
-    /**
-     * Gets the Coffee price
-     * 
-     * @return The Coffee price
-     * @author Justin Ryan Uy
-     */
-    public float getPrice() {
-        return price;
+    public String toString() {
+        return cup + " " + type;
     }
 }

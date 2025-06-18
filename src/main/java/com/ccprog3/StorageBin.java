@@ -29,13 +29,15 @@ public class StorageBin {
      * @author Justin Ryan Uy
      */
     public StorageBin(Ingredient ingredient, double quantity) throws ArithmeticException {
-        if (quantity > ingredient.getMax())
-            throw new ArithmeticException("Quantity greater than max capacity");
-        if (quantity < 0)
-            throw new ArithmeticException("Quantity cannot be negative");
-
         this.ingredient = ingredient;
+        
+        checkQuantity(quantity);
+
         this.quantity = quantity;
+    }
+
+    public String toString() {
+        return ingredient + ": " + quantity + ingredient.getUnit();
     }
 
     /**
@@ -59,6 +61,19 @@ public class StorageBin {
     }
 
     /**
+     * Throws an exception if the quantity is invalid
+     * 
+     * @param quantity The quantity to check
+     * @throws ArithmeticException Quantity is negative or over the max capacity
+     */
+    private void checkQuantity(double quantity) throws ArithmeticException {
+        if (quantity > ingredient.getMax())
+            throw new ArithmeticException("Quantity greater than max capacity");
+        if (quantity < 0)
+            throw new ArithmeticException("Quantity cannot be negative");
+    }
+
+    /**
      * Adds to the quantity of the Storage Bin. Negative numbers can be used to
      * subtract.
      * 
@@ -67,10 +82,7 @@ public class StorageBin {
      * @author Justin Ryan Uy
      */
     public void addQuantity(double quantity) throws ArithmeticException {
-        if (quantity + this.quantity > ingredient.getMax())
-            throw new ArithmeticException("Quantity greater than max capacity");
-        if (quantity + this.quantity < 0)
-            throw new ArithmeticException("Quantity cannot be negative");
+        checkQuantity(quantity + this.quantity);
 
         this.quantity += quantity;
     }

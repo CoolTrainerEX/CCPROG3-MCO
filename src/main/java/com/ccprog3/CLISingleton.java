@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -86,12 +87,12 @@ public class CLISingleton implements UI, AutoCloseable {
      */
     private int dropdown(String... options) {
         while (true) {
-            System.out.println("\u001b[34m");
+            System.out.print("\u001b[34m");
 
             for (int i = 0; i < options.length; i++)
                 System.out.println("[" + (i + 1) + "] " + options[i]);
 
-            System.out.println("\u001b[0m");
+            System.out.print("\u001b[0m");
 
             double input = inputNumber("");
 
@@ -108,9 +109,18 @@ public class CLISingleton implements UI, AutoCloseable {
         }
     }
 
+    /**
+     * Formats money float values into proper Strings
+     * @param money The value
+     * @return Formatted string
+     */
+    private String formatMoney(float money) {
+        return String.format("$%.2f", money);
+    }
+
     public int menu(String... options) {
         while (true) {
-            System.out.println("\u001b[34m");
+            System.out.print("\u001b[34m");
 
             for (int i = 0; i < options.length; i++)
                 System.out.println("[" + (i + 1) + "] " + options[i]);
@@ -170,17 +180,23 @@ public class CLISingleton implements UI, AutoCloseable {
         return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
     }
 
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck) {
+        System.out.println(coffeeTruck);
+
+        for (StorageBin storageBin : coffeeTruck.getStorageBins())
+            System.out.println(storageBin);
+
+        for (Coffee coffee : coffeeTruck.getSales().keySet())
+            System.out.println(coffee + ": " + formatMoney(coffeeTruck.getSales().get(coffee)));
+        // TODO add Ingredients
+    }
+
     public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
-        return dropdown(Arrays.stream(coffeeTrucks).map((coffeeTruck) -> coffeeTruck + ": " + coffeeTruck.getLocation())
-                .toArray(String[]::new)) - 1;
+        return dropdown(Arrays.stream(coffeeTrucks).map(CoffeeTruck::toString).toArray(String[]::new)) - 1;
     }
 
     public int chooseStorageBin(StorageBin[] storageBins) {
-        return dropdown(Arrays.stream(storageBins).map((storageBin) -> storageBin + ": "
-                + (storageBin instanceof SpecialStorageBin ? ((SpecialStorageBin) storageBin).getSyrupIngredient()
-                        : storageBin.getIngredient())
-                + " " + storageBin.getQuantity() + " " + storageBin.getIngredient().getUnit()).toArray(String[]::new))
-                - 1;
+        return dropdown(Arrays.stream(storageBins).map(StorageBin::toString).toArray(String[]::new)) - 1;
     }
 
     public double storageBinAddQuantity() {
@@ -189,10 +205,11 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public StorageBin setStorageBin(boolean special) {
         if (!special) {
-            Ingredient ingredient;
 
             while (true)
                 try {
+                    Ingredient ingredient;
+
                     return new StorageBin(
                             ingredient = Ingredient.values()[dropdown(
                                     Arrays.stream(Ingredient.values()).map(Enum::toString).toArray(String[]::new)) - 1],
@@ -202,10 +219,10 @@ public class CLISingleton implements UI, AutoCloseable {
                 }
         }
 
-        SyrupIngredient syrupIngredient;
-
         while (true)
             try {
+                SyrupIngredient syrupIngredient;
+
                 return new SpecialStorageBin(syrupIngredient = SyrupIngredient.values()[dropdown(
                         Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new)) - 1],
                         syrupIngredient == SyrupIngredient.NONE ? 0 : inputNumber("Quantity"));

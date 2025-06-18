@@ -88,7 +88,7 @@ public class ControllerSingleton implements AutoCloseable {
         try {
             user.login(ui.login());
         } catch (FileNotFoundException e) {
-            ui.displayErr(new FileNotFoundException("User not found. Will save to new user upon exit."));
+            ui.displayErr(e);
         }
 
     }
@@ -128,7 +128,10 @@ public class ControllerSingleton implements AutoCloseable {
             CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
 
             features.put("Buy a coffee", null);
-            features.put("View truck information", null);
+            features.put("View truck information", () -> {
+                ui.coffeeTruckInfo(chosenCoffeeTruck);
+                return false;
+            });
             features.put("Restocking and maintainance", () -> {
                 Menu misc = new Menu();
 

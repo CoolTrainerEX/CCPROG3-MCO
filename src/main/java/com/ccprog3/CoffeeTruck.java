@@ -1,7 +1,6 @@
 package com.ccprog3;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Coffee Truck class
@@ -28,7 +27,7 @@ public class CoffeeTruck {
      * 
      * @author Justin Ryan Uy
      */
-    protected final List<Coffee> sales = new ArrayList<>();
+    protected final HashMap<Coffee, Float> sales = new HashMap<>();
 
     /**
      * Coffee Truck constructor
@@ -46,6 +45,10 @@ public class CoffeeTruck {
         }
 
         this.location = location;
+    }
+
+    public String toString() {
+        return "Regular Coffee Truck" + ": " + location;
     }
 
     /**
@@ -74,8 +77,8 @@ public class CoffeeTruck {
      * @return Coffee Truck Sales
      * @author Justin Ryan Uy
      */
-    public Coffee[] getSales() {
-        return sales.toArray(new Coffee[0]);
+    public HashMap<Coffee, Float> getSales() {
+        return sales;
     }
 
     /**

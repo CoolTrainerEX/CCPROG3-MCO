@@ -39,6 +39,10 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         }
     }
 
+    public String toString() {
+        return "Special Coffee Truck" + ": " + location;
+    }
+
     public StorageBin[] getStorageBins() {
         return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toArray(StorageBin[]::new);
     }

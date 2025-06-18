@@ -32,9 +32,10 @@ public enum CoffeeType {
      * 
      * @param espresso The Espresso brew used
      * @return The Ingredients needed in percent as an array of Storage Bins
+     * @throws IllegalArgumentException Custom brew cannot have a ratio
      * @author Justin Ryan Uy
      */
-    public StorageBin[] getIngredients(Espresso espresso) {
+    public StorageBin[] getIngredients(Espresso espresso) throws IllegalArgumentException {
         switch (this) {
             case CAFE_AMERICANO:
                 return new StorageBin[] { new StorageBin(Ingredient.COFFEE_BEANS, (1 - espresso.getRatio()) * 1 / 3),

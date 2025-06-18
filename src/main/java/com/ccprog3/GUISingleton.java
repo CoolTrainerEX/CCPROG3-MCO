@@ -26,7 +26,7 @@ public class GUISingleton implements UI {
     @Override
     public int menu(String... options) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'radio'");
+        throw new UnsupportedOperationException("Unimplemented method 'menu'");
     }
 
     @Override
@@ -48,6 +48,12 @@ public class GUISingleton implements UI {
     }
 
     @Override
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'coffeeTruckInfo'");
+    }
+
+    @Override
     public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'chooseCoffeeTruck'");
@@ -66,14 +72,14 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public String setCoffeeTruckLocation() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setCoffeeTruckLocation'");
-    }
-
-    @Override
     public StorageBin setStorageBin(boolean special) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setStorageBin'");
+    }
+
+    @Override
+    public String setCoffeeTruckLocation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCoffeeTruckLocation'");
     }
 }

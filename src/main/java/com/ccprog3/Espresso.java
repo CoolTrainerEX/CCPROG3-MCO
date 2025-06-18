@@ -28,11 +28,11 @@ public enum Espresso {
     LIGHT,
 
     /**
-     * Custom brew 1:?
+     * Custom brew 1:? or No extra shot
      * 
      * @author Justin Ryan Uy
      */
-    CUSTOM;
+    NONE;
 
     /**
      * Gets the ratio of Water in percent

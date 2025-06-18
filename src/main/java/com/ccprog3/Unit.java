@@ -27,6 +27,20 @@ public enum Unit {
      */
     FL_OZ;
 
+    public String toString() {
+        switch (this) {
+            case PIECES:
+                return "pcs";
+
+            case GRAMS:
+                return "g";
+
+            case FL_OZ:
+            default:
+                return "fl oz";
+        }
+    }
+
     /**
      * Converts grams to Fluid ounce
      * 

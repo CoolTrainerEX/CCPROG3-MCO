@@ -43,6 +43,14 @@ public interface UI {
     public CoffeeTruck addCoffeeTruck(boolean special);
 
     /**
+     * Displays info of a Coffee Truck
+     * 
+     * @param coffeeTruck Coffee Truck to display
+     * @author Justin Ryan Uy
+     */
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck);
+
+    /**
      * Display for choosing the available Coffee Trucks from the user
      * 
      * @param coffeeTrucks List of Coffee Trucks of the user
