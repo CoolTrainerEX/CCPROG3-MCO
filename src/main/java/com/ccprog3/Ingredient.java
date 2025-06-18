@@ -55,6 +55,31 @@ public enum Ingredient {
      */
     NONE;
 
+    public String toString() {
+        switch (this) {
+            case SMALL_CUP:
+                return "Small Cup";
+                
+            case MEDIUM_CUP:
+                return "Medium Cup";
+
+            case LARGE_CUP:
+                return "Large Cup";
+
+            case COFFEE_BEANS:
+                return "Coffee Beans";
+
+            case MILK:
+                return "Milk";
+
+            case WATER:
+                return "Water";
+        
+            default:
+                return "None";
+        }
+    }
+
     /**
      * Gets the unit of measurement for the Ingredient
      * 

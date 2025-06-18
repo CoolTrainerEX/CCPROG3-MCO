@@ -1,7 +1,6 @@
 package com.ccprog3;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -111,6 +110,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
     /**
      * Formats money float values into proper Strings
+     * 
      * @param money The value
      * @return Formatted string
      */
@@ -181,14 +181,20 @@ public class CLISingleton implements UI, AutoCloseable {
     }
 
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck) {
-        System.out.println(coffeeTruck);
+        System.out.println("\n\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
 
         for (StorageBin storageBin : coffeeTruck.getStorageBins())
             System.out.println(storageBin);
 
+        System.out.print("\u001b[3;31m");
+
         for (Coffee coffee : coffeeTruck.getSales().keySet())
             System.out.println(coffee + ": " + formatMoney(coffeeTruck.getSales().get(coffee)));
+
         // TODO add Ingredients
+        // TODO add Menu
+
+        System.out.println("\u001b[0m");
     }
 
     public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {

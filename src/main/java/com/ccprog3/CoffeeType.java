@@ -27,6 +27,20 @@ public enum CoffeeType {
      */
     CAPPUCCINO;
 
+    public String toString() {
+        switch (this) {
+            case CAFE_AMERICANO:
+                return "Cafe Americano";
+
+            case LATTE:
+                return "Latte";
+
+            case CAPPUCCINO:
+            default:
+                return "Cappuccino";
+        }
+    }
+
     /**
      * Gives the raw Ingredients needed in percent
      * 
