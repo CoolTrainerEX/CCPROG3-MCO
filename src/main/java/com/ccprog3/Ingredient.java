@@ -59,7 +59,7 @@ public enum Ingredient {
         switch (this) {
             case SMALL_CUP:
                 return "Small Cup";
-                
+
             case MEDIUM_CUP:
                 return "Medium Cup";
 
@@ -74,7 +74,7 @@ public enum Ingredient {
 
             case WATER:
                 return "Water";
-        
+
             default:
                 return "None";
         }

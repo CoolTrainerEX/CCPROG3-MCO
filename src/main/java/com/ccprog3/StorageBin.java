@@ -18,7 +18,7 @@ public class StorageBin {
      * 
      * @author Justin Ryan Uy
      */
-    protected double quantity;
+    private double quantity;
 
     /**
      * Storage Bin constructor
@@ -30,7 +30,7 @@ public class StorageBin {
      */
     public StorageBin(Ingredient ingredient, double quantity) throws ArithmeticException {
         this.ingredient = ingredient;
-        
+
         checkQuantity(quantity);
 
         this.quantity = quantity;

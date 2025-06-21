@@ -2,6 +2,7 @@ package com.ccprog3;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -198,12 +199,12 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\u001b[0m");
     }
 
-    public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
-        return dropdown(Arrays.stream(coffeeTrucks).map(CoffeeTruck::toString).toArray(String[]::new)) - 1;
+    public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks) {
+        return dropdown(coffeeTrucks.toArray(String[]::new)) - 1;
     }
 
-    public int chooseStorageBin(StorageBin[] storageBins) {
-        return dropdown(Arrays.stream(storageBins).map(StorageBin::toString).toArray(String[]::new)) - 1;
+    public int chooseStorageBin(List<StorageBin> storageBins) {
+        return dropdown(storageBins.toArray(String[]::new)) - 1;
     }
 
     public double addStorageBinQuantity() {

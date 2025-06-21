@@ -100,13 +100,13 @@ public class ControllerSingleton implements AutoCloseable {
                 },
 
                 "Perform Coffee Truck features", () -> {
-                    if (user.getCoffeeTrucks().length == 0) {
+                    if (user.getCoffeeTrucks().size() == 0) {
                         ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
                         return false;
                     }
 
                     int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
-                    CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
+                    CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks().get(chosenCoffeeTruckIndex);
 
                     return menu(Map.of(
                             "Buy a Coffee", () -> false,
@@ -121,18 +121,19 @@ public class ControllerSingleton implements AutoCloseable {
                                         "Restocking", () -> {
                                             int chosenStorageBinIndex = ui
                                                     .chooseStorageBin(chosenCoffeeTruck.getStorageBins());
+                                            StorageBin chosenStorageBin = chosenCoffeeTruck.getStorageBins()
+                                                    .get(chosenStorageBinIndex);
 
                                             return menu(Map.of(
                                                     "Replenish Storage Bin", () -> {
-                                                        chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex]
-                                                                .addQuantity(ui.addStorageBinQuantity());
+                                                        chosenStorageBin.addQuantity(ui.addStorageBinQuantity());
                                                         return false;
                                                     },
 
                                                     "Replace with a different Ingredient", () -> {
                                                         chosenCoffeeTruck.setStorageBin(
-                                                                ui.setStorageBin(chosenCoffeeTruck
-                                                                        .getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin),
+                                                                ui.setStorageBin(
+                                                                        chosenStorageBin instanceof SpecialStorageBin),
                                                                 chosenStorageBinIndex);
                                                         return false;
                                                     },

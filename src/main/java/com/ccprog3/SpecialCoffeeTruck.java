@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -22,9 +23,9 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
      * 
      * @param location           Coffee Truck location
      * @param storageBins        The Storage Bins to be placed in the Coffee Truck
-     *                           (Max 8)
+     *                           (Size 8)
      * @param specialStorageBins The Special Storage Bins to be placed in the Coffee
-     *                           Truck (Max 2)
+     *                           Truck (Size 2)
      * @throws IndexOutOfBoundsException Too much Storage Bins set
      * @author Justin Ryan Uy
      */
@@ -40,20 +41,12 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
     }
 
     public String toString() {
-        return "Special Coffee Truck" + ": " + location;
+        return "Special Coffee Truck" + ": " + super.getLocation();
     }
 
-    public StorageBin[] getStorageBins() {
-        return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toArray(StorageBin[]::new);
+    public List<StorageBin> getStorageBins() {
+        return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toList();
     }
-
-    // public void addStorageBinQuantity(double quantity, int index)
-    //         throws ArrayIndexOutOfBoundsException, ArithmeticException {
-    //     if (index < storageBins.length)
-    //         super.addStorageBinQuantity(quantity, index);
-    //     else
-    //         specialStorageBins[index - storageBins.length].addQuantity(quantity);
-    // }
 
     public void setStorageBin(StorageBin storageBin, int index) throws ArrayIndexOutOfBoundsException {
         if (!(storageBin instanceof SpecialStorageBin))

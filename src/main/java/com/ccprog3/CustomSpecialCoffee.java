@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.Map;
+
 /**
  * Special Coffee with a custom brew ratio
  * 
@@ -16,21 +18,21 @@ public class CustomSpecialCoffee extends SpecialCoffee {
     /**
      * Constructor for Special Coffee with custom brew ratio
      * 
-     * @param type  Type of Coffee
-     * @param cup   Cup size
-     * @param ratio Custom brew ratio of water to coffee (ex. 2 = 1:2)
-     * @param shot  Extra shot
+     * @param type   Type of Coffee
+     * @param cup    Cup size
+     * @param ratio  Custom brew ratio of water to coffee (ex. 2 = 1:2)
+     * @param syrups Syrup addons
+     * @param shots  Extra shots
      * @throws IllegalArgumentException Ingredient is not a cup
      * @author Justin Ryan Uy
      */
-    public CustomSpecialCoffee(CoffeeType type, Ingredient cup, int ratio, SyrupIngredient syrup, Espresso shot)
+    public CustomSpecialCoffee(CoffeeType type, Ingredient cup, int ratio, SyrupIngredient[] syrups, Espresso[] shots)
             throws IllegalArgumentException {
-        super(type, cup, Espresso.NONE, syrup, shot);
+        super(type, cup, Espresso.CUSTOM, syrups, shots);
         this.ratio = ratio;
     }
 
-    public String toString() {
-        return "CUSTOM " + type + (syrup == SyrupIngredient.NONE ? "" : " " + syrup)
-                + (shot == Espresso.NONE ? "" : " " + shot);
+    public Map<Ingredient, Double> getEspressoIngredients() {
+        return Map.of(Ingredient.COFFEE_BEANS, (double) 1, Ingredient.WATER, (double) ratio);
     }
 }

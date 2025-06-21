@@ -42,13 +42,13 @@ public enum Unit {
     }
 
     /**
-     * Converts grams to Fluid ounce
+     * Converts Fluid ounce to grams
      * 
-     * @param g Number in grams
-     * @return Number in Fluid ounce
+     * @param oz Number in Fluid ounce
+     * @return Number in grams
      * @author Justin Ryan Uy
      */
-    public static double gToFloz(double g) {
-        return g * 28.34952;
+    public static double flozToG(double oz) {
+        return oz * 28.34952;
     }
 }

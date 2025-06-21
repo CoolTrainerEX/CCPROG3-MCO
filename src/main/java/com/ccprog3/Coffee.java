@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -41,7 +43,43 @@ public class Coffee {
         return cup + " " + type;
     }
 
+    /**
+     * Gets the Cup size
+     * 
+     * @return Cup size of the Coffee
+     * @author Justin Ryan Uy
+     */
+    public Ingredient getCup() {
+        return cup;
+    }
+
+    /**
+     * Gets the ingredients required to make the Coffee without the Espresso
+     * 
+     * @return Map of Ingredients and quantities
+     * @author Justin Ryan Uy
+     */
     public Map<Ingredient, Double> getIngredients() {
-        return Map.of(null, null);
+        Map<Ingredient, Double> ingredients = new HashMap<>(type.getIngredients());
+
+        ingredients.replaceAll((ingredient, quantity) -> quantity * cup.getCupVolume());
+
+        return Collections.unmodifiableMap(ingredients);
+    }
+
+    /**
+     * Gets the ingredients required to make the Espresso
+     * 
+     * @return Map of Ingredients and quantities
+     * @author Justin Ryan Uy
+     */
+    public Map<Ingredient, Double> getEspressoIngredients() {
+        Map<Ingredient, Double> ingredients = new HashMap<>(Espresso.STANDARD.getIngredients());
+        double espressoQuantity = cup.getCupVolume()
+                * (1 - type.getIngredients().values().stream().reduce(Double::sum).get());
+
+        ingredients.replaceAll((ingredient, quantity) -> quantity * espressoQuantity);
+
+        return Collections.unmodifiableMap(ingredients);
     }
 }

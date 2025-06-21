@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.List;
+
 /**
  * GUI user interface
  * 
@@ -54,13 +56,13 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks) {
+    public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'chooseCoffeeTruck'");
     }
 
     @Override
-    public int chooseStorageBin(StorageBin[] storageBins) {
+    public int chooseStorageBin(List<StorageBin> storageBins) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'chooseStorageBin'");
     }
@@ -68,7 +70,7 @@ public class GUISingleton implements UI {
     @Override
     public double addStorageBinQuantity() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'storageBinAddQuantity'");
+        throw new UnsupportedOperationException("Unimplemented method 'addStorageBinQuantity'");
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.ccprog3;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,13 +61,13 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Gets the list of Cofee Trucks
+     * Gets the List of Coffee Trucks
      * 
-     * @return The array of Cofee Trucks
+     * @return The List of Coffee Trucks
      * @author Justin Ryan Uy
      */
-    public CoffeeTruck[] getCoffeeTrucks() {
-        return coffeeTrucks.toArray(new CoffeeTruck[0]);
+    public List<CoffeeTruck> getCoffeeTrucks() {
+        return Collections.unmodifiableList(coffeeTrucks);
     }
 
     public void close() {

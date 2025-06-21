@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.List;
+
 /**
  * UI for user display and input
  * 
@@ -56,7 +58,7 @@ public interface UI {
      * @return Index of the chosen Coffee Truck
      * @author Justin Ryan Uy
      */
-    public int chooseCoffeeTruck(CoffeeTruck[] coffeeTrucks);
+    public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks);
 
     /**
      * Display for choosing the available Storage Bins from the Coffee Truck
@@ -65,7 +67,7 @@ public interface UI {
      * @return Index of the chosen Storage Bin
      * @author Justin Ryan Uy
      */
-    public int chooseStorageBin(StorageBin[] storageBins);
+    public int chooseStorageBin(List<StorageBin> storageBins);
 
     /**
      * Display to ask user for the quantity of Ingredient to add to a Storage Bin
