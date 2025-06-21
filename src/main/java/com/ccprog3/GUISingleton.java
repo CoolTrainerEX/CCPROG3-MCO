@@ -42,7 +42,7 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public CoffeeTruck addCoffeeTruck(boolean special) {
+    public CoffeeTruck addCoffeeTruck() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addCoffeeTruck'");
     }
@@ -66,7 +66,7 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public double storageBinAddQuantity() {
+    public double addStorageBinQuantity() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'storageBinAddQuantity'");
     }

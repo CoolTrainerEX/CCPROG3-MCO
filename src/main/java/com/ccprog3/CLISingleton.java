@@ -160,7 +160,8 @@ public class CLISingleton implements UI, AutoCloseable {
         return input("Login (Saves to a new user if not found)");
     }
 
-    public CoffeeTruck addCoffeeTruck(boolean special) {
+    public CoffeeTruck addCoffeeTruck() {
+        boolean special = dropdown("Regular Coffee Truck", "Special Coffee Truck") == 2;
         String location = input("Location");
         StorageBin[] storageBins = new StorageBin[8];
 
@@ -205,7 +206,7 @@ public class CLISingleton implements UI, AutoCloseable {
         return dropdown(Arrays.stream(storageBins).map(StorageBin::toString).toArray(String[]::new)) - 1;
     }
 
-    public double storageBinAddQuantity() {
+    public double addStorageBinQuantity() {
         return inputNumber("Add quantity");
     }
 

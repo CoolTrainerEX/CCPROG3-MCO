@@ -36,11 +36,10 @@ public interface UI {
     /**
      * Display for creating a new Coffee Truck
      * 
-     * @param special Whether it is Special Coffee Truck or Regular Coffee Truck
      * @return The Coffee Truck generated
      * @author Justin Ryan Uy
      */
-    public CoffeeTruck addCoffeeTruck(boolean special);
+    public CoffeeTruck addCoffeeTruck();
 
     /**
      * Displays info of a Coffee Truck
@@ -74,7 +73,7 @@ public interface UI {
      * @return Quantity to add
      * @author Justin Ryan Uy
      */
-    public double storageBinAddQuantity();
+    public double addStorageBinQuantity();
 
     /**
      * Display to ask the user for a new Storage Bin to replace the selected one

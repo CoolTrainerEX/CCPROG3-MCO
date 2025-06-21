@@ -1,7 +1,7 @@
 package com.ccprog3;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -47,34 +47,28 @@ public class ControllerSingleton implements AutoCloseable {
     }
 
     /**
-     * Menu display on the UI. Supplier return determines exit.
+     * Handles menu options
      * 
+     * @param menu Map of menu options and their corresponding actions
+     * @return false = back; true = exit
      * @author Justin Ryan Uy
      */
-    private class Menu extends HashMap<String, Supplier<Boolean>> {
-        /**
-         * Handles menu options
-         * 
-         * @return false = back; true = exit
-         * @author Justin Ryan Uy
-         */
-        private boolean display() {
-            String[] optionTexts = keySet().toArray(new String[0]);
-            int choice;
+    private boolean menu(Map<String, Supplier<Boolean>> menu) {
+        String[] optionTexts = menu.keySet().toArray(new String[0]);
+        int choice;
 
-            while ((choice = ui.menu(optionTexts)) != 0)
-                while (true)
-                    try {
-                        if (choice == -1 || get(optionTexts[choice - 1]).get())
-                            return true;
+        while ((choice = ui.menu(optionTexts)) != 0)
+            while (true)
+                try {
+                    if (choice == -1 || menu.get(optionTexts[choice - 1]).get())
+                        return true;
 
-                        break;
-                    } catch (Exception e) {
-                        ui.displayErr(e);
-                    }
+                    break;
+                } catch (Exception e) {
+                    ui.displayErr(e);
+                }
 
-            return false;
-        }
+        return false;
     }
 
     // Main
@@ -99,83 +93,69 @@ public class ControllerSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     public void mainMenu() {
-        Menu mainMenu = new Menu();
+        menu(Map.of(
+                "Create a Coffee Truck", () -> {
+                    user.addCoffeeTruck(ui.addCoffeeTruck());
+                    return false;
+                },
 
-        mainMenu.put("Create a Coffee Truck", () -> {
-            Menu special = new Menu();
-
-            special.put("Regular Coffee Truck", () -> {
-                user.addCoffeeTruck(ui.addCoffeeTruck(false));
-                return false;
-            });
-            special.put("Special Coffee Truck", () -> {
-                user.addCoffeeTruck(ui.addCoffeeTruck(true));
-                return false;
-            });
-
-            return special.display();
-        });
-        mainMenu.put("Perform Coffee Truck features", () -> {
-            if (user.getCoffeeTrucks().length == 0) {
-                ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
-                return false;
-            }
-
-            Menu features = new Menu();
-
-            // Ask which truck
-            int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
-            CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
-
-            features.put("Buy a coffee", null);
-            features.put("View truck information", () -> {
-                ui.coffeeTruckInfo(chosenCoffeeTruck);
-                return false;
-            });
-            features.put("Restocking and maintainance", () -> {
-                Menu misc = new Menu();
-
-                misc.put("Restocking", () -> {
-                    Menu restock = new Menu();
-
-                    int chosenStorageBinIndex = ui.chooseStorageBin(chosenCoffeeTruck.getStorageBins());
-
-                    restock.put("Replenish Storage Bin", () -> {
-                        chosenCoffeeTruck.addStorageBinQuantity(ui.storageBinAddQuantity(), chosenStorageBinIndex);
+                "Perform Coffee Truck features", () -> {
+                    if (user.getCoffeeTrucks().length == 0) {
+                        ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
                         return false;
-                    });
-                    restock.put("Replace with a different Ingredient", () -> {
-                        chosenCoffeeTruck.setStorageBin(ui.setStorageBin(
-                                chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin),
-                                chosenStorageBinIndex);
-                        return false;
-                    });
-                    restock.put("Empty Storage Bin", () -> {
-                        chosenCoffeeTruck.emptyStorageBin(chosenStorageBinIndex);
-                        return false;
-                    });
+                    }
 
-                    return restock.display();
-                });
-                misc.put("Maintainance", () -> {
-                    Menu maintainance = new Menu();
+                    int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
+                    CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks()[chosenCoffeeTruckIndex];
 
-                    maintainance.put("Change truck location", () -> {
-                        user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(), chosenCoffeeTruckIndex);
-                        return false;
-                    });
-                    maintainance.put("Change product prices", null);
+                    return menu(Map.of(
+                            "Buy a Coffee", () -> false,
 
-                    return maintainance.display();
-                });
+                            "View truck information", () -> {
+                                ui.coffeeTruckInfo(chosenCoffeeTruck);
+                                return false;
+                            },
 
-                return misc.display();
-            });
+                            "Restocking and maintainance", () -> {
+                                return menu(Map.of(
+                                        "Restocking", () -> {
+                                            int chosenStorageBinIndex = ui
+                                                    .chooseStorageBin(chosenCoffeeTruck.getStorageBins());
 
-            return features.display();
-        });
-        mainMenu.put("Dashboard", () -> false);
+                                            return menu(Map.of(
+                                                    "Replenish Storage Bin", () -> {
+                                                        chosenCoffeeTruck.getStorageBins()[chosenStorageBinIndex]
+                                                                .addQuantity(ui.addStorageBinQuantity());
+                                                        return false;
+                                                    },
 
-        mainMenu.display();
+                                                    "Replace with a different Ingredient", () -> {
+                                                        chosenCoffeeTruck.setStorageBin(
+                                                                ui.setStorageBin(chosenCoffeeTruck
+                                                                        .getStorageBins()[chosenStorageBinIndex] instanceof SpecialStorageBin),
+                                                                chosenStorageBinIndex);
+                                                        return false;
+                                                    },
+
+                                                    "Empty Storage Bin", () -> {
+                                                        chosenCoffeeTruck.emptyStorageBin(chosenStorageBinIndex);
+                                                        return false;
+                                                    }));
+                                        },
+
+                                        "Maintainance", () -> {
+                                            return menu(Map.of(
+                                                    "Change truck location", () -> {
+                                                        user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(),
+                                                                chosenCoffeeTruckIndex);
+                                                        return false;
+                                                    },
+
+                                                    "Change product prices", () -> false));
+                                        }));
+                            }));
+                },
+
+                "Dashboard", () -> false));
     }
 }

@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.Map;
+
 /**
  * Types of Coffee products
  * 
@@ -44,28 +46,21 @@ public enum CoffeeType {
     /**
      * Gives the raw Ingredients needed in percent
      * 
-     * @param espresso The Espresso brew used
-     * @return The Ingredients needed in percent as an array of Storage Bins
-     * @throws IllegalArgumentException Custom brew cannot have a ratio
+     * @return The Ingredients needed in percent as a Map of Ingredients.
+     *         Remaining percentage is Espresso.
      * @author Justin Ryan Uy
      */
-    public StorageBin[] getIngredients(Espresso espresso) throws IllegalArgumentException {
+    public Map<Ingredient, Double> getIngredients() {
         switch (this) {
             case CAFE_AMERICANO:
-                return new StorageBin[] { new StorageBin(Ingredient.COFFEE_BEANS, (1 - espresso.getRatio()) * 1 / 3),
-                        new StorageBin(Ingredient.WATER, espresso.getRatio() * 1 / 3),
-                        new StorageBin(Ingredient.WATER, 2 / 3) };
+                return Map.of(Ingredient.WATER, (double) 2 / 3);
 
             case LATTE:
-                return new StorageBin[] { new StorageBin(Ingredient.COFFEE_BEANS, (1 - espresso.getRatio()) * 1 / 5),
-                        new StorageBin(Ingredient.WATER, espresso.getRatio() * 1 / 5),
-                        new StorageBin(Ingredient.MILK, 4 / 5) };
+                return Map.of(Ingredient.MILK, (double) 4 / 5);
 
             case CAPPUCCINO:
             default:
-                return new StorageBin[] { new StorageBin(Ingredient.COFFEE_BEANS, (1 - espresso.getRatio()) * 1 / 3),
-                        new StorageBin(Ingredient.WATER, espresso.getRatio() * 1 / 3),
-                        new StorageBin(Ingredient.MILK, 2 / 3) };
+                return Map.of(Ingredient.MILK, (double) 2 / 3);
         }
     }
 }

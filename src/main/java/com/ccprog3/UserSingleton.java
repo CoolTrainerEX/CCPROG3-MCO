@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -34,9 +35,9 @@ public class UserSingleton implements AutoCloseable {
      */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
 
-    private final HashMap<CoffeeType, Float> coffeePrices = new HashMap<>();
-    private final HashMap<Espresso, Float> espressoPrices = new HashMap<>();
-    private final HashMap<SyrupIngredient, Float> syrupPrices = new HashMap<>();
+    private final Map<CoffeeType, Float> coffeePrices = new HashMap<>();
+    private final Map<Espresso, Float> espressoPrices = new HashMap<>();
+    private final Map<SyrupIngredient, Float> syrupPrices = new HashMap<>();
 
     /**
      * Gets the User singleton instance

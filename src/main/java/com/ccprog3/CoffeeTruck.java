@@ -1,6 +1,8 @@
 package com.ccprog3;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Coffee Truck class
@@ -27,7 +29,7 @@ public class CoffeeTruck {
      * 
      * @author Justin Ryan Uy
      */
-    protected final HashMap<Coffee, Float> sales = new HashMap<>();
+    protected final Map<Coffee, Float> sales = new HashMap<>();
 
     /**
      * Coffee Truck constructor
@@ -77,8 +79,8 @@ public class CoffeeTruck {
      * @return Coffee Truck Sales
      * @author Justin Ryan Uy
      */
-    public HashMap<Coffee, Float> getSales() {
-        return sales;
+    public Map<Coffee, Float> getSales() {
+        return Collections.unmodifiableMap(sales);
     }
 
     /**
@@ -91,21 +93,21 @@ public class CoffeeTruck {
         this.location = location;
     }
 
-    /**
-     * Adds to the quantity of the Storage Bin. Negative numbers can be used to
-     * subtract.
-     * 
-     * @param quantity The quantity to add
-     * @param index    Index of the Storage Bin to add
-     * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @throws ArithmeticException            Quantity is negative or over the max
-     *                                        capacity
-     * @author Justin Ryan Uy
-     */
-    public void addStorageBinQuantity(double quantity, int index)
-            throws ArrayIndexOutOfBoundsException, ArithmeticException {
-        storageBins[index].addQuantity(quantity);
-    }
+    // /**
+    //  * Adds to the quantity of the Storage Bin. Negative numbers can be used to
+    //  * subtract.
+    //  * 
+    //  * @param quantity The quantity to add
+    //  * @param index    Index of the Storage Bin to add
+    //  * @throws ArrayIndexOutOfBoundsException Index out of bounds
+    //  * @throws ArithmeticException            Quantity is negative or over the max
+    //  *                                        capacity
+    //  * @author Justin Ryan Uy
+    //  */
+    // public void addStorageBinQuantity(double quantity, int index)
+    //         throws ArrayIndexOutOfBoundsException, ArithmeticException {
+    //     storageBins[index].addQuantity(quantity);
+    // }
 
     /**
      * Sets a new Ingredient into a Storage Bin

@@ -47,13 +47,13 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toArray(StorageBin[]::new);
     }
 
-    public void addStorageBinQuantity(double quantity, int index)
-            throws ArrayIndexOutOfBoundsException, ArithmeticException {
-        if (index < storageBins.length)
-            super.addStorageBinQuantity(quantity, index);
-        else
-            specialStorageBins[index - storageBins.length].addQuantity(quantity);
-    }
+    // public void addStorageBinQuantity(double quantity, int index)
+    //         throws ArrayIndexOutOfBoundsException, ArithmeticException {
+    //     if (index < storageBins.length)
+    //         super.addStorageBinQuantity(quantity, index);
+    //     else
+    //         specialStorageBins[index - storageBins.length].addQuantity(quantity);
+    // }
 
     public void setStorageBin(StorageBin storageBin, int index) throws ArrayIndexOutOfBoundsException {
         if (!(storageBin instanceof SpecialStorageBin))

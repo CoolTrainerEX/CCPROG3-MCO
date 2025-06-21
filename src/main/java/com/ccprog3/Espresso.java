@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.Map;
+
 /**
  * Types of Espresso brews
  * 
@@ -35,22 +37,22 @@ public enum Espresso {
     NONE;
 
     /**
-     * Gets the ratio of Water in percent
+     * Gives the raw Ingredients needed in percent
      * 
-     * @return The ratio of Water in percent
+     * @return The Ingredients needed in percent as a Map of Ingredients.
      * @throws IllegalArgumentException Custom brew cannot have a ratio
      * @author Justin Ryan Uy
      */
-    public double getRatio() throws IllegalArgumentException {
+    public Map<Ingredient, Double> getIngredients() throws IllegalArgumentException {
         switch (this) {
             case STANDARD:
-                return 18 / 19;
+                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 19, Ingredient.WATER, (double) 18 / 19);
 
             case STRONG:
-                return 15 / 16;
+                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 16, Ingredient.WATER, (double) 15 / 16);
 
             case LIGHT:
-                return 20 / 21;
+                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 21, Ingredient.WATER, (double) 20 / 21);
 
             default:
                 throw new IllegalArgumentException("Custom brew cannot have a ratio");

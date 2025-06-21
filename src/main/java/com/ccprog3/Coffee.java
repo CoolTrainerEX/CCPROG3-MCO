@@ -1,5 +1,7 @@
 package com.ccprog3;
 
+import java.util.Map;
+
 /**
  * Class to store Coffee details
  * 
@@ -29,15 +31,7 @@ public class Coffee {
      * @author Justin Ryan Uy
      */
     public Coffee(CoffeeType type, Ingredient cup) throws IllegalArgumentException {
-        switch (cup) {
-            case SMALL_CUP:
-            case MEDIUM_CUP:
-            case LARGE_CUP:
-                break;
-
-            default:
-                throw new IllegalArgumentException("Ingredient is not a cup");
-        }
+        cup.getCupVolume(); // Check if Ingredient is Cup
 
         this.type = type;
         this.cup = cup;
@@ -45,5 +39,9 @@ public class Coffee {
 
     public String toString() {
         return cup + " " + type;
+    }
+
+    public Map<Ingredient, Double> getIngredients() {
+        return Map.of(null, null);
     }
 }

@@ -49,7 +49,7 @@ public enum Ingredient {
     WATER,
 
     /**
-     * Empty 640 fl oz
+     * Empty or Syrup Ingredient 640 fl oz
      * 
      * @author Justin Ryan Uy
      */
