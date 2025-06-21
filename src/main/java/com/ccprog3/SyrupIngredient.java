@@ -46,5 +46,15 @@ public enum SyrupIngredient {
      * 
      * @author Justin Ryan Uy
      */
-    NONE
+    NONE;
+
+    /**
+     * Gets the unit of measurement for the Syrup Ingredient
+     * 
+     * @return Unit of measurement
+     * @author Justin Ryan Uy
+     */
+    public Unit getUnit() {
+        return Unit.FL_OZ;
+    }
 }

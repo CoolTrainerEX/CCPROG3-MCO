@@ -36,8 +36,24 @@ public class UserSingleton implements AutoCloseable {
      */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
 
+    /**
+     * Prices of Coffee Types per fluid ounce
+     * 
+     * @author Justin Ryan Uy
+     */
     private final Map<CoffeeType, Float> coffeePrices = new HashMap<>();
+
+    /**
+     * Prices of Espresso shots per fluid ounce
+     * 
+     * @author Justin Ryan Uy
+     */
     private final Map<Espresso, Float> espressoPrices = new HashMap<>();
+    /**
+     * Prices of Syrup Ingredients per fluid ounce
+     * 
+     * @author Justin Ryan Uy
+     */
     private final Map<SyrupIngredient, Float> syrupPrices = new HashMap<>();
 
     /**
@@ -68,6 +84,36 @@ public class UserSingleton implements AutoCloseable {
      */
     public List<CoffeeTruck> getCoffeeTrucks() {
         return Collections.unmodifiableList(coffeeTrucks);
+    }
+
+    /**
+     * Gets the prices of Coffee Types per fluid ounce
+     * 
+     * @return Map of Coffee Types and their prices
+     * @author Justin Ryan Uy
+     */
+    public Map<CoffeeType, Float> getCoffeePrices() {
+        return Collections.unmodifiableMap(coffeePrices);
+    }
+
+    /**
+     * Gets the prices of Espresso shots per fluid ounce
+     * 
+     * @return Map of Coffee Types and their prices
+     * @author Justin Ryan Uy
+     */
+    public Map<Espresso, Float> getEspressoPrices() {
+        return Collections.unmodifiableMap(espressoPrices);
+    }
+
+    /**
+     * Gets the prices of Syrup Ingredients per fluid ounce
+     * 
+     * @return Map of Coffee Types and their prices
+     * @author Justin Ryan Uy
+     */
+    public Map<SyrupIngredient, Float> getSyrupPrices() {
+        return Collections.unmodifiableMap(syrupPrices);
     }
 
     public void close() {

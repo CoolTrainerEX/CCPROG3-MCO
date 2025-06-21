@@ -28,7 +28,7 @@ public class SpecialStorageBin extends StorageBin {
     }
 
     public String toString() {
-        return syrupIngredient + ": " + super.getQuantity() + super.getIngredient().getUnit();
+        return syrupIngredient + ": " + super.getQuantity() + syrupIngredient.getUnit();
     }
 
     /**

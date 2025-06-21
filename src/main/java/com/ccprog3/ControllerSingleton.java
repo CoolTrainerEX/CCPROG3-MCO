@@ -112,7 +112,7 @@ public class ControllerSingleton implements AutoCloseable {
                             "Buy a Coffee", () -> false,
 
                             "View truck information", () -> {
-                                ui.coffeeTruckInfo(chosenCoffeeTruck);
+                                ui.coffeeTruckInfo(chosenCoffeeTruck, user);
                                 return false;
                             },
 

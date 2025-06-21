@@ -47,9 +47,10 @@ public interface UI {
      * Displays info of a Coffee Truck
      * 
      * @param coffeeTruck Coffee Truck to display
+     * @param user        User to show prices
      * @author Justin Ryan Uy
      */
-    public void coffeeTruckInfo(CoffeeTruck coffeeTruck);
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user);
 
     /**
      * Display for choosing the available Coffee Trucks from the user

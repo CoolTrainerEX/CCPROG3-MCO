@@ -23,14 +23,14 @@ public class SpecialCoffee extends Coffee {
      * 
      * @author Justin Ryan Uy
      */
-    protected final List<SyrupIngredient> syrups;
+    private final List<SyrupIngredient> syrups;
 
     /**
      * Extra shots
      * 
      * @author Justin Ryan Uy
      */
-    protected final List<Espresso> shots;
+    private final List<Espresso> shots;
 
     /**
      * Special Coffee constructor
@@ -99,5 +99,14 @@ public class SpecialCoffee extends Coffee {
                 shotIngredients.merge(shotIngredient.getKey(), shotIngredient.getValue(), Double::sum);
 
         return Collections.unmodifiableMap(shotIngredients);
+    }
+
+    public Map<Ingredient, Double> getAllIngredients() {
+        Map<Ingredient, Double> ingredients = new HashMap<>(super.getAllIngredients());
+
+        for (Map.Entry<Ingredient, Double> shotIngredient : getShotIngredients().entrySet())
+            ingredients.merge(shotIngredient.getKey(), shotIngredient.getValue(), Double::sum);
+
+        return Collections.unmodifiableMap(ingredients);
     }
 }

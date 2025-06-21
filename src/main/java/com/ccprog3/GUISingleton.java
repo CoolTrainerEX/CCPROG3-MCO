@@ -50,7 +50,7 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public void coffeeTruckInfo(CoffeeTruck coffeeTruck) {
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'coffeeTruckInfo'");
     }

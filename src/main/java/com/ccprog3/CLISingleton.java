@@ -3,6 +3,7 @@ package com.ccprog3;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -155,6 +156,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public void displayErr(Exception e) {
         System.err.println("\n\u001b[41m" + e.getLocalizedMessage() + "\u001b[0m\n");
+        e.printStackTrace();
     }
 
     public String login() {
@@ -182,29 +184,57 @@ public class CLISingleton implements UI, AutoCloseable {
         return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
     }
 
-    public void coffeeTruckInfo(CoffeeTruck coffeeTruck) {
+    public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
         System.out.println("\n\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
 
         for (StorageBin storageBin : coffeeTruck.getStorageBins())
             System.out.println(storageBin);
 
-        System.out.print("\u001b[3;31m");
+        for (Map.Entry<Coffee, Float> sale : coffeeTruck.getSales().entrySet()) {
+            System.out.println(
+                    "\n\u001b[1;3;31m" + sale.getKey() + ": " + formatMoney(sale.getValue()) + "\u001b[0;3;31m");
 
-        for (Coffee coffee : coffeeTruck.getSales().keySet())
-            System.out.println(coffee + ": " + formatMoney(coffeeTruck.getSales().get(coffee)));
+            for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getAllIngredients().entrySet())
+                System.out.println("\t" + ingredient.getKey() + ": "
+                        + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
+                                : ingredient.getValue())
+                        + ingredient.getKey().getUnit());
 
-        // TODO add Ingredients
-        // TODO add Menu
+            if (sale instanceof SpecialCoffee)
+                for (Map.Entry<SyrupIngredient, Double> syrupIngredient : ((SpecialCoffee) sale.getKey())
+                        .getSyrupIngredients().entrySet())
+                    System.out.println("\t" + syrupIngredient.getKey() + ": " + syrupIngredient.getValue()
+                            + syrupIngredient.getKey().getUnit());
+        }
+
+        boolean special = coffeeTruck instanceof SpecialCoffeeTruck;
+
+        System.out.println("\n\u001b[1;34mCoffee Prices per " + Unit.FL_OZ + "\u001b[0;34m");
+
+        for (Map.Entry<CoffeeType, Float> coffeePrice : user.getCoffeePrices().entrySet())
+            System.out.println("\t" + coffeePrice.getKey() + ": " + formatMoney(coffeePrice.getValue() + (special ? 0 : user.getEspressoPrices().get(Espresso.STANDARD))));
+
+        if (special) {
+            System.out.println("\n\u001b[1;34mEspresso Prices per " + Unit.FL_OZ + "\u001b[0;34m");
+
+            for (Map.Entry<Espresso, Float> espressoPrice : user.getEspressoPrices().entrySet())
+                System.out.println("\t" + espressoPrice.getKey() + ": " + formatMoney(espressoPrice.getValue()));
+
+            System.out.println("\n\u001b[1;34mSyrup Prices\u001b[0;34m");
+
+            for (Map.Entry<SyrupIngredient, Float> syrupPrice : user.getSyrupPrices().entrySet())
+                System.out.println("\t" + syrupPrice.getKey() + ": " + formatMoney(syrupPrice.getValue()));
+        }
 
         System.out.println("\u001b[0m");
     }
 
     public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks) {
-        return dropdown(coffeeTrucks.toArray(String[]::new)) - 1;
+        return dropdown(coffeeTrucks.stream().map(CoffeeTruck::toString).toArray(String[]::new)) - 1;
     }
 
     public int chooseStorageBin(List<StorageBin> storageBins) {
-        return dropdown(storageBins.toArray(String[]::new)) - 1;
+        return dropdown(storageBins.stream().map(StorageBin::toString).toArray(String[]::new)) - 1;
     }
 
     public double addStorageBinQuantity() {

@@ -82,4 +82,19 @@ public class Coffee {
 
         return Collections.unmodifiableMap(ingredients);
     }
+
+    /**
+     * Gets the total ingredients required to make the Coffee
+     * 
+     * @return Map of Ingredients and quantities
+     * @author Justin Ryan Uy
+     */
+    public Map<Ingredient, Double> getAllIngredients() {
+        Map<Ingredient, Double> ingredients = new HashMap<>(getIngredients());
+
+        for (Map.Entry<Ingredient, Double> espressoIngredient : getEspressoIngredients().entrySet())
+            ingredients.merge(espressoIngredient.getKey(), espressoIngredient.getValue(), Double::sum);
+
+        return Collections.unmodifiableMap(ingredients);
+    }
 }
