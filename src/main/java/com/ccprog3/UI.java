@@ -83,6 +83,7 @@ public interface UI {
      * 
      * @param special Special Storage Bin or regular
      * @return The new Storage Bin to be replace with
+     * @author Justin Ryan Uy
      */
     public StorageBin setStorageBin(boolean special);
 
@@ -90,6 +91,15 @@ public interface UI {
      * Display to ask the user for a new location
      * 
      * @return New location
+     * @author Justin Ryan Uy
      */
     public String setCoffeeTruckLocation();
+
+    /**
+     * Shows the dashboard summary of the Coffee Trucks
+     * 
+     * @param coffeeTrucks List of Coffee Trucks
+     * @author Justin Ryan Uy
+     */
+    public void dashboard(List<CoffeeTruck> coffeeTrucks);
 }

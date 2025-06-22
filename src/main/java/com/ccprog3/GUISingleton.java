@@ -84,4 +84,10 @@ public class GUISingleton implements UI {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setCoffeeTruckLocation'");
     }
+
+    @Override
+    public void dashboard(List<CoffeeTruck> coffeeTrucks) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+    }
 }

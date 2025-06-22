@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +157,6 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public void displayErr(Exception e) {
         System.err.println("\n\u001b[41m" + e.getLocalizedMessage() + "\u001b[0m\n");
-        e.printStackTrace();
     }
 
     public String login() {
@@ -185,7 +185,7 @@ public class CLISingleton implements UI, AutoCloseable {
     }
 
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
-        System.out.println("\n\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
+        System.out.println("\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
 
         for (StorageBin storageBin : coffeeTruck.getStorageBins())
             System.out.println(storageBin);
@@ -212,7 +212,8 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\n\u001b[1;34mCoffee Prices per " + Unit.FL_OZ + "\u001b[0;34m");
 
         for (Map.Entry<CoffeeType, Float> coffeePrice : user.getCoffeePrices().entrySet())
-            System.out.println("\t" + coffeePrice.getKey() + ": " + formatMoney(coffeePrice.getValue() + (special ? 0 : user.getEspressoPrices().get(Espresso.STANDARD))));
+            System.out.println("\t" + coffeePrice.getKey() + ": " + formatMoney(
+                    coffeePrice.getValue() + (special ? 0 : user.getEspressoPrices().get(Espresso.STANDARD))));
 
         if (special) {
             System.out.println("\n\u001b[1;34mEspresso Prices per " + Unit.FL_OZ + "\u001b[0;34m");
@@ -271,5 +272,54 @@ public class CLISingleton implements UI, AutoCloseable {
 
     public String setCoffeeTruckLocation() {
         return input("Set new location");
+    }
+
+    public void dashboard(List<CoffeeTruck> coffeeTrucks) {
+        Map<Ingredient, Double> ingredients = new HashMap<>();
+        Map<SyrupIngredient, Double> syrups = new HashMap<>();
+        Map<Coffee, Float> sales = new HashMap<>();
+
+        System.out.print("\u001b[1;34m");
+
+        for (CoffeeTruck coffeeTruck : coffeeTrucks.stream()
+                .filter((coffeeTruck) -> !(coffeeTruck instanceof SpecialCoffeeTruck)).toList()) {
+            System.out.println(coffeeTruck);
+
+            sales.putAll(coffeeTruck.getSales());
+
+            for (StorageBin storageBin : coffeeTruck.getStorageBins())
+                ingredients.merge(storageBin.getIngredient(), storageBin.getQuantity(), Double::sum);
+        }
+
+        for (CoffeeTruck specialCoffeeTruck : coffeeTrucks.stream()
+                .filter((coffeeTruck) -> coffeeTruck instanceof SpecialCoffeeTruck).toList()) {
+            System.out.println(specialCoffeeTruck);
+
+            sales.putAll(specialCoffeeTruck.getSales());
+
+            for (StorageBin storageBin : specialCoffeeTruck.getStorageBins())
+                if (storageBin instanceof SpecialStorageBin)
+                    syrups.merge(((SpecialStorageBin) storageBin).getSyrupIngredient(), storageBin.getQuantity(),
+                            Double::sum);
+                else
+                    ingredients.merge(storageBin.getIngredient(), storageBin.getQuantity(), Double::sum);
+        }
+
+        ingredients.remove(Ingredient.NONE);
+        syrups.remove(SyrupIngredient.NONE);
+
+        System.out.println("\u001b[0;32m");
+
+        for (Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet())
+            System.out.println(ingredient.getKey() + ": " + ingredient.getValue() + ingredient.getKey().getUnit());
+
+        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : syrups.entrySet())
+            System.out.println(
+                    syrupIngredient.getKey() + ": " + syrupIngredient.getValue() + syrupIngredient.getKey().getUnit());
+
+        System.out.println("\u001b[3;31m");
+
+        for (Map.Entry<Coffee, Float> sale : sales.entrySet())
+            System.out.println(sale.getKey() + ": " + formatMoney(sale.getValue()));
     }
 }

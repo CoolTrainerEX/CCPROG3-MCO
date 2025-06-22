@@ -126,6 +126,16 @@ public class ControllerSingleton implements AutoCloseable {
 
                                             return menu(Map.of(
                                                     "Replenish Storage Bin", () -> {
+                                                        if (!(chosenStorageBin instanceof SpecialStorageBin)
+                                                                && chosenStorageBin.getIngredient() == Ingredient.NONE
+                                                                || chosenStorageBin instanceof SpecialStorageBin
+                                                                        && ((SpecialStorageBin) chosenStorageBin)
+                                                                                .getSyrupIngredient() == SyrupIngredient.NONE) {
+                                                            ui.displayErr(new NullPointerException(
+                                                                    "Storage Bin contains no Ingredient"));
+                                                            return false;
+                                                        }
+
                                                         chosenStorageBin.addQuantity(ui.addStorageBinQuantity());
                                                         return false;
                                                     },
@@ -157,6 +167,9 @@ public class ControllerSingleton implements AutoCloseable {
                             }));
                 },
 
-                "Dashboard", () -> false));
+                "Dashboard", () -> {
+                    ui.dashboard(user.getCoffeeTrucks());
+                    return false;
+                }));
     }
 }
