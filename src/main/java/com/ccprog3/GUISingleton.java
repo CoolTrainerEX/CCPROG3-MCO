@@ -3,6 +3,10 @@ package com.ccprog3;
 import java.util.List;
 import java.util.Map;
 
+import com.ccprog3.coffee.Coffee;
+import com.ccprog3.coffeeTruck.CoffeeTruck;
+import com.ccprog3.coffeeTruck.StorageBin;
+
 /**
  * GUI user interface
  * 
@@ -48,6 +52,18 @@ public class GUISingleton implements UI {
     public CoffeeTruck addCoffeeTruck() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addCoffeeTruck'");
+    }
+
+    @Override
+    public Coffee buyCoffee(boolean special) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buyCoffee'");
+    }
+
+    @Override
+    public void makeCoffee(Coffee coffee) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'makeCoffee'");
     }
 
     @Override

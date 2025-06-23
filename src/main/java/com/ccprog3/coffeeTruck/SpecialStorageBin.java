@@ -1,4 +1,7 @@
-package com.ccprog3;
+package com.ccprog3.coffeeTruck;
+
+import com.ccprog3.ingredients.Ingredient;
+import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
  * Special Storage Bin class to contain Syrup Ingredients

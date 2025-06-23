@@ -1,9 +1,13 @@
-package com.ccprog3;
+package com.ccprog3.coffeeTruck;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ccprog3.Money;
+import com.ccprog3.coffee.Coffee;
+import com.ccprog3.ingredients.Ingredient;
 
 /**
  * Coffee Truck class
@@ -115,5 +119,9 @@ public class CoffeeTruck {
      */
     public void emptyStorageBin(int index) throws ArrayIndexOutOfBoundsException {
         storageBins[index] = new StorageBin(Ingredient.NONE, 0);
+    }
+
+    public Coffee buyCoffee(Coffee coffee) {
+        return new Coffee(null, null);
     }
 }

@@ -1,8 +1,10 @@
-package com.ccprog3;
+package com.ccprog3.coffeeTruck;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+
+import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
  * Special Coffee Truck with special features

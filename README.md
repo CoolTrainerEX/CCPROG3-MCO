@@ -9,7 +9,7 @@ mvn compile
 ## Execute
 ```
 mvn package
-java -cp .\target\mco-1.0-SNAPSHOT.jar com.ccprog3.App
+java -jar .\target\mco-1.0-SNAPSHOT.jar
 ```
 
 ## Javadoc

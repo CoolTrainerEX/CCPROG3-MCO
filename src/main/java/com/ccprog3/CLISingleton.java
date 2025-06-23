@@ -1,5 +1,6 @@
 package com.ccprog3;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +8,19 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import com.ccprog3.coffee.Coffee;
+import com.ccprog3.coffee.CoffeeType;
+import com.ccprog3.coffee.CustomSpecialCoffee;
+import com.ccprog3.coffee.Espresso;
+import com.ccprog3.coffee.SpecialCoffee;
+import com.ccprog3.coffeeTruck.CoffeeTruck;
+import com.ccprog3.coffeeTruck.SpecialCoffeeTruck;
+import com.ccprog3.coffeeTruck.SpecialStorageBin;
+import com.ccprog3.coffeeTruck.StorageBin;
+import com.ccprog3.ingredients.Ingredient;
+import com.ccprog3.ingredients.SyrupIngredient;
+import com.ccprog3.ingredients.Unit;
 
 /**
  * CLI user interface
@@ -175,6 +189,71 @@ public class CLISingleton implements UI, AutoCloseable {
         return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
     }
 
+    public Coffee buyCoffee(boolean special) {
+        CoffeeType type = CoffeeType
+                .values()[dropdown(Arrays.stream(CoffeeType.values()).map(Enum::toString).toArray(String[]::new)) - 1];
+        Ingredient[] cups = Arrays.stream(Ingredient.values()).filter((ingredient) -> {
+            try {
+                ingredient.getCupVolume(); // Check if ingredient is a cup
+                return true;
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+        }).toArray(Ingredient[]::new);
+        Ingredient cup = cups[dropdown(Arrays.stream(cups).map(Enum::toString).toArray(String[]::new)) - 1];
+
+        if (!special)
+            return new Coffee(type, cup);
+
+        // Special
+
+        System.out.println("\u001b[1;31mEspresso\u001b[0m\n");
+
+        Espresso espresso = Espresso
+                .values()[dropdown(Arrays.stream(Espresso.values()).map(Enum::toString).toArray(String[]::new)) - 1];
+        int ratio = 0;
+
+        if (espresso == Espresso.CUSTOM) {
+            double ratioDouble;
+
+            while ((ratioDouble = inputNumber("Custom espresso water ratio")) != (int) ratioDouble)
+                displayErr(new InputMismatchException("Input is not an integer. Try again."));
+
+            ratio = (int) ratioDouble;
+        }
+
+        List<SyrupIngredient> syrups = new ArrayList<>();
+        SyrupIngredient syrupIngredient;
+
+        System.out.println("\u001b[1;31mAdd Syrups\u001b[0m\n");
+
+        while ((syrupIngredient = SyrupIngredient
+                .values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new))
+                        - 1]) != SyrupIngredient.NONE)
+            syrups.add(syrupIngredient);
+
+        List<Espresso> shots = new ArrayList<>();
+        Espresso shot;
+
+        System.out.println("\u001b[1;31mAdd extra shots\u001b[0m\n");
+
+        while ((shot = Espresso.values()[dropdown(Arrays.stream(Espresso.values()).map(Enum::toString)
+                .map((string) -> string.equals("CUSTOM") ? "NONE" : string).toArray(String[]::new))
+                - 1]) != Espresso.CUSTOM)
+            shots.add(shot);
+
+        if (espresso == Espresso.CUSTOM)
+            return new CustomSpecialCoffee(type, cup, ratio, syrups.toArray(SyrupIngredient[]::new),
+                    shots.toArray(Espresso[]::new));
+
+        return new SpecialCoffee(type, cup, espresso, syrups.toArray(SyrupIngredient[]::new),
+                shots.toArray(Espresso[]::new));
+    }
+
+    public void makeCoffee(Coffee coffee) {
+
+    }
+
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
         System.out.println("\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
 
@@ -223,11 +302,11 @@ public class CLISingleton implements UI, AutoCloseable {
     }
 
     public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks) {
-        return dropdown(coffeeTrucks.stream().map(CoffeeTruck::toString).toArray(String[]::new)) - 1;
+        return dropdown(coffeeTrucks.stream().map(Object::toString).toArray(String[]::new)) - 1;
     }
 
     public int chooseStorageBin(List<StorageBin> storageBins) {
-        return dropdown(storageBins.stream().map(StorageBin::toString).toArray(String[]::new)) - 1;
+        return dropdown(storageBins.stream().map(Object::toString).toArray(String[]::new)) - 1;
     }
 
     public double addStorageBinQuantity() {
@@ -321,9 +400,9 @@ public class CLISingleton implements UI, AutoCloseable {
     public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass) {
         Map<E, Money> prices = new HashMap<>();
 
-        for (E entry : priceClass.getEnumConstants())
-            if (!entry.name().equals("NONE"))
-                prices.put(entry, new Money((float) inputNumber("Price for " + entry + " per " + Unit.FL_OZ)));
+        for (E entry : Arrays.stream(priceClass.getEnumConstants()).filter((entry) -> !entry.toString().equals("NONE"))
+                .toList())
+            prices.put(entry, new Money((float) inputNumber("Price for " + entry + " per " + Unit.FL_OZ)));
 
         return Collections.unmodifiableMap(prices);
     }

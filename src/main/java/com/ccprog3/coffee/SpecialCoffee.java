@@ -1,9 +1,12 @@
-package com.ccprog3;
+package com.ccprog3.coffee;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ccprog3.ingredients.Ingredient;
+import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
  * Special Coffee from Special Coffee Truck
@@ -40,20 +43,20 @@ public class SpecialCoffee extends Coffee {
      * @param espresso Espresso brew
      * @param syrups   Syrup addons
      * @param shots    Extra shots
-     * @throws IllegalArgumentException Ingredient is not a cup, or Espresso is
-     *                                  Custom brew
+     * @throws IllegalArgumentException Ingredient is not a cup; Syrup cannot be NONE; Shot cannot be CUSTOM
      * @author Justin Ryan Uy
      */
     public SpecialCoffee(CoffeeType type, Ingredient cup, Espresso espresso, SyrupIngredient[] syrups, Espresso[] shots)
             throws IllegalArgumentException {
         super(type, cup);
 
-        if (espresso == Espresso.CUSTOM)
-            throw new IllegalArgumentException("Espresso is Custom brew. Use Custom Special Coffee for custom brew");
+        if ((this.syrups = List.of(syrups)).contains(SyrupIngredient.NONE))
+            throw new IllegalArgumentException("Syrup cannot be NONE");
+
+        if ((this.shots = List.of(shots)).contains(Espresso.CUSTOM))
+            throw new IllegalArgumentException("Shot cannot be CUSTOM");
 
         this.espresso = espresso;
-        this.syrups = List.of(syrups);
-        this.shots = List.of(shots);
     }
 
     public String toString() {

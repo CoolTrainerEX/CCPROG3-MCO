@@ -1,8 +1,10 @@
-package com.ccprog3;
+package com.ccprog3.coffee;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.ccprog3.ingredients.Ingredient;
 
 /**
  * Class to store Coffee details

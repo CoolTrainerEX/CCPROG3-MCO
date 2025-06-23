@@ -3,6 +3,10 @@ package com.ccprog3;
 import java.util.List;
 import java.util.Map;
 
+import com.ccprog3.coffee.Coffee;
+import com.ccprog3.coffeeTruck.CoffeeTruck;
+import com.ccprog3.coffeeTruck.StorageBin;
+
 /**
  * UI for user display and input
  * 
@@ -43,6 +47,23 @@ public interface UI {
      * @author Justin Ryan Uy
      */
     public CoffeeTruck addCoffeeTruck();
+
+    /**
+     * Asks the user for Coffee to buy
+     * 
+     * @param special Coffee Truck is special
+     * @return Coffee to buy
+     * @author Justin Ryan Uy
+     */
+    public Coffee buyCoffee(boolean special);
+
+    /**
+     * Shows the process of makeing a Coffee
+     * 
+     * @param coffee The Coffee to make
+     * @author Justin Ryan Uy
+     */
+    public void makeCoffee(Coffee coffee);
 
     /**
      * Displays info of a Coffee Truck
@@ -106,7 +127,8 @@ public interface UI {
 
     /**
      * Asks the user for new prices to set
-     * @param <E> Enum type
+     * 
+     * @param <E>        Enum type
      * @param priceClass Type to set price to
      * @return Map of new prices
      * @author Justin Ryan Uy

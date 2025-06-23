@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.ccprog3.coffee.CoffeeType;
+import com.ccprog3.coffee.Espresso;
+import com.ccprog3.coffeeTruck.CoffeeTruck;
+import com.ccprog3.ingredients.SyrupIngredient;
+
 /**
  * User class for the runtime instance
  * 

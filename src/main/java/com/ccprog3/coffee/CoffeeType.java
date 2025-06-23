@@ -1,6 +1,8 @@
-package com.ccprog3;
+package com.ccprog3.coffee;
 
 import java.util.Map;
+
+import com.ccprog3.ingredients.Ingredient;
 
 /**
  * Types of Coffee products

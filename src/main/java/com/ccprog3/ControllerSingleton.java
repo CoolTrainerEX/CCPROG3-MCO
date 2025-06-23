@@ -4,6 +4,15 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.ccprog3.coffee.CoffeeType;
+import com.ccprog3.coffee.Espresso;
+import com.ccprog3.coffeeTruck.CoffeeTruck;
+import com.ccprog3.coffeeTruck.SpecialCoffeeTruck;
+import com.ccprog3.coffeeTruck.SpecialStorageBin;
+import com.ccprog3.coffeeTruck.StorageBin;
+import com.ccprog3.ingredients.Ingredient;
+import com.ccprog3.ingredients.SyrupIngredient;
+
 /**
  * App controller
  * 
@@ -54,7 +63,7 @@ public class ControllerSingleton implements AutoCloseable {
      * @author Justin Ryan Uy
      */
     private boolean menu(Map<String, Supplier<Boolean>> menu) {
-        String[] optionTexts = menu.keySet().toArray(new String[0]);
+        String[] optionTexts = menu.keySet().toArray(String[]::new);
         int choice;
 
         while ((choice = ui.menu(optionTexts)) != 0)
@@ -109,7 +118,10 @@ public class ControllerSingleton implements AutoCloseable {
                     CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks().get(chosenCoffeeTruckIndex);
 
                     return menu(Map.of(
-                            "Buy a Coffee", () -> false,
+                            "Buy a Coffee", () -> {
+                                ui.makeCoffee(chosenCoffeeTruck.buyCoffee(ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck)));
+                                return false;
+                            },
 
                             "View truck information", () -> {
                                 ui.coffeeTruckInfo(chosenCoffeeTruck, user);
@@ -164,21 +176,23 @@ public class ControllerSingleton implements AutoCloseable {
 
                                                     "Change product prices", () -> {
                                                         return menu(Map.of(
-                                                            "Change Coffee prices", () -> {
-                                                                user.setCoffeePrices(ui.setPrices(CoffeeType.class));
-                                                                return false;
-                                                            },
+                                                                "Change Coffee prices", () -> {
+                                                                    user.setCoffeePrices(
+                                                                            ui.setPrices(CoffeeType.class));
+                                                                    return false;
+                                                                },
 
-                                                            "Change Espresso prices", () -> {
-                                                                user.setEspressoPrices(ui.setPrices(Espresso.class));
-                                                                return false;
-                                                            },
+                                                                "Change Espresso prices", () -> {
+                                                                    user.setEspressoPrices(
+                                                                            ui.setPrices(Espresso.class));
+                                                                    return false;
+                                                                },
 
-                                                            "Change Syrup prices", () -> {
-                                                                user.setSyrupPrices(ui.setPrices(SyrupIngredient.class));
-                                                                return false;
-                                                            }
-                                                        ));
+                                                                "Change Syrup prices", () -> {
+                                                                    user.setSyrupPrices(
+                                                                            ui.setPrices(SyrupIngredient.class));
+                                                                    return false;
+                                                                }));
                                                     }));
                                         }));
                             }));

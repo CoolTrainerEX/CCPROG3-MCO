@@ -1,4 +1,4 @@
-package com.ccprog3;
+package com.ccprog3.ingredients;
 
 /**
  * Ingredient types
