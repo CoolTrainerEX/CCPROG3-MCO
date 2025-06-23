@@ -60,10 +60,10 @@ public interface UI {
     /**
      * Shows the process of makeing a Coffee
      * 
-     * @param coffee The Coffee to make
+     * @param sale The Coffee to make and sell
      * @author Justin Ryan Uy
      */
-    public void makeCoffee(Coffee coffee);
+    public void makeCoffee(Map.Entry<Coffee, Money> sale);
 
     /**
      * Displays info of a Coffee Truck

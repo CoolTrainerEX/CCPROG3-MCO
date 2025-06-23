@@ -59,6 +59,18 @@ public class SpecialCoffee extends Coffee {
         this.espresso = espresso;
     }
 
+    public Espresso getEspresso() {
+        return espresso;
+    }
+
+    public List<SyrupIngredient> getSyrups() {
+        return syrups;
+    }
+
+    public List<Espresso> getShots() {
+        return shots;
+    }
+
     public String toString() {
         return cup + " " + espresso + " " + type;
     }

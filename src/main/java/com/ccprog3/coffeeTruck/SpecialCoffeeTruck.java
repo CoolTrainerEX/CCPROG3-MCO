@@ -1,9 +1,15 @@
 package com.ccprog3.coffeeTruck;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
+import com.ccprog3.Money;
+import com.ccprog3.UserSingleton;
+import com.ccprog3.coffee.Coffee;
+import com.ccprog3.coffee.SpecialCoffee;
 import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
@@ -63,5 +69,46 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         else
             specialStorageBins[index - storageBins.length] = new SpecialStorageBin(SyrupIngredient.NONE, 0);
 
+    }
+
+    public Map.Entry<Coffee, Money> makeCoffee(Coffee coffee, UserSingleton user) throws ArithmeticException {
+        Map<SyrupIngredient, Double> stock = new HashMap<>();
+
+        for (SpecialStorageBin specialStorageBin : specialStorageBins)
+            stock.merge(specialStorageBin.getSyrupIngredient(), specialStorageBin.getQuantity(), Double::sum);
+
+        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : ((SpecialCoffee) coffee).getSyrupIngredients()
+                .entrySet())
+            if (!stock.containsKey(syrupIngredient.getKey())
+                    || stock.get(syrupIngredient.getKey()) < syrupIngredient.getValue())
+                throw new ArithmeticException("Not enough stock");
+
+        double remaining;
+
+        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : ((SpecialCoffee) coffee).getSyrupIngredients()
+                .entrySet()) {
+            remaining = syrupIngredient.getValue();
+
+            for (SpecialStorageBin specialStorageBin : specialStorageBins)
+                if (specialStorageBin.getSyrupIngredient() == syrupIngredient.getKey())
+                    try {
+                        specialStorageBin.addQuantity(-remaining);
+                    } catch (ArithmeticException e) {
+                        remaining -= specialStorageBin.getQuantity();
+                        specialStorageBin.addQuantity(-specialStorageBin.getQuantity());
+                    }
+        }
+
+        return super.makeCoffee(coffee, user);
+    }
+
+    protected Money calculatePrice(Coffee coffee, UserSingleton user) {
+        return new Money((float) (coffee.getCup().getCupVolume()
+                * (user.getCoffeePrices().get(coffee.getType()).getAmount()
+                        + user.getEspressoPrices().get(((SpecialCoffee) coffee).getEspresso()).getAmount())
+                + ((SpecialCoffee) coffee).getSyrups().stream()
+                        .mapToDouble((syrupIngredient) -> user.getSyrupPrices().get(syrupIngredient).getAmount()).sum()
+                + ((SpecialCoffee) coffee).getShots().stream()
+                        .mapToDouble((shot) -> user.getEspressoPrices().get(shot).getAmount()).sum()));
     }
 }

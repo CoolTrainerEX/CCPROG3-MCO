@@ -200,6 +200,7 @@ public class CLISingleton implements UI, AutoCloseable {
                 return false;
             }
         }).toArray(Ingredient[]::new);
+
         Ingredient cup = cups[dropdown(Arrays.stream(cups).map(Enum::toString).toArray(String[]::new)) - 1];
 
         if (!special)
@@ -207,7 +208,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
         // Special
 
-        System.out.println("\u001b[1;31mEspresso\u001b[0m\n");
+        System.out.println("\u001b[1;34mEspresso\u001b[0m\n");
 
         Espresso espresso = Espresso
                 .values()[dropdown(Arrays.stream(Espresso.values()).map(Enum::toString).toArray(String[]::new)) - 1];
@@ -225,7 +226,7 @@ public class CLISingleton implements UI, AutoCloseable {
         List<SyrupIngredient> syrups = new ArrayList<>();
         SyrupIngredient syrupIngredient;
 
-        System.out.println("\u001b[1;31mAdd Syrups\u001b[0m\n");
+        System.out.println("\u001b[1;34mAdd Syrups\u001b[0m\n");
 
         while ((syrupIngredient = SyrupIngredient
                 .values()[dropdown(Arrays.stream(SyrupIngredient.values()).map(Enum::toString).toArray(String[]::new))
@@ -235,7 +236,7 @@ public class CLISingleton implements UI, AutoCloseable {
         List<Espresso> shots = new ArrayList<>();
         Espresso shot;
 
-        System.out.println("\u001b[1;31mAdd extra shots\u001b[0m\n");
+        System.out.println("\u001b[1;34mAdd extra shots\u001b[0m\n");
 
         while ((shot = Espresso.values()[dropdown(Arrays.stream(Espresso.values()).map(Enum::toString)
                 .map((string) -> string.equals("CUSTOM") ? "NONE" : string).toArray(String[]::new))
@@ -250,7 +251,47 @@ public class CLISingleton implements UI, AutoCloseable {
                 shots.toArray(Espresso[]::new));
     }
 
-    public void makeCoffee(Coffee coffee) {
+    public void makeCoffee(Map.Entry<Coffee, Money> sale) {
+        System.out.println("\u001b[1;34mMaking Espresso\u001b[0;3;34m");
+
+        for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getEspressoIngredients().entrySet())
+            System.out.println("\t" + ingredient.getKey() + " - "
+                    + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
+                            : ingredient.getValue())
+                    + ingredient.getKey().getUnit());
+
+        System.out.println("\u001b[1;34mMaking Coffee\u001b[0;3;34m");
+
+        for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getIngredients().entrySet())
+            System.out.println("\t" + ingredient.getKey() + " - "
+                    + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
+                            : ingredient.getValue())
+                    + ingredient.getKey().getUnit());
+
+        if (!(sale.getKey() instanceof SpecialCoffee))
+            return;
+
+        // Special
+        
+        if (!((SpecialCoffee) sale.getKey()).getSyrupIngredients().isEmpty())
+            System.out.println("\u001b[1;34mAdding Syrups\u001b[0;3;34m");
+
+        for (Map.Entry<SyrupIngredient, Double> ingredient : ((SpecialCoffee) sale.getKey()).getSyrupIngredients().entrySet())
+            System.out.println("\t" + ingredient.getKey() + " - "
+                    + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
+                            : ingredient.getValue())
+                    + ingredient.getKey().getUnit());
+
+        if (!((SpecialCoffee) sale.getKey()).getShotIngredients().isEmpty())
+            System.out.println("\u001b[1;34mAdding extra shots\u001b[0;3;34m");
+
+        for (Map.Entry<Ingredient, Double> ingredient : ((SpecialCoffee) sale.getKey()).getShotIngredients().entrySet())
+            System.out.println("\t" + ingredient.getKey() + " - "
+                    + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
+                            : ingredient.getValue())
+                    + ingredient.getKey().getUnit());
+
+        System.out.println("\n\u001b[1;31mPrice is " + sale.getValue() + "\u001b[0m");
 
     }
 
@@ -396,7 +437,6 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\u001b[0m");
     }
 
-    @Override
     public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass) {
         Map<E, Money> prices = new HashMap<>();
 

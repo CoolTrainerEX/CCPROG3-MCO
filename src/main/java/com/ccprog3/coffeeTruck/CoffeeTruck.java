@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.ccprog3.Money;
+import com.ccprog3.UserSingleton;
 import com.ccprog3.coffee.Coffee;
+import com.ccprog3.coffee.Espresso;
 import com.ccprog3.ingredients.Ingredient;
 
 /**
@@ -121,7 +123,56 @@ public class CoffeeTruck {
         storageBins[index] = new StorageBin(Ingredient.NONE, 0);
     }
 
-    public Coffee buyCoffee(Coffee coffee) {
-        return new Coffee(null, null);
+    /**
+     * Checks and subtracts the required stocks to make the Coffee
+     * 
+     * @param coffee The Coffee to make
+     * @param user   User to get prices
+     * @return The generated Coffee sale
+     * @throws ArithmeticException Not enough stock
+     * @author Justin Ryan Uy
+     */
+    public Map.Entry<Coffee, Money> makeCoffee(Coffee coffee, UserSingleton user) throws ArithmeticException {
+        Map<Ingredient, Double> stock = new HashMap<>();
+
+        for (StorageBin storageBin : storageBins)
+            stock.merge(storageBin.getIngredient(), storageBin.getQuantity(), Double::sum);
+
+        for (Map.Entry<Ingredient, Double> ingredient : coffee.getAllIngredients().entrySet())
+            if (!stock.containsKey(ingredient.getKey()) || stock.get(ingredient.getKey()) < ingredient.getValue())
+                throw new ArithmeticException("Not enough stock");
+
+        double remaining;
+
+        for (Map.Entry<Ingredient, Double> ingredient : coffee.getAllIngredients().entrySet()) {
+            remaining = ingredient.getValue();
+
+            for (StorageBin storageBin : storageBins)
+                if (storageBin.getIngredient() == ingredient.getKey())
+                    try {
+                        storageBin.addQuantity(-remaining);
+                    } catch (ArithmeticException e) {
+                        remaining -= storageBin.getQuantity();
+                        storageBin.addQuantity(-storageBin.getQuantity());
+                    }
+        }
+
+        sales.put(coffee, calculatePrice(coffee, user));
+
+        return Map.entry(coffee, sales.get(coffee));
+    }
+
+    /**
+     * Calculates the price of the Coffee
+     * 
+     * @param coffee The Coffee to price
+     * @param user   User to get prices
+     * @return Price of the Coffee
+     * @author Justin Ryan Uy
+     */
+    protected Money calculatePrice(Coffee coffee, UserSingleton user) {
+        return new Money(
+                (float) coffee.getCup().getCupVolume() * (user.getCoffeePrices().get(coffee.getType()).getAmount()
+                        + user.getEspressoPrices().get(Espresso.STANDARD).getAmount()));
     }
 }

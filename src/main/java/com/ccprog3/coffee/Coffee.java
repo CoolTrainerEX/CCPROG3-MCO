@@ -46,6 +46,16 @@ public class Coffee {
     }
 
     /**
+     * Gets the Coffee type
+     * 
+     * @return The Coffee type
+     * @author Justin Ryan Uy
+     */
+    public CoffeeType getType() {
+        return type;
+    }
+
+    /**
      * Gets the Cup size
      * 
      * @return Cup size of the Coffee

@@ -119,7 +119,7 @@ public class ControllerSingleton implements AutoCloseable {
 
                     return menu(Map.of(
                             "Buy a Coffee", () -> {
-                                ui.makeCoffee(chosenCoffeeTruck.buyCoffee(ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck)));
+                                ui.makeCoffee(chosenCoffeeTruck.makeCoffee(ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck), user));
                                 return false;
                             },
 

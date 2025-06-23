@@ -2,6 +2,7 @@ package com.ccprog3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.ccprog3.coffee.Coffee;
 import com.ccprog3.coffeeTruck.CoffeeTruck;
@@ -61,7 +62,7 @@ public class GUISingleton implements UI {
     }
 
     @Override
-    public void makeCoffee(Coffee coffee) {
+    public void makeCoffee(Entry<Coffee, Money> sale) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'makeCoffee'");
     }
