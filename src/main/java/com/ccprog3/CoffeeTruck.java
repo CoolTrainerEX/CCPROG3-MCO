@@ -30,7 +30,7 @@ public class CoffeeTruck {
      * 
      * @author Justin Ryan Uy
      */
-    private final Map<Coffee, Float> sales = new HashMap<>();
+    private final Map<Coffee, Money> sales = new HashMap<>();
 
     /**
      * Coffee Truck constructor
@@ -80,7 +80,7 @@ public class CoffeeTruck {
      * @return Coffee Truck Sales
      * @author Justin Ryan Uy
      */
-    public Map<Coffee, Float> getSales() {
+    public Map<Coffee, Money> getSales() {
         return Collections.unmodifiableMap(sales);
     }
 

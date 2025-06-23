@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * GUI user interface
@@ -89,5 +90,11 @@ public class GUISingleton implements UI {
     public void dashboard(List<CoffeeTruck> coffeeTrucks) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+    }
+
+    @Override
+    public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPrices'");
     }
 }

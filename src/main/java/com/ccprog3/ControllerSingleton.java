@@ -162,7 +162,24 @@ public class ControllerSingleton implements AutoCloseable {
                                                         return false;
                                                     },
 
-                                                    "Change product prices", () -> false));
+                                                    "Change product prices", () -> {
+                                                        return menu(Map.of(
+                                                            "Change Coffee prices", () -> {
+                                                                user.setCoffeePrices(ui.setPrices(CoffeeType.class));
+                                                                return false;
+                                                            },
+
+                                                            "Change Espresso prices", () -> {
+                                                                user.setEspressoPrices(ui.setPrices(Espresso.class));
+                                                                return false;
+                                                            },
+
+                                                            "Change Syrup prices", () -> {
+                                                                user.setSyrupPrices(ui.setPrices(SyrupIngredient.class));
+                                                                return false;
+                                                            }
+                                                        ));
+                                                    }));
                                         }));
                             }));
                 },

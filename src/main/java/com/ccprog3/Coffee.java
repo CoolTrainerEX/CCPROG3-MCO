@@ -76,7 +76,7 @@ public class Coffee {
     public Map<Ingredient, Double> getEspressoIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(Espresso.STANDARD.getIngredients());
         double espressoQuantity = cup.getCupVolume()
-                * (1 - type.getIngredients().values().stream().reduce(Double::sum).get());
+                * (1 - type.getIngredients().values().stream().mapToDouble(Double::doubleValue).sum());
 
         ingredients.replaceAll((ingredient, quantity) -> quantity * espressoQuantity);
 

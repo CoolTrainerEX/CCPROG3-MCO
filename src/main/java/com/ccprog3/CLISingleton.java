@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -111,16 +112,6 @@ public class CLISingleton implements UI, AutoCloseable {
         }
     }
 
-    /**
-     * Formats money float values into proper Strings
-     * 
-     * @param money The value
-     * @return Formatted string
-     */
-    private String formatMoney(float money) {
-        return String.format("$%.2f", money);
-    }
-
     public int menu(String... options) {
         while (true) {
             System.out.print("\u001b[34m");
@@ -190,9 +181,8 @@ public class CLISingleton implements UI, AutoCloseable {
         for (StorageBin storageBin : coffeeTruck.getStorageBins())
             System.out.println(storageBin);
 
-        for (Map.Entry<Coffee, Float> sale : coffeeTruck.getSales().entrySet()) {
-            System.out.println(
-                    "\n\u001b[1;3;31m" + sale.getKey() + ": " + formatMoney(sale.getValue()) + "\u001b[0;3;31m");
+        for (Map.Entry<Coffee, Money> sale : coffeeTruck.getSales().entrySet()) {
+            System.out.println("\n\u001b[1;3;31m" + sale.getKey() + ": " + sale.getValue() + "\u001b[0;3;31m");
 
             for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getAllIngredients().entrySet())
                 System.out.println("\t" + ingredient.getKey() + ": "
@@ -211,20 +201,22 @@ public class CLISingleton implements UI, AutoCloseable {
 
         System.out.println("\n\u001b[1;34mCoffee Prices per " + Unit.FL_OZ + "\u001b[0;34m");
 
-        for (Map.Entry<CoffeeType, Float> coffeePrice : user.getCoffeePrices().entrySet())
-            System.out.println("\t" + coffeePrice.getKey() + ": " + formatMoney(
-                    coffeePrice.getValue() + (special ? 0 : user.getEspressoPrices().get(Espresso.STANDARD))));
+        for (Map.Entry<CoffeeType, Money> coffeePrice : user.getCoffeePrices().entrySet())
+            System.out.println("\t" + coffeePrice.getKey() + ": "
+                    + (special ? coffeePrice.getValue()
+                            : new Money(coffeePrice.getValue().getAmount()
+                                    + user.getEspressoPrices().get(Espresso.STANDARD).getAmount())));
 
         if (special) {
             System.out.println("\n\u001b[1;34mEspresso Prices per " + Unit.FL_OZ + "\u001b[0;34m");
 
-            for (Map.Entry<Espresso, Float> espressoPrice : user.getEspressoPrices().entrySet())
-                System.out.println("\t" + espressoPrice.getKey() + ": " + formatMoney(espressoPrice.getValue()));
+            for (Map.Entry<Espresso, Money> espressoPrice : user.getEspressoPrices().entrySet())
+                System.out.println("\t" + espressoPrice.getKey() + ": " + espressoPrice.getValue());
 
             System.out.println("\n\u001b[1;34mSyrup Prices\u001b[0;34m");
 
-            for (Map.Entry<SyrupIngredient, Float> syrupPrice : user.getSyrupPrices().entrySet())
-                System.out.println("\t" + syrupPrice.getKey() + ": " + formatMoney(syrupPrice.getValue()));
+            for (Map.Entry<SyrupIngredient, Money> syrupPrice : user.getSyrupPrices().entrySet())
+                System.out.println("\t" + syrupPrice.getKey() + ": " + syrupPrice.getValue());
         }
 
         System.out.println("\u001b[0m");
@@ -277,7 +269,7 @@ public class CLISingleton implements UI, AutoCloseable {
     public void dashboard(List<CoffeeTruck> coffeeTrucks) {
         Map<Ingredient, Double> ingredients = new HashMap<>();
         Map<SyrupIngredient, Double> syrups = new HashMap<>();
-        Map<Coffee, Float> sales = new HashMap<>();
+        Map<Coffee, Money> sales = new HashMap<>();
 
         System.out.print("\u001b[1;34m");
 
@@ -319,7 +311,20 @@ public class CLISingleton implements UI, AutoCloseable {
 
         System.out.println("\u001b[3;31m");
 
-        for (Map.Entry<Coffee, Float> sale : sales.entrySet())
-            System.out.println(sale.getKey() + ": " + formatMoney(sale.getValue()));
+        for (Map.Entry<Coffee, Money> sale : sales.entrySet())
+            System.out.println(sale.getKey() + ": " + sale.getValue());
+
+        System.out.println("\u001b[0m");
+    }
+
+    @Override
+    public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass) {
+        Map<E, Money> prices = new HashMap<>();
+
+        for (E entry : priceClass.getEnumConstants())
+            if (!entry.name().equals("NONE"))
+                prices.put(entry, new Money((float) inputNumber("Price for " + entry + " per " + Unit.FL_OZ)));
+
+        return Collections.unmodifiableMap(prices);
     }
 }

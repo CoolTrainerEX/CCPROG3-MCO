@@ -41,20 +41,38 @@ public class UserSingleton implements AutoCloseable {
      * 
      * @author Justin Ryan Uy
      */
-    private final Map<CoffeeType, Float> coffeePrices = new HashMap<>();
+    private final Map<CoffeeType, Money> coffeePrices = new HashMap<>();
 
     /**
      * Prices of Espresso shots per fluid ounce
      * 
      * @author Justin Ryan Uy
      */
-    private final Map<Espresso, Float> espressoPrices = new HashMap<>();
+    private final Map<Espresso, Money> espressoPrices = new HashMap<>();
     /**
      * Prices of Syrup Ingredients per fluid ounce
      * 
      * @author Justin Ryan Uy
      */
-    private final Map<SyrupIngredient, Float> syrupPrices = new HashMap<>();
+    private final Map<SyrupIngredient, Money> syrupPrices = new HashMap<>();
+
+    /**
+     * Initializes the default prices
+     * 
+     * @author Justin Ryan Uy
+     */
+    private UserSingleton() {
+        for (CoffeeType coffeeType : CoffeeType.values())
+            coffeePrices.put(coffeeType, new Money(1));
+
+        for (Espresso espresso : Espresso.values())
+            espressoPrices.put(espresso, new Money(1));
+
+        for (SyrupIngredient syrupIngredient : SyrupIngredient.values())
+            syrupPrices.put(syrupIngredient, new Money(10));
+
+        syrupPrices.remove(SyrupIngredient.NONE);
+    }
 
     /**
      * Gets the User singleton instance
@@ -92,32 +110,79 @@ public class UserSingleton implements AutoCloseable {
      * @return Map of Coffee Types and their prices
      * @author Justin Ryan Uy
      */
-    public Map<CoffeeType, Float> getCoffeePrices() {
+    public Map<CoffeeType, Money> getCoffeePrices() {
         return Collections.unmodifiableMap(coffeePrices);
     }
 
     /**
      * Gets the prices of Espresso shots per fluid ounce
      * 
-     * @return Map of Coffee Types and their prices
+     * @return Map of Espressos and their prices
      * @author Justin Ryan Uy
      */
-    public Map<Espresso, Float> getEspressoPrices() {
+    public Map<Espresso, Money> getEspressoPrices() {
         return Collections.unmodifiableMap(espressoPrices);
     }
 
     /**
      * Gets the prices of Syrup Ingredients per fluid ounce
      * 
-     * @return Map of Coffee Types and their prices
+     * @return Map of Syrup Ingredients and their prices
      * @author Justin Ryan Uy
      */
-    public Map<SyrupIngredient, Float> getSyrupPrices() {
+    public Map<SyrupIngredient, Money> getSyrupPrices() {
         return Collections.unmodifiableMap(syrupPrices);
+    }
+
+    /**
+     * Sets the prices of the given Coffee Types per fluid ounce
+     * 
+     * @param coffeePrices Map of Coffee Types and their prices
+     * @author Justin Ryan Uy
+     */
+    public void setCoffeePrices(Map<CoffeeType, Money> coffeePrices) {
+        this.coffeePrices.putAll(coffeePrices);
+    }
+
+    /**
+     * Sets the prices of the given Espresso shots per fluid ounce
+     * 
+     * @param espressoPrices Map of Espressos and their prices
+     * @author Justin Ryan Uy
+     */
+    public void setEspressoPrices(Map<Espresso, Money> espressoPrices) {
+        this.espressoPrices.putAll(espressoPrices);
+    }
+
+    /**
+     * Sets the prices of the given Syrup Ingredients per fluid ounce
+     * 
+     * @param syrupPrices Map of Syrup Ingredients and their prices
+     * @throws IllegalArgumentException Cannot set a price for None
+     * @author Justin Ryan Uy
+     */
+    public void setSyrupPrices(Map<SyrupIngredient, Money> syrupPrices) throws IllegalArgumentException {
+        if (syrupPrices.containsKey(SyrupIngredient.NONE))
+            throw new IllegalArgumentException("Cannot set a price for None");
+
+        this.syrupPrices.putAll(syrupPrices);
     }
 
     public void close() {
         // TODO Write file
+    }
+
+    /**
+     * Trows an Exception if the location is already occupied
+     * 
+     * @param location The location to check
+     * @throws IllegalArgumentException Location is already occupied
+     * @author Justin Ryan Uy
+     */
+    private void checkAvailableLocation(String location) throws IllegalArgumentException {
+        for (CoffeeTruck coffeeTruck : coffeeTrucks)
+            if (location.equals(coffeeTruck.getLocation()))
+                throw new IllegalArgumentException("Location is already occupied");
     }
 
     /**
@@ -138,19 +203,6 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Trows an Exception if the location is already occupied
-     * 
-     * @param location The location to check
-     * @throws IllegalArgumentException Location is already occupied
-     * @author Justin Ryan Uy
-     */
-    private void checkAvailableLocation(String location) throws IllegalArgumentException {
-        for (CoffeeTruck coffeeTruck : coffeeTrucks)
-            if (location.equals(coffeeTruck.getLocation()))
-                throw new IllegalArgumentException("Location is already occupied");
-    }
-
-    /**
      * Adds a Coffee Truck
      * 
      * @param coffeeTruck The Coffee Truck to add
@@ -159,7 +211,6 @@ public class UserSingleton implements AutoCloseable {
      */
     public void addCoffeeTruck(CoffeeTruck coffeeTruck) throws IllegalArgumentException {
         checkAvailableLocation(coffeeTruck.getLocation());
-
         coffeeTrucks.add(coffeeTruck);
     }
 
@@ -175,7 +226,6 @@ public class UserSingleton implements AutoCloseable {
     public void setCoffeeTruckLocation(String location, int index)
             throws IllegalArgumentException, IndexOutOfBoundsException {
         checkAvailableLocation(location);
-
         coffeeTrucks.get(index).setLocation(location);
     }
 }

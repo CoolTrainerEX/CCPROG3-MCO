@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * UI for user display and input
@@ -102,4 +103,13 @@ public interface UI {
      * @author Justin Ryan Uy
      */
     public void dashboard(List<CoffeeTruck> coffeeTrucks);
+
+    /**
+     * Asks the user for new prices to set
+     * @param <E> Enum type
+     * @param priceClass Type to set price to
+     * @return Map of new prices
+     * @author Justin Ryan Uy
+     */
+    public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass);
 }
