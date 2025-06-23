@@ -43,7 +43,8 @@ public class SpecialCoffee extends Coffee {
      * @param espresso Espresso brew
      * @param syrups   Syrup addons
      * @param shots    Extra shots
-     * @throws IllegalArgumentException Ingredient is not a cup; Syrup cannot be NONE; Shot cannot be CUSTOM
+     * @throws IllegalArgumentException Ingredient is not a cup; Syrup cannot be
+     *                                  NONE; Shot cannot be CUSTOM
      * @author Justin Ryan Uy
      */
     public SpecialCoffee(CoffeeType type, Ingredient cup, Espresso espresso, SyrupIngredient[] syrups, Espresso[] shots)
@@ -59,14 +60,32 @@ public class SpecialCoffee extends Coffee {
         this.espresso = espresso;
     }
 
+    /**
+     * Gets the Espresso brew
+     * 
+     * @return The Espresso brew
+     * @author Justin Ryan Uy
+     */
     public Espresso getEspresso() {
         return espresso;
     }
 
+    /**
+     * Gets the List of Syrup addons
+     * 
+     * @return The List of Syrup addons
+     * @author Justin Ryan Uy
+     */
     public List<SyrupIngredient> getSyrups() {
         return syrups;
     }
 
+    /**
+     * Gets the List of extra shots
+     * 
+     * @return The List of extra shots
+     * @author Justin Ryan Uy
+     */
     public List<Espresso> getShots() {
         return shots;
     }
