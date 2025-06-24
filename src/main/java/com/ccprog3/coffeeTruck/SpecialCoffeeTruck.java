@@ -34,18 +34,21 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
      *                           (Size 8)
      * @param specialStorageBins The Special Storage Bins to be placed in the Coffee
      *                           Truck (Size 2)
-     * @throws IndexOutOfBoundsException Too much Storage Bins set
+     * @throws NullPointerException      Null in Special Storage Bins
+     * @throws IndexOutOfBoundsException Special Storage Bins must be eight
      * @author Justin Ryan Uy
      */
     public SpecialCoffeeTruck(String location, StorageBin[] storageBins, SpecialStorageBin[] specialStorageBins)
-            throws IndexOutOfBoundsException {
+            throws NullPointerException, IndexOutOfBoundsException {
         super(location, storageBins);
 
-        try {
-            System.arraycopy(specialStorageBins, 0, this.specialStorageBins, 0, specialStorageBins.length);
-        } catch (IndexOutOfBoundsException e) {
-            throw new IndexOutOfBoundsException("Too much Special Storage Bins set");
-        }
+        if (List.of(specialStorageBins).contains(null))
+                throw new NullPointerException("Null in Special Storage Bins");
+
+        if (storageBins.length != this.storageBins.length)
+            throw new IndexOutOfBoundsException("Special Storage Bins must be eight");
+
+        System.arraycopy(specialStorageBins, 0, this.specialStorageBins, 0, specialStorageBins.length);
     }
 
     public String toString() {

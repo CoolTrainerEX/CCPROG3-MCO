@@ -43,15 +43,19 @@ public class CoffeeTruck {
      * 
      * @param location    Coffee Truck location
      * @param storageBins The Storage Bins to be placed in the Coffee Truck (Size 8)
-     * @throws IndexOutOfBoundsException Too much Storage Bins set
+     * @throws NullPointerException      Null in Storage Bins
+     * @throws IndexOutOfBoundsException Storage Bins must be eight
      * @author Justin Ryan Uy
      */
-    public CoffeeTruck(String location, StorageBin[] storageBins) throws IndexOutOfBoundsException {
-        try {
-            System.arraycopy(storageBins, 0, this.storageBins, 0, storageBins.length);
-        } catch (IndexOutOfBoundsException e) {
-            throw new IndexOutOfBoundsException("Too much Storage Bins set");
-        }
+    public CoffeeTruck(String location, StorageBin[] storageBins)
+            throws NullPointerException, IndexOutOfBoundsException {
+        if (List.of(storageBins).contains(null))
+            throw new NullPointerException("Null in Storage Bins");
+
+        if (storageBins.length != this.storageBins.length)
+            throw new IndexOutOfBoundsException("Storage Bins must be eight");
+
+        System.arraycopy(storageBins, 0, this.storageBins, 0, storageBins.length);
 
         this.location = location;
     }

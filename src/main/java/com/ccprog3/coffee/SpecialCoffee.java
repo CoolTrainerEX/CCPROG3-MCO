@@ -43,18 +43,25 @@ public class SpecialCoffee extends Coffee {
      * @param espresso Espresso brew
      * @param syrups   Syrup addons
      * @param shots    Extra shots
+     * @throws NullPointerException     Null in syrups; Null in shots
      * @throws IllegalArgumentException Ingredient is not a cup; Syrup cannot be
      *                                  NONE; Shot cannot be CUSTOM
      * @author Justin Ryan Uy
      */
     public SpecialCoffee(CoffeeType type, Ingredient cup, Espresso espresso, SyrupIngredient[] syrups, Espresso[] shots)
-            throws IllegalArgumentException {
+            throws NullPointerException, IllegalArgumentException {
         super(type, cup);
 
-        if ((this.syrups = List.of(syrups)).contains(SyrupIngredient.NONE))
+        if ((this.syrups = List.of(syrups)).contains(null))
+            throw new NullPointerException("Null in syrups");
+
+        if ((this.shots = List.of(shots)).contains(null))
+            throw new NullPointerException("Null in shots");
+
+        if (this.syrups.contains(SyrupIngredient.NONE))
             throw new IllegalArgumentException("Syrup cannot be NONE");
 
-        if ((this.shots = List.of(shots)).contains(Espresso.CUSTOM))
+        if (this.shots.contains(Espresso.CUSTOM))
             throw new IllegalArgumentException("Shot cannot be CUSTOM");
 
         this.espresso = espresso;
