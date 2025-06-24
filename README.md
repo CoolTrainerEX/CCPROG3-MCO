@@ -37,5 +37,5 @@ java -cp .\target\manual\classes\ com.ccprog3.App
 
 ## Javadoc
 ```
-javadoc -sourcepath .\src\main\java\ -d .\target\manual\site\ .\src\main\java\com\ccprog3\App.java
+javadoc -sourcepath .\src\main\java\ -d docs com.ccprog3 com.ccprog3.coffee com.ccprog3.coffeeTruck com.ccprog3.ingredients
 ```
