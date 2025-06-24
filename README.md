@@ -27,7 +27,7 @@ mvn clean
 
 ## Compile
 ```
-javac .\src\main\java\com\ccprog3\*.java -d .\target\manual\classes\
+javac -sourcepath .\src\main\java\ -d .\target\manual\classes\ .\src\main\java\com\ccprog3\App.java
 ```
 
 ## Execute
@@ -37,5 +37,5 @@ java -cp .\target\manual\classes\ com.ccprog3.App
 
 ## Javadoc
 ```
-javadoc .\src\main\java\com\ccprog3\*.java -d .\target\manual\site\
+javadoc -sourcepath .\src\main\java\ -d .\target\manual\site\ .\src\main\java\com\ccprog3\App.java
 ```
