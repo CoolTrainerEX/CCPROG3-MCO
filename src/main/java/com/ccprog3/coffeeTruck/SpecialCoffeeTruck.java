@@ -42,9 +42,6 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
             throws NullPointerException, IndexOutOfBoundsException {
         super(location, storageBins);
 
-        if (List.of(specialStorageBins).contains(null))
-                throw new NullPointerException("Null in Special Storage Bins");
-
         if (storageBins.length != this.storageBins.length)
             throw new IndexOutOfBoundsException("Special Storage Bins must be eight");
 

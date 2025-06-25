@@ -49,9 +49,6 @@ public class CoffeeTruck {
      */
     public CoffeeTruck(String location, StorageBin[] storageBins)
             throws NullPointerException, IndexOutOfBoundsException {
-        if (List.of(storageBins).contains(null))
-            throw new NullPointerException("Null in Storage Bins");
-
         if (storageBins.length != this.storageBins.length)
             throw new IndexOutOfBoundsException("Storage Bins must be eight");
 

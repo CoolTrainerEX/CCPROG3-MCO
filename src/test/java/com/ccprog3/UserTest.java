@@ -61,9 +61,8 @@ public class UserTest {
     @Test
     public void testSetCoffeeTruckLocationValid() {
         user.addCoffeeTruck(new CoffeeTruck("e", new StorageBin[8]));
-        user.addCoffeeTruck(new CoffeeTruck("f", new StorageBin[8]));
 
-        user.setCoffeeTruckLocation("g", 1);
+        user.setCoffeeTruckLocation("f", 0);
     }
 
     /**
@@ -73,9 +72,9 @@ public class UserTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetCoffeeTruckLocationInvalid() {
-        user.addCoffeeTruck(new CoffeeTruck("h", new StorageBin[8]));
+        user.addCoffeeTruck(new CoffeeTruck("g", new StorageBin[8]));
 
-        user.setCoffeeTruckLocation("h", 0);
+        user.setCoffeeTruckLocation("g", 0);
     }
 
     /**
@@ -85,6 +84,6 @@ public class UserTest {
      */
     @Test(expected = IndexOutOfBoundsException.class)
     public void testSetCoffeeTruckLocationInvalidIndex() {
-        user.setCoffeeTruckLocation("i", 10);
+        user.setCoffeeTruckLocation("h", 100);
     }
 }

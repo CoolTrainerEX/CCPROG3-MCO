@@ -54,10 +54,10 @@ public class CoffeeTruckTest {
     @Test
     public void testMakeCoffeeValid() {
         Coffee coffee = new Coffee(CoffeeType.LATTE, Ingredient.MEDIUM_CUP);
+        Map.Entry<Coffee, Money> result = (new CoffeeTruck("a", generateStorageBins(coffee))).makeCoffee(coffee, user);
 
-        CoffeeTruck coffeeTruck = new CoffeeTruck("a", generateStorageBins(coffee));
-
-        assertEquals(coffeeTruck.makeCoffee(coffee, user), Map.entry(coffee, new Money(24)));
+        assertEquals(coffee, result.getKey());
+        assertEquals(result.getValue().getAmount(), 24, 0.0001);
     }
 
     /**
@@ -68,10 +68,26 @@ public class CoffeeTruckTest {
     @Test(expected = ArithmeticException.class)
     public void testMakeCoffeeInalid() {
         Coffee coffee = new Coffee(CoffeeType.LATTE, Ingredient.MEDIUM_CUP);
-
         CoffeeTruck coffeeTruck = new CoffeeTruck("a", generateStorageBins(coffee));
 
         coffeeTruck.emptyStorageBin(0);
         coffeeTruck.makeCoffee(coffee, user);
+    }
+
+    /**
+     * Tests makeCoffee when there is no stock
+     * 
+     * @author Justin Ryan Uy
+     */
+    @Test(expected = ArithmeticException.class)
+    public void testMakeCoffeeInalidEmpty() {
+        Coffee coffee = new Coffee(CoffeeType.LATTE, Ingredient.MEDIUM_CUP);
+
+        StorageBin[] storageBins = new StorageBin[8];
+
+        for (int i = 0; i < storageBins.length; i++)
+            storageBins[i] = new StorageBin(Ingredient.NONE, 0);
+
+        (new CoffeeTruck("a", storageBins)).makeCoffee(coffee, user);
     }
 }
