@@ -9,37 +9,51 @@ public enum Ingredient {
     /**
      * Small Cup 80 pcs
      */
-    SMALL_CUP,
+    SMALL_CUP(80),
 
     /**
      * Medium Cup 64 pcs
      */
-    MEDIUM_CUP,
+    MEDIUM_CUP(64),
 
     /**
      * Large Cup 40 pcs
      */
-    LARGE_CUP,
+    LARGE_CUP(40),
 
     /**
      * Coffee Beans 1008 g
      */
-    COFFEE_BEANS,
+    COFFEE_BEANS(1008),
 
     /**
      * Milk 640 fl oz
      */
-    MILK,
+    MILK(640),
 
     /**
      * Water 640 fl oz
      */
-    WATER,
+    WATER(640),
 
     /**
      * Empty or {@code SyrupIngredient} 640 fl oz
      */
-    NONE;
+    NONE(640);
+
+    /**
+     * Max capacity
+     */
+    private double max;
+
+    /**
+     * {@code Ingredient} constructor
+     * 
+     * @param max Max capacity
+     */
+    private Ingredient(double max) {
+        this.max = max;
+    }
 
     @Override
     public String toString() {
@@ -96,24 +110,7 @@ public enum Ingredient {
      * @return Max capacity
      */
     public double getMax() {
-        switch (this) {
-            case SMALL_CUP:
-                return 80;
-
-            case MEDIUM_CUP:
-                return 64;
-
-            case LARGE_CUP:
-                return 40;
-
-            case COFFEE_BEANS:
-                return 1008;
-
-            case MILK:
-            case WATER:
-            default:
-                return 640;
-        }
+        return max;
     }
 
     /**

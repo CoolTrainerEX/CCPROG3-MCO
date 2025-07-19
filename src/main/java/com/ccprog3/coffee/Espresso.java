@@ -13,42 +13,47 @@ public enum Espresso {
     /**
      * Standard brew 1:18
      */
-    STANDARD,
+    STANDARD(Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 19, Ingredient.WATER, (double) 18 / 19)),
 
     /**
      * Strong brew 1:15
      */
-    STRONG,
+    STRONG(Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 16, Ingredient.WATER, (double) 15 / 16)),
 
     /**
      * Light brew 1:20
      */
-    LIGHT,
+    LIGHT(Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 21, Ingredient.WATER, (double) 20 / 21)),
 
     /**
      * Custom brew 1:?
      */
-    CUSTOM;
+    CUSTOM(null);
+
+    /**
+     * The Ingredients needed in percent as a Map of Ingredients
+     */
+    private Map<Ingredient, Double> ingredients;
+
+    /**
+     * {@code Espresso} constructor
+     * 
+     * @param ingredients The Ingredients needed in percent
+     */
+    private Espresso(Map<Ingredient, Double> ingredients) {
+        this.ingredients = ingredients;
+    }
 
     /**
      * Gives the raw Ingredients needed in percent
      * 
-     * @return The Ingredients needed in percent as a Map of Ingredients.
+     * @return The Ingredients needed in percent as a Map of Ingredients
      * @throws IllegalArgumentException Custom brew cannot have a ratio
      */
     public Map<Ingredient, Double> getIngredients() throws IllegalArgumentException {
-        switch (this) {
-            case STANDARD:
-                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 19, Ingredient.WATER, (double) 18 / 19);
+        if (ingredients == null)
+            throw new IllegalArgumentException("Custom brew cannot have a ratio");
 
-            case STRONG:
-                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 16, Ingredient.WATER, (double) 15 / 16);
-
-            case LIGHT:
-                return Map.of(Ingredient.COFFEE_BEANS, (double) 1 / 21, Ingredient.WATER, (double) 20 / 21);
-
-            default:
-                throw new IllegalArgumentException("Custom brew cannot have a ratio");
-        }
+        return ingredients;
     }
 }

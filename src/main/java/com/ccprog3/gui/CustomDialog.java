@@ -77,6 +77,8 @@ public class CustomDialog extends JDialog {
         for (Component component : invisibleComponents)
             component.setVisible(false);
 
+        panel.setBackground(Colors.NEUTRAL.getColor());
+        // setBorder(BorderFactory.createLineBorder(Colors.BORDER.getColor()));
         setLocationRelativeTo(null);
         setVisible(true);
     }
