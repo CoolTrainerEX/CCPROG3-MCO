@@ -1,7 +1,6 @@
 package com.ccprog3.gui;
 
-import java.awt.GridLayout;
-
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 /**
@@ -14,6 +13,7 @@ public class TextPanel extends JPanel {
      * Constructor for the component
      */
     public TextPanel() {
-        super(new GridLayout(0, 1));
+        super();
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     }
 }

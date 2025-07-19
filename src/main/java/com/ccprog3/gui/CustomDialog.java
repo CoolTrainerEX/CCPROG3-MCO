@@ -1,8 +1,13 @@
 package com.ccprog3.gui;
 
-import java.awt.GridLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -25,8 +30,10 @@ public class CustomDialog extends JDialog {
     public CustomDialog(JFrame owner, String title, JPanel panel) {
         super(owner, title, true);
 
+        GridBagLayout layout = new GridBagLayout();
+
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setLayout(new GridLayout(0, 1, 0, 10));
+        panel.setLayout(layout);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setContentPane(panel);
 
@@ -42,7 +49,34 @@ public class CustomDialog extends JDialog {
 
         add(button);
         getRootPane().setDefaultButton(button);
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridx = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+
+        List<Component> invisibleComponents = new ArrayList<>();
+
+        int count = panel.getComponentCount();
+
+        for (int i = 0; i < count; i++) {
+            Component component = panel.getComponent(i);
+
+            if (!component.isVisible()) {
+                invisibleComponents.add(component);
+                component.setVisible(true);
+            }
+            c.insets = new Insets(i == 0 ? 0 : 5, 0, i == count - 1 ? 0 : 5, 0);
+            layout.setConstraints(component, c);
+        }
+
         pack();
+
+        for (Component component : invisibleComponents)
+            component.setVisible(false);
+
         setLocationRelativeTo(null);
         setVisible(true);
     }

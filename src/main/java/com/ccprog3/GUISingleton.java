@@ -1,5 +1,6 @@
 package com.ccprog3;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -19,7 +20,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -75,10 +75,9 @@ public class GUISingleton implements UI {
         int height = 720, width = height * 4 / 3;
 
         frame.setSize(width, height);
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
         frame.getRootPane().setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(new JLabel(new ImageIcon(new ImageIcon("src/main/resources/Weirdo.jpeg").getImage()
-                .getScaledInstance(100, 200, Image.SCALE_SMOOTH))));
+                .getScaledInstance(100, 200, Image.SCALE_SMOOTH))), BorderLayout.NORTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null); // Centers to screen
         frame.setVisible(true);
@@ -311,6 +310,15 @@ public class GUISingleton implements UI {
 
         new CustomDialog(frame, "Buy a Coffee", panel);
 
+        SyrupIngredient syrupIngredients[] = new SyrupIngredient[syrupsInput.getResultList().size()];
+        Espresso shots[] = new Espresso[shotsInput.getResultList().size()];
+
+        for (int i = 0; i < syrupIngredients.length; i++)
+            syrupIngredients[i] = syrupsInput.getResultList().get(i);
+
+        for (int i = 0; i < shots.length; i++)
+            shots[i] = shotsInput.getResultList().get(i);
+
         if (espressoInput.getSelectedItem() == Espresso.CUSTOM) {
             double ratioDouble = parseNumber(ratioInput.getText());
             int ratio = (int) ratioDouble;
@@ -319,20 +327,17 @@ public class GUISingleton implements UI {
                 throw new InputMismatchException("Input is not an integer. Try again.");
 
             return new CustomSpecialCoffee((CoffeeType) typeInput.getSelectedItem(),
-                    (Ingredient) cupInput.getSelectedItem(),
-                    ratio, (SyrupIngredient[]) syrupsInput.getResultList().toArray(),
-                    (Espresso[]) shotsInput.getResultList().toArray());
+                    (Ingredient) cupInput.getSelectedItem(), ratio, (SyrupIngredient[]) syrupIngredients,
+                    (Espresso[]) shots);
         } else
             return new SpecialCoffee((CoffeeType) typeInput.getSelectedItem(), (Ingredient) cupInput.getSelectedItem(),
-                    (Espresso) espressoInput.getSelectedItem(),
-                    (SyrupIngredient[]) syrupsInput.getResultList().toArray(),
-                    (Espresso[]) shotsInput.getResultList().toArray());
+                    (Espresso) espressoInput.getSelectedItem(), (SyrupIngredient[]) syrupIngredients,
+                    (Espresso[]) shots);
     }
 
     @Override
     public void makeCoffee(Entry<Coffee, Money> sale) {
-        JPanel panel = new JPanel();
-        TextPanel textPanel = new TextPanel();
+        JPanel panel = new JPanel(), textPanel = new TextPanel();
 
         textPanel.add(new CustomLabel("Making Espresso", Font.BOLD));
 
@@ -359,6 +364,9 @@ public class GUISingleton implements UI {
 
             priceLabel.setForeground(Color.RED);
             panel.add(priceLabel);
+
+            new CustomDialog(frame, "Making Coffee", panel);
+
             return;
         }
 
@@ -400,8 +408,7 @@ public class GUISingleton implements UI {
 
     @Override
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
-        JPanel panel = new JPanel();
-        TextPanel textPanel;
+        JPanel panel = new JPanel(), textPanel;
         CustomLabel label;
 
         label = new CustomLabel(coffeeTruck.toString(), Font.BOLD);
@@ -564,8 +571,67 @@ public class GUISingleton implements UI {
 
     @Override
     public void dashboard(List<CoffeeTruck> coffeeTrucks) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dashboard'");
+        JPanel panel = new JPanel(), textPanel = new TextPanel();
+
+        Map<Ingredient, Double> ingredients = new HashMap<>();
+        Map<SyrupIngredient, Double> syrups = new HashMap<>();
+        Map<Coffee, Money> sales = new HashMap<>();
+
+        for (CoffeeTruck coffeeTruck : coffeeTrucks.stream()
+                .filter((coffeeTruck) -> !(coffeeTruck instanceof SpecialCoffeeTruck)).toList()) {
+            textPanel.add(new CustomLabel(coffeeTruck.toString(), Font.BOLD));
+
+            sales.putAll(coffeeTruck.getSales());
+
+            for (StorageBin storageBin : coffeeTruck.getStorageBins())
+                ingredients.merge(storageBin.getIngredient(), storageBin.getQuantity(), Double::sum);
+        }
+
+        for (CoffeeTruck specialCoffeeTruck : coffeeTrucks.stream()
+                .filter((coffeeTruck) -> coffeeTruck instanceof SpecialCoffeeTruck).toList()) {
+            textPanel.add(new CustomLabel(specialCoffeeTruck.toString(), Font.BOLD));
+
+            sales.putAll(specialCoffeeTruck.getSales());
+
+            for (StorageBin storageBin : specialCoffeeTruck.getStorageBins())
+                if (storageBin instanceof SpecialStorageBin)
+                    syrups.merge(((SpecialStorageBin) storageBin).getSyrupIngredient(), storageBin.getQuantity(),
+                            Double::sum);
+                else
+                    ingredients.merge(storageBin.getIngredient(), storageBin.getQuantity(), Double::sum);
+        }
+
+        ingredients.remove(Ingredient.NONE);
+        syrups.remove(SyrupIngredient.NONE);
+        panel.add(textPanel);
+        textPanel = new TextPanel();
+
+        CustomLabel label;
+
+        for (Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet()) {
+            label = new CustomLabel(ingredient.getKey() + ": " + ingredient.getValue() + ingredient.getKey().getUnit(), Font.PLAIN);
+            label.setForeground(Color.GREEN);
+            textPanel.add(label);
+        }
+
+        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : syrups.entrySet()) {
+            label = new CustomLabel(syrupIngredient.getKey() + ": " + syrupIngredient.getValue() + syrupIngredient.getKey().getUnit(), Font.PLAIN);
+            label.setForeground(Color.GREEN);
+        }
+
+        panel.add(textPanel);
+        textPanel = new TextPanel();
+        System.out.println("\u001b[3;31m");
+
+        for (Map.Entry<Coffee, Money> sale : sales.entrySet()) {
+            label = new CustomLabel(sale.getKey() + ": " + sale.getValue(), Font.ITALIC);
+            label.setForeground(Color.RED);
+            textPanel.add(label);
+        }
+
+        panel.add(textPanel);
+        
+        new CustomDialog(frame, "Dashboard", panel);
     }
 
     @Override
