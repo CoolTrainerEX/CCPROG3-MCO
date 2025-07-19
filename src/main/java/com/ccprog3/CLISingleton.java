@@ -256,12 +256,11 @@ public class CLISingleton implements UI, AutoCloseable {
                 - 1]) != Espresso.CUSTOM)
             shots.add(shot);
 
-        if (espresso == Espresso.CUSTOM)
-            return new CustomSpecialCoffee(type, cup, ratio, syrups.toArray(SyrupIngredient[]::new),
-                    shots.toArray(Espresso[]::new));
-
-        return new SpecialCoffee(type, cup, espresso, syrups.toArray(SyrupIngredient[]::new),
-                shots.toArray(Espresso[]::new));
+        return espresso == Espresso.CUSTOM
+                ? new CustomSpecialCoffee(type, cup, ratio, syrups.toArray(SyrupIngredient[]::new),
+                        shots.toArray(Espresso[]::new))
+                : new SpecialCoffee(type, cup, espresso, syrups.toArray(SyrupIngredient[]::new),
+                        shots.toArray(Espresso[]::new));
     }
 
     @Override
@@ -376,8 +375,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
     @Override
     public StorageBin setStorageBin(boolean special) {
-        if (!special) {
-
+        if (!special)
             while (true)
                 try {
                     Ingredient ingredient;
@@ -389,7 +387,6 @@ public class CLISingleton implements UI, AutoCloseable {
                 } catch (ArithmeticException e) {
                     displayErr(e);
                 }
-        }
 
         while (true)
             try {

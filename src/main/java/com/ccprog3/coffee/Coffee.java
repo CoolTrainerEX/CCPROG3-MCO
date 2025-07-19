@@ -69,6 +69,7 @@ public class Coffee {
         Map<Ingredient, Double> ingredients = new HashMap<>(type.getIngredients());
 
         ingredients.replaceAll((_, quantity) -> quantity * cup.getCupVolume());
+        ingredients.put(cup, (double) 1);
 
         return Collections.unmodifiableMap(ingredients);
     }

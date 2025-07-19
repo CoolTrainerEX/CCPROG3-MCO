@@ -28,7 +28,7 @@ public class DropdownWithNumberInput<E> extends JPanel {
      * @param title Title of the Text Field
      */
     public DropdownWithNumberInput(E[] items, String title) {
-        setLayout(new GridLayout(0, 2, 10, 0));
+        setLayout(new GridLayout(1, 2, 10, 0));
         add(comboBox = new CustomComboBox<>(items));
         add(textField = new CustomTextField(title));
     }

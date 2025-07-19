@@ -195,6 +195,16 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
+     * Removes a {@code CoffeeTruck}
+     * 
+     * @param index {@code CoffeeTruck} index
+     * @throws ArrayIndexOutOfBoundsException Index out of bounds
+     */
+    public void removeCoffeeTruck(int index) throws IndexOutOfBoundsException {
+        coffeeTrucks.remove(index);
+    }
+
+    /**
      * Sets the new {@code CoffeeTruck} location
      * 
      * @param location New location

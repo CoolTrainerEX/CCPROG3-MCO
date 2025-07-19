@@ -78,6 +78,17 @@ public class ControllerSingleton implements AutoCloseable {
                     return false;
                 },
 
+                "Delete a Coffee Truck", () -> {
+                    if (user.getCoffeeTrucks().size() == 0) {
+                        ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
+                        return false;
+                    }
+
+                    user.removeCoffeeTruck(ui.chooseCoffeeTruck(user.getCoffeeTrucks()));
+
+                    return false;
+                },
+
                 "Perform Coffee Truck features", () -> {
                     if (user.getCoffeeTrucks().size() == 0) {
                         ui.displayErr(new NullPointerException("No Coffee Trucks exist"));
@@ -104,11 +115,12 @@ public class ControllerSingleton implements AutoCloseable {
                                         "Restocking", () -> {
                                             int chosenStorageBinIndex = ui
                                                     .chooseStorageBin(chosenCoffeeTruck.getStorageBins());
-                                            StorageBin chosenStorageBin = chosenCoffeeTruck.getStorageBins()
-                                                    .get(chosenStorageBinIndex);
 
                                             return ui.menu(Map.of(
                                                     "Replenish Storage Bin", () -> {
+                                                        StorageBin chosenStorageBin = chosenCoffeeTruck.getStorageBins()
+                                                                .get(chosenStorageBinIndex);
+
                                                         if (!(chosenStorageBin instanceof SpecialStorageBin)
                                                                 && chosenStorageBin.getIngredient() == Ingredient.NONE
                                                                 || chosenStorageBin instanceof SpecialStorageBin
@@ -125,8 +137,8 @@ public class ControllerSingleton implements AutoCloseable {
 
                                                     "Replace with a different Ingredient", () -> {
                                                         chosenCoffeeTruck.setStorageBin(
-                                                                ui.setStorageBin(
-                                                                        chosenStorageBin instanceof SpecialStorageBin),
+                                                                ui.setStorageBin(chosenCoffeeTruck.getStorageBins().get(
+                                                                        chosenStorageBinIndex) instanceof SpecialStorageBin),
                                                                 chosenStorageBinIndex);
                                                         return false;
                                                     },
