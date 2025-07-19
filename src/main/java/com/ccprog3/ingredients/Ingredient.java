@@ -8,53 +8,40 @@ package com.ccprog3.ingredients;
 public enum Ingredient {
     /**
      * Small Cup 80 pcs
-     * 
-     * @author Justin Ryan Uy
      */
     SMALL_CUP,
 
     /**
      * Medium Cup 64 pcs
-     * 
-     * @author Justin Ryan Uy
      */
     MEDIUM_CUP,
 
     /**
      * Large Cup 40 pcs
-     * 
-     * @author Justin Ryan Uy
      */
     LARGE_CUP,
 
     /**
      * Coffee Beans 1008 g
-     * 
-     * @author Justin Ryan Uy
      */
     COFFEE_BEANS,
 
     /**
      * Milk 640 fl oz
-     * 
-     * @author Justin Ryan Uy
      */
     MILK,
 
     /**
      * Water 640 fl oz
-     * 
-     * @author Justin Ryan Uy
      */
     WATER,
 
     /**
-     * Empty or Syrup Ingredient 640 fl oz
-     * 
-     * @author Justin Ryan Uy
+     * Empty or {@code SyrupIngredient} 640 fl oz
      */
     NONE;
 
+    @Override
     public String toString() {
         switch (this) {
             case SMALL_CUP:
@@ -81,10 +68,9 @@ public enum Ingredient {
     }
 
     /**
-     * Gets the unit of measurement for the Ingredient
+     * Gets the unit of measurement for the {@code Ingredient}
      * 
      * @return Unit of measurement
-     * @author Justin Ryan Uy
      */
     public Unit getUnit() {
         switch (this) {
@@ -104,10 +90,10 @@ public enum Ingredient {
     }
 
     /**
-     * Returns the max capacity a Storage Bin can hold of the Ingredient
+     * Returns the max capacity a {@code StorageBin} can hold of the
+     * {@code Ingredient}
      * 
      * @return Max capacity
-     * @author Justin Ryan Uy
      */
     public double getMax() {
         switch (this) {
@@ -134,8 +120,7 @@ public enum Ingredient {
      * Gives the volume of any Cup in fl oz
      * 
      * @return The volume in fl oz
-     * @throws IllegalArgumentException Ingredient is not a Cup
-     * @author Justin Ryan Uy
+     * @throws IllegalArgumentException {@code Ingredient} is not a Cup
      */
     public double getCupVolume() throws IllegalArgumentException {
         switch (this) {

@@ -5,32 +5,27 @@ import java.util.Map;
 import com.ccprog3.ingredients.Ingredient;
 
 /**
- * Types of Coffee products
+ * Types of {@code Coffee} products
  * 
  * @author Justin Ryan Uy
  */
 public enum CoffeeType {
     /**
      * Cafe Americano 1:2 Water
-     * 
-     * @author Justin Ryan Uy
      */
     CAFE_AMERICANO,
 
     /**
      * Latte 1:4 Milk
-     * 
-     * @author Justin Ryan Uy
      */
     LATTE,
 
     /**
      * Cappuccino 1:2 Milk
-     * 
-     * @author Justin Ryan Uy
      */
     CAPPUCCINO;
 
+    @Override
     public String toString() {
         switch (this) {
             case CAFE_AMERICANO:
@@ -49,8 +44,7 @@ public enum CoffeeType {
      * Gives the raw Ingredients needed in percent
      * 
      * @return The Ingredients needed in percent as a Map of Ingredients.
-     *         Remaining percentage is Espresso.
-     * @author Justin Ryan Uy
+     *         Remaining percentage is {@code Espresso}.
      */
     public Map<Ingredient, Double> getIngredients() {
         switch (this) {

@@ -10,19 +10,16 @@ import com.ccprog3.ingredients.SyrupIngredient;
  */
 public class SpecialStorageBin extends StorageBin {
     /**
-     * Syrup Ingredient type stored
-     * 
-     * @author Justin Ryan Uy
+     * {@code SyrupIngredient} type stored
      */
     private final SyrupIngredient syrupIngredient;
 
     /**
-     * Special Storage Bin constructor
+     * {@code SpecialStorageBin} constructor
      * 
-     * @param syrupIngredient Syrup Ingredient type stored
-     * @param quantity        Amount of the Ingredient
+     * @param syrupIngredient {@code SyrupIngredient} type stored
+     * @param quantity        Amount of the {@code Ingredient}
      * @throws ArithmeticException Quantity is negative or over the max capacity
-     * @author Justin Ryan Uy
      */
     public SpecialStorageBin(SyrupIngredient syrupIngredient, double quantity) throws ArithmeticException {
         super(Ingredient.NONE, quantity); // Default capacity is 640 fl oz
@@ -30,15 +27,15 @@ public class SpecialStorageBin extends StorageBin {
         this.syrupIngredient = syrupIngredient;
     }
 
+    @Override
     public String toString() {
         return syrupIngredient + ": " + super.getQuantity() + syrupIngredient.getUnit();
     }
 
     /**
-     * Gets the Syrup Ingredient stored
+     * Gets the {@code SyrupIngredient} stored
      * 
-     * @return The Syrup Ingredient stored
-     * @author Justin Ryan Uy
+     * @return The {@code SyrupIngredient} stored
      */
     public SyrupIngredient getSyrupIngredient() {
         return syrupIngredient;

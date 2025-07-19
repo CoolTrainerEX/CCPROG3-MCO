@@ -8,6 +8,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 import com.ccprog3.coffee.Coffee;
 import com.ccprog3.coffee.CoffeeType;
@@ -30,28 +31,30 @@ import com.ccprog3.ingredients.Unit;
 public class CLISingleton implements UI, AutoCloseable {
     /**
      * Singleton instance of the CLI
-     * 
-     * @author Justin Ryan Uy
      */
     private static final CLISingleton instance = new CLISingleton();
 
     /**
      * System in Scanner to be used
-     * 
-     * @author Justin Ryan Uy
      */
     private final Scanner sc = new Scanner(System.in);
 
     /**
-     * Gets the CLI singleton instance
+     * Default constructor
+     */
+    private CLISingleton() {
+    }
+
+    /**
+     * Gets the {@code CLISingleton} instance
      * 
      * @return The instance
-     * @author Justin Ryan Uy
      */
     public static CLISingleton getInstance() {
         return instance;
     }
 
+    @Override
     public void close() {
         sc.close();
     }
@@ -62,7 +65,6 @@ public class CLISingleton implements UI, AutoCloseable {
      * @param prompt          Text prompt to display
      * @param defaultResponse Default return value if input is empty
      * @return Input string
-     * @author Justin Ryan Uy
      */
     private String input(String prompt) {
         while (true) {
@@ -72,7 +74,7 @@ public class CLISingleton implements UI, AutoCloseable {
 
             System.out.println("\u001b[0m");
 
-            if (input != "")
+            if (input.length() != 0)
                 return input;
 
             displayErr(new InputMismatchException("Cannot be an empty string"));
@@ -84,7 +86,6 @@ public class CLISingleton implements UI, AutoCloseable {
      * 
      * @param prompt Text prompt to display
      * @return Input double
-     * @author Justin Ryan Uy
      */
     private double inputNumber(String prompt) {
         while (true)
@@ -100,7 +101,6 @@ public class CLISingleton implements UI, AutoCloseable {
      * 
      * @param options Text options to display
      * @return Option number
-     * @author Justin Ryan Uy
      */
     private int dropdown(String... options) {
         while (true) {
@@ -126,48 +126,60 @@ public class CLISingleton implements UI, AutoCloseable {
         }
     }
 
-    public int menu(String... options) {
+    @Override
+    public boolean menu(Map<String, Supplier<Boolean>> menu) {
+        String[] optionTexts = menu.keySet().toArray(String[]::new);
+        int choice;
+
         while (true) {
+            // Display menu options
             System.out.print("\u001b[34m");
 
-            for (int i = 0; i < options.length; i++)
-                System.out.println("[" + (i + 1) + "] " + options[i]);
+            for (int i = 0; i < optionTexts.length; i++)
+                System.out.println("[" + (i + 1) + "] " + optionTexts[i]);
 
             System.out.println("[b] Back\n[x] Exit\u001b[0m");
 
             String input = input("");
 
-            // Input checking
-
             switch (input.toLowerCase()) {
                 case "x":
-                    return -1;
-
+                    return true;
                 case "b":
-                    return 0;
+                    return false;
             }
 
             try {
-                int inputParsed = Integer.parseInt(input);
+                choice = Integer.parseInt(input);
 
-                if (inputParsed >= 1 && inputParsed <= options.length)
-                    return inputParsed;
+                if (choice >= 1 && choice <= optionTexts.length)
+                    while (true)
+                        try {
+                            if (menu.get(optionTexts[choice - 1]).get())
+                                return true;
+                            break;
+                        } catch (Exception e) {
+                            displayErr(e);
+                        }
+                else
+                    displayErr(new InputMismatchException("Invalid input. Try again."));
             } catch (NumberFormatException e) {
+                displayErr(new InputMismatchException("Invalid input. Try again."));
             }
-
-            displayErr(new InputMismatchException("Invalid input. Try again."));
-
         }
     }
 
+    @Override
     public void displayErr(Exception e) {
         System.err.println("\n\u001b[41m" + e.getLocalizedMessage() + "\u001b[0m\n");
     }
 
+    @Override
     public String login() {
         return input("Login (Saves to a new user if not found)");
     }
 
+    @Override
     public CoffeeTruck addCoffeeTruck() {
         boolean special = dropdown("Regular Coffee Truck", "Special Coffee Truck") == 2;
         String location = input("Location");
@@ -189,12 +201,13 @@ public class CLISingleton implements UI, AutoCloseable {
         return new SpecialCoffeeTruck(location, storageBins, specialStorageBins);
     }
 
+    @Override
     public Coffee buyCoffee(boolean special) {
         CoffeeType type = CoffeeType
                 .values()[dropdown(Arrays.stream(CoffeeType.values()).map(Enum::toString).toArray(String[]::new)) - 1];
         Ingredient[] cups = Arrays.stream(Ingredient.values()).filter((ingredient) -> {
             try {
-                ingredient.getCupVolume(); // Check if ingredient is a cup
+                ingredient.getCupVolume(); // Check if Ingredient is a Cup
                 return true;
             } catch (IllegalArgumentException e) {
                 return false;
@@ -251,6 +264,7 @@ public class CLISingleton implements UI, AutoCloseable {
                 shots.toArray(Espresso[]::new));
     }
 
+    @Override
     public void makeCoffee(Map.Entry<Coffee, Money> sale) {
         System.out.println("\u001b[1;34mMaking Espresso\u001b[0;3;34m");
 
@@ -297,6 +311,7 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\n\u001b[1;31mPrice is " + sale.getValue() + "\u001b[0m\n");
     }
 
+    @Override
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
         System.out.println("\u001b[1;44m" + coffeeTruck + "\u001b[0;32m\n");
 
@@ -344,18 +359,22 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\u001b[0m");
     }
 
+    @Override
     public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks) {
         return dropdown(coffeeTrucks.stream().map(Object::toString).toArray(String[]::new)) - 1;
     }
 
+    @Override
     public int chooseStorageBin(List<StorageBin> storageBins) {
         return dropdown(storageBins.stream().map(Object::toString).toArray(String[]::new)) - 1;
     }
 
+    @Override
     public double addStorageBinQuantity() {
         return inputNumber("Add quantity");
     }
 
+    @Override
     public StorageBin setStorageBin(boolean special) {
         if (!special) {
 
@@ -384,10 +403,12 @@ public class CLISingleton implements UI, AutoCloseable {
             }
     }
 
+    @Override
     public String setCoffeeTruckLocation() {
         return input("Set new location");
     }
 
+    @Override
     public void dashboard(List<CoffeeTruck> coffeeTrucks) {
         Map<Ingredient, Double> ingredients = new HashMap<>();
         Map<SyrupIngredient, Double> syrups = new HashMap<>();
@@ -439,6 +460,7 @@ public class CLISingleton implements UI, AutoCloseable {
         System.out.println("\u001b[0m");
     }
 
+    @Override
     public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass) {
         Map<E, Money> prices = new HashMap<>();
 

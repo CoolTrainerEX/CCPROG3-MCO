@@ -21,22 +21,20 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
 
     /**
      * Special Storage Bins to contain Syrup Ingredients
-     * 
-     * @author Justin Ryan Uy
      */
     private final SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
 
     /**
-     * Coffee Truck constructor
+     * {@code CoffeeTruck} constructor
      * 
-     * @param location           Coffee Truck location
-     * @param storageBins        The Storage Bins to be placed in the Coffee Truck
+     * @param location           {@code CoffeeTruck} location
+     * @param storageBins        The Storage Bins to be placed in the
+     *                           {@code CoffeeTruck}
      *                           (Size 8)
      * @param specialStorageBins The Special Storage Bins to be placed in the Coffee
      *                           Truck (Size 2)
      * @throws NullPointerException      Null in Special Storage Bins
      * @throws IndexOutOfBoundsException Special Storage Bins must be eight
-     * @author Justin Ryan Uy
      */
     public SpecialCoffeeTruck(String location, StorageBin[] storageBins, SpecialStorageBin[] specialStorageBins)
             throws NullPointerException, IndexOutOfBoundsException {
@@ -48,14 +46,17 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         System.arraycopy(specialStorageBins, 0, this.specialStorageBins, 0, specialStorageBins.length);
     }
 
+    @Override
     public String toString() {
         return "Special Coffee Truck" + ": " + super.getLocation();
     }
 
+    @Override
     public List<StorageBin> getStorageBins() {
         return Stream.concat(Arrays.stream(storageBins), Arrays.stream(specialStorageBins)).toList();
     }
 
+    @Override
     public void setStorageBin(StorageBin storageBin, int index) throws ArrayIndexOutOfBoundsException {
         if (!(storageBin instanceof SpecialStorageBin))
             super.setStorageBin(storageBin, index);
@@ -63,6 +64,7 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
             specialStorageBins[index - storageBins.length] = (SpecialStorageBin) storageBin;
     }
 
+    @Override
     public void emptyStorageBin(int index) throws ArrayIndexOutOfBoundsException {
         if (index < storageBins.length)
             super.emptyStorageBin(index);
@@ -71,6 +73,7 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
 
     }
 
+    @Override
     public Map.Entry<Coffee, Money> makeCoffee(Coffee coffee, UserSingleton user) throws ArithmeticException {
         Map<SyrupIngredient, Double> stock = new HashMap<>();
 
@@ -102,6 +105,7 @@ public class SpecialCoffeeTruck extends CoffeeTruck {
         return super.makeCoffee(coffee, user);
     }
 
+    @Override
     protected Money calculatePrice(Coffee coffee, UserSingleton user) {
         return new Money((float) (coffee.getCup().getCupVolume()
                 * (user.getCoffeePrices().get(coffee.getType()).getAmount()

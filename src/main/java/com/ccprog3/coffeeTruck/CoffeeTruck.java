@@ -19,33 +19,27 @@ import com.ccprog3.ingredients.Ingredient;
 public class CoffeeTruck {
     /**
      * Truck location
-     * 
-     * @author Justin Ryan Uy
      */
     private String location;
 
     /**
      * Storage Bins to store Ingredients
-     * 
-     * @author Justin Ryan Uy
      */
     protected final StorageBin[] storageBins = new StorageBin[8];
 
     /**
      * List of transactions
-     * 
-     * @author Justin Ryan Uy
      */
     private final Map<Coffee, Money> sales = new HashMap<>();
 
     /**
-     * Coffee Truck constructor
+     * {@code CoffeeTruck} constructor
      * 
-     * @param location    Coffee Truck location
-     * @param storageBins The Storage Bins to be placed in the Coffee Truck (Size 8)
+     * @param location    {@code CoffeeTruck} location
+     * @param storageBins The Storage Bins to be placed in the {@code CoffeeTruck}
+     *                    (Size 8)
      * @throws NullPointerException      Null in Storage Bins
      * @throws IndexOutOfBoundsException Storage Bins must be eight
-     * @author Justin Ryan Uy
      */
     public CoffeeTruck(String location, StorageBin[] storageBins)
             throws NullPointerException, IndexOutOfBoundsException {
@@ -57,6 +51,7 @@ public class CoffeeTruck {
         this.location = location;
     }
 
+    @Override
     public String toString() {
         return "Regular Coffee Truck" + ": " + location;
     }
@@ -65,27 +60,24 @@ public class CoffeeTruck {
      * Gets the Truck location
      * 
      * @return Truck location
-     * @author Justin Ryan Uy
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * Gets the Storage Bin List
+     * Gets the {@code StorageBin} List
      * 
-     * @return Storage Bin List
-     * @author Justin Ryan Uy
+     * @return {@code StorageBin} List
      */
     public List<StorageBin> getStorageBins() {
         return List.of(storageBins);
     }
 
     /**
-     * Gets the Coffee Truck sales
+     * Gets the {@code CoffeeTruck} sales
      * 
-     * @return Coffee Truck Sales
-     * @author Justin Ryan Uy
+     * @return {@code CoffeeTruck} Sales
      */
     public Map<Coffee, Money> getSales() {
         return Collections.unmodifiableMap(sales);
@@ -95,43 +87,39 @@ public class CoffeeTruck {
      * Sets the Truck location
      * 
      * @param location Truck location
-     * @author Justin Ryan Uy
      */
     public void setLocation(String location) {
         this.location = location;
     }
 
     /**
-     * Sets a new Ingredient into a Storage Bin
+     * Sets a new {@code Ingredient} into a {@code StorageBin}
      * 
-     * @param storageBin new Storage Bin to be replaced with
-     * @param index      Index of the Storage Bin to replace
+     * @param storageBin new {@code StorageBin} to be replaced with
+     * @param index      Index of the {@code StorageBin} to replace
      * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @author Justin Ryan Uy
      */
     public void setStorageBin(StorageBin storageBin, int index) throws ArrayIndexOutOfBoundsException {
         storageBins[index] = storageBin;
     }
 
     /**
-     * Empties a Storage Bin
+     * Empties a {@code StorageBin}
      * 
-     * @param index Index of the Storage Bin to empty
+     * @param index Index of the {@code StorageBin} to empty
      * @throws ArrayIndexOutOfBoundsException Index out of bounds
-     * @author Justin Ryan Uy
      */
     public void emptyStorageBin(int index) throws ArrayIndexOutOfBoundsException {
         storageBins[index] = new StorageBin(Ingredient.NONE, 0);
     }
 
     /**
-     * Checks and subtracts the required stocks to make the Coffee
+     * Checks and subtracts the required stocks to make the {@code Coffee}
      * 
-     * @param coffee The Coffee to make
+     * @param coffee The {@code Coffee} to make
      * @param user   User to get prices
-     * @return The generated Coffee sale
+     * @return The generated {@code Coffee} sale
      * @throws ArithmeticException Not enough stock
-     * @author Justin Ryan Uy
      */
     public Map.Entry<Coffee, Money> makeCoffee(Coffee coffee, UserSingleton user) throws ArithmeticException {
         Map<Ingredient, Double> stock = new HashMap<>();
@@ -164,12 +152,11 @@ public class CoffeeTruck {
     }
 
     /**
-     * Calculates the price of the Coffee
+     * Calculates the price of the {@code Coffee}
      * 
-     * @param coffee The Coffee to price
+     * @param coffee The {@code Coffee} to price
      * @param user   User to get prices
-     * @return Price of the Coffee
-     * @author Justin Ryan Uy
+     * @return Price of the {@code Coffee}
      */
     protected Money calculatePrice(Coffee coffee, UserSingleton user) {
         return new Money(

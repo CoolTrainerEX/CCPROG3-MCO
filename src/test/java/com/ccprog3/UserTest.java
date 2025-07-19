@@ -13,15 +13,17 @@ import com.ccprog3.coffeeTruck.StorageBin;
 public class UserTest {
     /**
      * Singleton instance
-     * 
-     * @author Justin Ryan Uy
      */
     UserSingleton user = UserSingleton.getInstance();
 
     /**
-     * Tests addCoffeeTruck with different locations
-     * 
-     * @author Justin Ryan Uy
+     * Default constructor
+     */
+    public UserTest() {
+    }
+
+    /**
+     * Tests {@code addCoffeeTruck} with different locations
      */
     @Test
     public void testAddCoffeeTruckValid() {
@@ -30,9 +32,7 @@ public class UserTest {
     }
 
     /**
-     * Tests addCoffeeTruck with the same locations
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addCoffeeTruck} with the same locations
      */
     @Test(expected = IllegalArgumentException.class)
     public void testAddCoffeeTruckInvalidLocation() {
@@ -41,9 +41,7 @@ public class UserTest {
     }
 
     /**
-     * Tests addCoffeeTruck with the same CoffeeTruck instance
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addCoffeeTruck} with the same CoffeeTruck instance
      */
     @Test(expected = IllegalArgumentException.class)
     public void testAddCoffeeTruckInvalid() {
@@ -54,9 +52,7 @@ public class UserTest {
     }
 
     /**
-     * Tests setCoffeeTruckLocation with different locations
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code setCoffeeTruckLocation} with different locations
      */
     @Test
     public void testSetCoffeeTruckLocationValid() {
@@ -66,9 +62,7 @@ public class UserTest {
     }
 
     /**
-     * Tests addCoffeeTruck with the same locations
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addCoffeeTruck} with the same locations
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetCoffeeTruckLocationInvalid() {
@@ -78,9 +72,7 @@ public class UserTest {
     }
 
     /**
-     * Tests addCoffeeTruck with invalid index
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addCoffeeTruck} with invalid index
      */
     @Test(expected = IndexOutOfBoundsException.class)
     public void testSetCoffeeTruckLocationInvalidIndex() {

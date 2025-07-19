@@ -13,26 +13,21 @@ import com.ccprog3.ingredients.Ingredient;
  */
 public class Coffee {
     /**
-     * Type of Coffee product
-     * 
-     * @author Justin Ryan Uy
+     * Type of {@code Coffee} product
      */
     protected final CoffeeType type;
 
     /**
-     * Cup size of the Coffee
-     * 
-     * @author Justin Ryan Uy
+     * Cup size of the {@code Coffee}
      */
     protected final Ingredient cup;
 
     /**
-     * Coffee class constructor
+     * {@code Coffee} class constructor
      * 
-     * @param type Type of Coffee
+     * @param type Type of {@code Coffee}
      * @param cup  Cup size
-     * @throws IllegalArgumentException Ingredient is not a cup
-     * @author Justin Ryan Uy
+     * @throws IllegalArgumentException {@code Ingredient} is not a Cup
      */
     public Coffee(CoffeeType type, Ingredient cup) throws IllegalArgumentException {
         cup.getCupVolume(); // Check if Ingredient is Cup
@@ -41,15 +36,15 @@ public class Coffee {
         this.cup = cup;
     }
 
+    @Override
     public String toString() {
         return cup + " " + type;
     }
 
     /**
-     * Gets the Coffee type
+     * Gets the {@code CoffeeType}
      * 
-     * @return The Coffee type
-     * @author Justin Ryan Uy
+     * @return The {@code CoffeeType}
      */
     public CoffeeType getType() {
         return type;
@@ -58,48 +53,45 @@ public class Coffee {
     /**
      * Gets the Cup size
      * 
-     * @return Cup size of the Coffee
-     * @author Justin Ryan Uy
+     * @return Cup size of the {@code Coffee}
      */
     public Ingredient getCup() {
         return cup;
     }
 
     /**
-     * Gets the ingredients required to make the Coffee without the Espresso
+     * Gets the Ingredients required to make the {@code Coffee} without the
+     * {@code Espresso}
      * 
      * @return Map of Ingredients and quantities
-     * @author Justin Ryan Uy
      */
     public Map<Ingredient, Double> getIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(type.getIngredients());
 
-        ingredients.replaceAll((ingredient, quantity) -> quantity * cup.getCupVolume());
+        ingredients.replaceAll((_, quantity) -> quantity * cup.getCupVolume());
 
         return Collections.unmodifiableMap(ingredients);
     }
 
     /**
-     * Gets the ingredients required to make the Espresso
+     * Gets the Ingredients required to make the {@code Espresso}
      * 
      * @return Map of Ingredients and quantities
-     * @author Justin Ryan Uy
      */
     public Map<Ingredient, Double> getEspressoIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(Espresso.STANDARD.getIngredients());
         double espressoQuantity = cup.getCupVolume()
                 * (1 - type.getIngredients().values().stream().mapToDouble(Double::doubleValue).sum());
 
-        ingredients.replaceAll((ingredient, quantity) -> quantity * espressoQuantity);
+        ingredients.replaceAll((_, quantity) -> quantity * espressoQuantity);
 
         return Collections.unmodifiableMap(ingredients);
     }
 
     /**
-     * Gets the total ingredients required to make the Coffee
+     * Gets the total Ingredients required to make the {@code Coffee}
      * 
      * @return Map of Ingredients and quantities
-     * @author Justin Ryan Uy
      */
     public Map<Ingredient, Double> getAllIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(getIngredients());

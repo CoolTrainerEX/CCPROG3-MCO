@@ -16,24 +16,27 @@ import com.ccprog3.ingredients.Ingredient;
 import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
- * Tests for SpecialCoffeeTruck class
+ * Tests for {@code SpecialCoffeeTruck} class
  * 
  * @author Justin Ryan Uy
  */
 public class SpecialCoffeeTruckTest {
     /**
+     * Default constructor
+     */
+    public SpecialCoffeeTruckTest() {
+    }
+
+    /**
      * User to get prices
-     * 
-     * @author Justin Ryan Uy
      */
     UserSingleton user = UserSingleton.getInstance();
 
     /**
-     * Generates the Storage Bins with Ingredients to make the Coffee
+     * Generates the Storage Bins with Ingredients to make the {@code Coffee}
      * 
-     * @param coffee The coffee to generate Ingredients for
+     * @param coffee The {@code Coffee} to generate Ingredients for
      * @return The array of Storage Bins with Ingredients
-     * @author Justin Ryan Uy
      */
     private StorageBin[] generateStorageBins(Coffee coffee) {
         StorageBin[] storageBins = new StorageBin[8];
@@ -50,11 +53,11 @@ public class SpecialCoffeeTruckTest {
     }
 
     /**
-     * Generates the Special Storage Bins with Syrup Ingredients to make the Coffee
+     * Generates the Special Storage Bins with Syrup Ingredients to make the
+     * {@code Coffee}
      * 
-     * @param coffee The coffee to generate Syrup Ingredients for
+     * @param coffee The {@code Coffee} to generate Syrup Ingredients for
      * @return The array of Special Storage Bins with Syrup Ingredients
-     * @author Justin Ryan Uy
      */
     private SpecialStorageBin[] generateSpecialStorageBins(SpecialCoffee coffee) {
         SpecialStorageBin[] specialStorageBins = new SpecialStorageBin[2];
@@ -71,9 +74,7 @@ public class SpecialCoffeeTruckTest {
     }
 
     /**
-     * Tests makeCoffee when there is enough stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is enough stock
      */
     @Test
     public void testMakeCoffeeValid() {
@@ -89,25 +90,22 @@ public class SpecialCoffeeTruckTest {
     }
 
     /**
-     * Tests makeCoffee when there is not enough stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is not enough stock
      */
     @Test(expected = ArithmeticException.class)
     public void testMakeCoffeeInvalid() {
         SpecialCoffee coffee = new SpecialCoffee(CoffeeType.LATTE, Ingredient.MEDIUM_CUP, Espresso.LIGHT,
                 new SyrupIngredient[] { SyrupIngredient.HAZELNUT }, new Espresso[] { Espresso.STRONG });
 
-        SpecialCoffeeTruck coffeeTruck = new SpecialCoffeeTruck("a", generateStorageBins(coffee), generateSpecialStorageBins(coffee));
+        SpecialCoffeeTruck coffeeTruck = new SpecialCoffeeTruck("a", generateStorageBins(coffee),
+                generateSpecialStorageBins(coffee));
 
         coffeeTruck.emptyStorageBin(8);
         coffeeTruck.makeCoffee(coffee, user);
     }
 
     /**
-     * Tests makeCoffee when there is no stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is no stock
      */
     @Test(expected = ArithmeticException.class)
     public void testMakeCoffeeInvalidEmpty() {

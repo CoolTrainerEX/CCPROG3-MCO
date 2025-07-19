@@ -5,15 +5,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Tests for Unit Enum
+ * Tests for {@code Unit} Enum
  * 
  * @author Justin Ryan Uy
  */
 public class UnitTest {
     /**
-     * Tests flozToG for positive number
-     * 
-     * @author Justin Ryan Uy
+     * Default constructor
+     */
+    public UnitTest() {
+    }
+
+    /**
+     * Tests {@code flozToG} for positive number
      */
     @Test
     public void testPositive() {
@@ -21,9 +25,7 @@ public class UnitTest {
     }
 
     /**
-     * Tests flozToG for zero
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code flozToG} for zero
      */
     @Test
     public void testZero() {
@@ -31,9 +33,7 @@ public class UnitTest {
     }
 
     /**
-     * Tests flozToG for negative number
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code flozToG} for negative number
      */
     @Test
     public void testNegative() {

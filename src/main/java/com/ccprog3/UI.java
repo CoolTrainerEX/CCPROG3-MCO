@@ -2,6 +2,7 @@ package com.ccprog3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.ccprog3.coffee.Coffee;
 import com.ccprog3.coffeeTruck.CoffeeTruck;
@@ -16,17 +17,15 @@ public interface UI {
     /**
      * Radio display function
      * 
-     * @param options Text options to display
-     * @return Option number; 0 = back; -1 = exit
-     * @author Justin Ryan Uy
+     * @param menu Map of menu options and their corresponding actions
+     * @return false = back; true = exit
      */
-    public int menu(String... options);
+    public boolean menu(Map<String, Supplier<Boolean>> menu);
 
     /**
      * Displays error message
      * 
      * @param e Exception
-     * @author Justin Ryan Uy
      */
     public void displayErr(Exception e);
 
@@ -36,41 +35,36 @@ public interface UI {
      * Logs the user in
      * 
      * @return Username
-     * @author Justin Ryan Uy
      */
     public String login();
 
     /**
-     * Display for creating a new Coffee Truck
+     * Display for creating a new {@code CoffeeTruck}
      * 
-     * @return The Coffee Truck generated
-     * @author Justin Ryan Uy
+     * @return The {@code CoffeeTruck} generated
      */
     public CoffeeTruck addCoffeeTruck();
 
     /**
-     * Asks the user for Coffee to buy
+     * Asks the user for {@code Coffee} to buy
      * 
-     * @param special Coffee Truck is special
-     * @return Coffee to buy
-     * @author Justin Ryan Uy
+     * @param special {@code CoffeeTruck} is special
+     * @return {@code Coffee} to buy
      */
     public Coffee buyCoffee(boolean special);
 
     /**
-     * Shows the process of makeing a Coffee
+     * Shows the process of making a {@code Coffee}
      * 
-     * @param sale The Coffee to make and sell
-     * @author Justin Ryan Uy
+     * @param sale The {@code Coffee} to make and sell
      */
     public void makeCoffee(Map.Entry<Coffee, Money> sale);
 
     /**
-     * Displays info of a Coffee Truck
+     * Displays info of a {@code CoffeeTruck}
      * 
-     * @param coffeeTruck Coffee Truck to display
+     * @param coffeeTruck {@code CoffeeTruck} to display
      * @param user        User to show prices
-     * @author Justin Ryan Uy
      */
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user);
 
@@ -78,34 +72,32 @@ public interface UI {
      * Display for choosing the available Coffee Trucks from the user
      * 
      * @param coffeeTrucks List of Coffee Trucks of the user
-     * @return Index of the chosen Coffee Truck
-     * @author Justin Ryan Uy
+     * @return Index of the chosen {@code CoffeeTruck}
      */
     public int chooseCoffeeTruck(List<CoffeeTruck> coffeeTrucks);
 
     /**
-     * Display for choosing the available Storage Bins from the Coffee Truck
+     * Display for choosing the available Storage Bins from the {@code CoffeeTruck}
      * 
-     * @param storageBins List of Storage Bins of the Coffee Truck
-     * @return Index of the chosen Storage Bin
-     * @author Justin Ryan Uy
+     * @param storageBins List of Storage Bins of the {@code CoffeeTruck}
+     * @return Index of the chosen {@code StorageBin}
      */
     public int chooseStorageBin(List<StorageBin> storageBins);
 
     /**
-     * Display to ask user for the quantity of Ingredient to add to a Storage Bin
+     * Display to ask user for the quantity of {@code Ingredient} to add to a
+     * {@code StorageBin}
      * 
      * @return Quantity to add
-     * @author Justin Ryan Uy
      */
     public double addStorageBinQuantity();
 
     /**
-     * Display to ask the user for a new Storage Bin to replace the selected one
+     * Display to ask the user for a new {@code StorageBin} to replace the selected
+     * one
      * 
-     * @param special Special Storage Bin or regular
-     * @return The new Storage Bin to be replace with
-     * @author Justin Ryan Uy
+     * @param special {@code SpecialStorageBin} or regular
+     * @return The new {@code StorageBin} to be replace with
      */
     public StorageBin setStorageBin(boolean special);
 
@@ -113,7 +105,6 @@ public interface UI {
      * Display to ask the user for a new location
      * 
      * @return New location
-     * @author Justin Ryan Uy
      */
     public String setCoffeeTruckLocation();
 
@@ -121,7 +112,6 @@ public interface UI {
      * Shows the dashboard summary of the Coffee Trucks
      * 
      * @param coffeeTrucks List of Coffee Trucks
-     * @author Justin Ryan Uy
      */
     public void dashboard(List<CoffeeTruck> coffeeTrucks);
 
@@ -131,7 +121,6 @@ public interface UI {
      * @param <E>        Enum type
      * @param priceClass Type to set price to
      * @return Map of new prices
-     * @author Justin Ryan Uy
      */
     public <E extends Enum<E>> Map<E, Money> setPrices(Class<E> priceClass);
 }

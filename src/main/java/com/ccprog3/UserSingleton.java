@@ -22,49 +22,35 @@ import com.ccprog3.ingredients.SyrupIngredient;
 public class UserSingleton implements AutoCloseable {
     /**
      * Singleton instance of the User
-     * 
-     * @author Justin Ryan Uy
      */
     private static final UserSingleton instance = new UserSingleton();
 
     /**
      * Username to be used for reading and writing to files
-     * 
-     * @author Justin Ryan Uy
      */
     private String username;
 
     /**
      * List of Coffee Trucks made by the User
-     * 
-     * @author Justin Ryan Uy
      */
     private final List<CoffeeTruck> coffeeTrucks = new ArrayList<>();
 
     /**
      * Prices of Coffee Types per fluid ounce
-     * 
-     * @author Justin Ryan Uy
      */
     private final Map<CoffeeType, Money> coffeePrices = new HashMap<>();
 
     /**
-     * Prices of Espresso shots per fluid ounce
-     * 
-     * @author Justin Ryan Uy
+     * Prices of {@code Espresso} shots per fluid ounce
      */
     private final Map<Espresso, Money> espressoPrices = new HashMap<>();
     /**
      * Prices of Syrup Ingredients per fluid ounce
-     * 
-     * @author Justin Ryan Uy
      */
     private final Map<SyrupIngredient, Money> syrupPrices = new HashMap<>();
 
     /**
      * Initializes the default prices
-     * 
-     * @author Justin Ryan Uy
      */
     private UserSingleton() {
         for (CoffeeType coffeeType : CoffeeType.values())
@@ -80,10 +66,9 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Gets the User singleton instance
+     * Gets the {@code UserSingleton} instance
      * 
      * @return The instance
-     * @author Justin Ryan Uy
      */
     public static UserSingleton getInstance() {
         return instance;
@@ -93,7 +78,6 @@ public class UserSingleton implements AutoCloseable {
      * Gets the username
      * 
      * @return Username
-     * @author Justin Ryan Uy
      */
     public String getUsername() {
         return username;
@@ -103,7 +87,6 @@ public class UserSingleton implements AutoCloseable {
      * Gets the List of Coffee Trucks
      * 
      * @return The List of Coffee Trucks
-     * @author Justin Ryan Uy
      */
     public List<CoffeeTruck> getCoffeeTrucks() {
         return Collections.unmodifiableList(coffeeTrucks);
@@ -113,17 +96,15 @@ public class UserSingleton implements AutoCloseable {
      * Gets the prices of Coffee Types per fluid ounce
      * 
      * @return Map of Coffee Types and their prices
-     * @author Justin Ryan Uy
      */
     public Map<CoffeeType, Money> getCoffeePrices() {
         return Collections.unmodifiableMap(coffeePrices);
     }
 
     /**
-     * Gets the prices of Espresso shots per fluid ounce
+     * Gets the prices of {@code Espresso} shots per fluid ounce
      * 
      * @return Map of Espressos and their prices
-     * @author Justin Ryan Uy
      */
     public Map<Espresso, Money> getEspressoPrices() {
         return Collections.unmodifiableMap(espressoPrices);
@@ -133,7 +114,6 @@ public class UserSingleton implements AutoCloseable {
      * Gets the prices of Syrup Ingredients per fluid ounce
      * 
      * @return Map of Syrup Ingredients and their prices
-     * @author Justin Ryan Uy
      */
     public Map<SyrupIngredient, Money> getSyrupPrices() {
         return Collections.unmodifiableMap(syrupPrices);
@@ -143,17 +123,15 @@ public class UserSingleton implements AutoCloseable {
      * Sets the prices of the given Coffee Types per fluid ounce
      * 
      * @param coffeePrices Map of Coffee Types and their prices
-     * @author Justin Ryan Uy
      */
     public void setCoffeePrices(Map<CoffeeType, Money> coffeePrices) {
         this.coffeePrices.putAll(coffeePrices);
     }
 
     /**
-     * Sets the prices of the given Espresso shots per fluid ounce
+     * Sets the prices of the given {@code Espresso} shots per fluid ounce
      * 
      * @param espressoPrices Map of Espressos and their prices
-     * @author Justin Ryan Uy
      */
     public void setEspressoPrices(Map<Espresso, Money> espressoPrices) {
         this.espressoPrices.putAll(espressoPrices);
@@ -164,7 +142,6 @@ public class UserSingleton implements AutoCloseable {
      * 
      * @param syrupPrices Map of Syrup Ingredients and their prices
      * @throws IllegalArgumentException Cannot set a price for None
-     * @author Justin Ryan Uy
      */
     public void setSyrupPrices(Map<SyrupIngredient, Money> syrupPrices) throws IllegalArgumentException {
         if (syrupPrices.containsKey(SyrupIngredient.NONE))
@@ -173,6 +150,7 @@ public class UserSingleton implements AutoCloseable {
         this.syrupPrices.putAll(syrupPrices);
     }
 
+    @Override
     public void close() {
         // TODO Write file
     }
@@ -182,7 +160,6 @@ public class UserSingleton implements AutoCloseable {
      * 
      * @param location The location to check
      * @throws IllegalArgumentException Location is already occupied
-     * @author Justin Ryan Uy
      */
     private void checkAvailableLocation(String location) throws IllegalArgumentException {
         for (CoffeeTruck coffeeTruck : coffeeTrucks)
@@ -195,7 +172,6 @@ public class UserSingleton implements AutoCloseable {
      * 
      * @param username Username to log in with
      * @throws FileNotFoundException User not found
-     * @author Justin Ryan Uy
      */
     public void login(String username) throws FileNotFoundException {
         this.username = username;
@@ -208,11 +184,10 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Adds a Coffee Truck
+     * Adds a {@code CoffeeTruck}
      * 
-     * @param coffeeTruck The Coffee Truck to add
+     * @param coffeeTruck The {@code CoffeeTruck} to add
      * @throws IllegalArgumentException Location is already occupied
-     * @author Justin Ryan Uy
      */
     public void addCoffeeTruck(CoffeeTruck coffeeTruck) throws IllegalArgumentException {
         checkAvailableLocation(coffeeTruck.getLocation());
@@ -220,13 +195,12 @@ public class UserSingleton implements AutoCloseable {
     }
 
     /**
-     * Sets the new Coffee Truck location
+     * Sets the new {@code CoffeeTruck} location
      * 
      * @param location New location
-     * @param index    Coffee Truck index
+     * @param index    {@code CoffeeTruck} index
      * @throws ArrayIndexOutOfBoundsException Index out of bounds
      * @throws IllegalArgumentException       Location is already occupied
-     * @author Justin Ryan Uy
      */
     public void setCoffeeTruckLocation(String location, int index)
             throws IllegalArgumentException, IndexOutOfBoundsException {

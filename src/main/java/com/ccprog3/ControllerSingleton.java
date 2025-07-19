@@ -2,7 +2,6 @@ package com.ccprog3;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import com.ccprog3.coffee.CoffeeType;
 import com.ccprog3.coffee.Espresso;
@@ -21,71 +20,44 @@ import com.ccprog3.ingredients.SyrupIngredient;
 public class ControllerSingleton implements AutoCloseable {
     /**
      * Singleton instance of the Controller
-     * 
-     * @author Justin Ryan Uy
      */
     private static final ControllerSingleton instance = new ControllerSingleton();
     /**
      * The user to interact with
-     * 
-     * @author Justin Ryan Uy
      */
     private final UserSingleton user = UserSingleton.getInstance();
 
     /**
-     * The UI for display
-     * 
-     * @author Justin Ryan Uy
+     * The {@code UI} for display
      */
-    private final UI ui = CLISingleton.getInstance();
+    private final UI ui = GUISingleton.getInstance();
 
     /**
-     * Gets the Controller singleton instance
+     * Default constructor
+     */
+    private ControllerSingleton() {
+    }
+
+    /**
+     * Gets the {@code ControllerSingleton} instance
      * 
      * @return The instance
-     * @author Justin Ryan Uy
      */
     public static ControllerSingleton getInstance() {
         return instance;
     }
 
+    @Override
     public void close() {
         user.close();
         if (ui instanceof CLISingleton)
             ((CLISingleton) ui).close();
     }
 
-    /**
-     * Handles menu options
-     * 
-     * @param menu Map of menu options and their corresponding actions
-     * @return false = back; true = exit
-     * @author Justin Ryan Uy
-     */
-    private boolean menu(Map<String, Supplier<Boolean>> menu) {
-        String[] optionTexts = menu.keySet().toArray(String[]::new);
-        int choice;
-
-        while ((choice = ui.menu(optionTexts)) != 0)
-            while (true)
-                try {
-                    if (choice == -1 || menu.get(optionTexts[choice - 1]).get())
-                        return true;
-
-                    break;
-                } catch (Exception e) {
-                    ui.displayErr(e);
-                }
-
-        return false;
-    }
-
     // Main
 
     /**
      * Logs the user in
-     * 
-     * @author Justin Ryan Uy
      */
     public void login() {
         try {
@@ -98,11 +70,9 @@ public class ControllerSingleton implements AutoCloseable {
 
     /**
      * Main menu for the program.
-     * 
-     * @author Justin Ryan Uy
      */
     public void mainMenu() {
-        menu(Map.of(
+        ui.menu(Map.of(
                 "Create a Coffee Truck", () -> {
                     user.addCoffeeTruck(ui.addCoffeeTruck());
                     return false;
@@ -117,9 +87,10 @@ public class ControllerSingleton implements AutoCloseable {
                     int chosenCoffeeTruckIndex = ui.chooseCoffeeTruck(user.getCoffeeTrucks());
                     CoffeeTruck chosenCoffeeTruck = user.getCoffeeTrucks().get(chosenCoffeeTruckIndex);
 
-                    return menu(Map.of(
+                    return ui.menu(Map.of(
                             "Buy a Coffee", () -> {
-                                ui.makeCoffee(chosenCoffeeTruck.makeCoffee(ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck), user));
+                                ui.makeCoffee(chosenCoffeeTruck.makeCoffee(
+                                        ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck), user));
                                 return false;
                             },
 
@@ -129,14 +100,14 @@ public class ControllerSingleton implements AutoCloseable {
                             },
 
                             "Restocking and maintainance", () -> {
-                                return menu(Map.of(
+                                return ui.menu(Map.of(
                                         "Restocking", () -> {
                                             int chosenStorageBinIndex = ui
                                                     .chooseStorageBin(chosenCoffeeTruck.getStorageBins());
                                             StorageBin chosenStorageBin = chosenCoffeeTruck.getStorageBins()
                                                     .get(chosenStorageBinIndex);
 
-                                            return menu(Map.of(
+                                            return ui.menu(Map.of(
                                                     "Replenish Storage Bin", () -> {
                                                         if (!(chosenStorageBin instanceof SpecialStorageBin)
                                                                 && chosenStorageBin.getIngredient() == Ingredient.NONE
@@ -167,7 +138,7 @@ public class ControllerSingleton implements AutoCloseable {
                                         },
 
                                         "Maintainance", () -> {
-                                            return menu(Map.of(
+                                            return ui.menu(Map.of(
                                                     "Change truck location", () -> {
                                                         user.setCoffeeTruckLocation(ui.setCoffeeTruckLocation(),
                                                                 chosenCoffeeTruckIndex);
@@ -175,7 +146,7 @@ public class ControllerSingleton implements AutoCloseable {
                                                     },
 
                                                     "Change product prices", () -> {
-                                                        return menu(Map.of(
+                                                        return ui.menu(Map.of(
                                                                 "Change Coffee prices", () -> {
                                                                     user.setCoffeePrices(
                                                                             ui.setPrices(CoffeeType.class));

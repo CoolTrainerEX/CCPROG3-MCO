@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.ccprog3"},{"l":"com.ccprog3.coffee"},{"l":"com.ccprog3.coffeeTruck"},{"l":"com.ccprog3.ingredients"}];updateSearchResults();

@@ -7,15 +7,19 @@ import org.junit.Test;
 import com.ccprog3.ingredients.Ingredient;
 
 /**
- * Tests for StorageBin class
+ * Tests for {@code StorageBin} class
  * 
  * @author Justin Ryan Uy
  */
 public class StorageBinTest {
     /**
-     * Tests addQuantity for valid additions
-     * 
-     * @author Justin Ryan Uy
+     * Default constructor
+     */
+    public StorageBinTest() {
+    }
+
+    /**
+     * Tests {@code addQuantity} for valid additions
      */
     @Test
     public void testAddQuantityValid() {
@@ -26,9 +30,7 @@ public class StorageBinTest {
     }
 
     /**
-     * Tests addQuantity for additions resulting in zero
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addQuantity} for additions resulting in zero
      */
     @Test
     public void testAddQuantityValidZero() {
@@ -39,9 +41,7 @@ public class StorageBinTest {
     }
 
     /**
-     * Tests addQuantity for additions above the max
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addQuantity} for additions above the max
      */
     @Test(expected = ArithmeticException.class)
     public void testAddQuantityInalidMax() {
@@ -49,9 +49,7 @@ public class StorageBinTest {
     }
 
     /**
-     * Tests addQuantity for additions resulting in negative
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code addQuantity} for additions resulting in negative
      */
     @Test(expected = ArithmeticException.class)
     public void testAddQuantityInalidNegative() {

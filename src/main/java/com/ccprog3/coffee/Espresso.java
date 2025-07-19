@@ -12,29 +12,21 @@ import com.ccprog3.ingredients.Ingredient;
 public enum Espresso {
     /**
      * Standard brew 1:18
-     * 
-     * @author Justin Ryan Uy
      */
     STANDARD,
 
     /**
      * Strong brew 1:15
-     * 
-     * @author Justin Ryan Uy
      */
     STRONG,
 
     /**
      * Light brew 1:20
-     * 
-     * @author Justin Ryan Uy
      */
     LIGHT,
 
     /**
      * Custom brew 1:?
-     * 
-     * @author Justin Ryan Uy
      */
     CUSTOM;
 
@@ -43,7 +35,6 @@ public enum Espresso {
      * 
      * @return The Ingredients needed in percent as a Map of Ingredients.
      * @throws IllegalArgumentException Custom brew cannot have a ratio
-     * @author Justin Ryan Uy
      */
     public Map<Ingredient, Double> getIngredients() throws IllegalArgumentException {
         switch (this) {

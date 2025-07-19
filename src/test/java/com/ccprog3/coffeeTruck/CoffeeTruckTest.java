@@ -13,24 +13,27 @@ import com.ccprog3.coffee.CoffeeType;
 import com.ccprog3.ingredients.Ingredient;
 
 /**
- * Tests for CoffeeTruck class
+ * Tests for {@code CoffeeTruck} class
  * 
  * @author Justin Ryan Uy
  */
 public class CoffeeTruckTest {
     /**
+     * Default constructor
+     */
+    public CoffeeTruckTest() {
+    }
+
+    /**
      * User to get prices
-     * 
-     * @author Justin Ryan Uy
      */
     UserSingleton user = UserSingleton.getInstance();
 
     /**
-     * Generates the Storage Bins with Ingredients to make the Coffee
+     * Generates the Storage Bins with Ingredients to make the {@code Coffee}
      * 
-     * @param coffee The coffee to generate Ingredients for
+     * @param coffee The {@code Coffee} to generate Ingredients for
      * @return The array of Storage Bins with Ingredients
-     * @author Justin Ryan Uy
      */
     private StorageBin[] generateStorageBins(Coffee coffee) {
         StorageBin[] storageBins = new StorageBin[8];
@@ -47,9 +50,7 @@ public class CoffeeTruckTest {
     }
 
     /**
-     * Tests makeCoffee when there is enough stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is enough stock
      */
     @Test
     public void testMakeCoffeeValid() {
@@ -61,9 +62,7 @@ public class CoffeeTruckTest {
     }
 
     /**
-     * Tests makeCoffee when there is not enough stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is not enough stock
      */
     @Test(expected = ArithmeticException.class)
     public void testMakeCoffeeInalid() {
@@ -75,9 +74,7 @@ public class CoffeeTruckTest {
     }
 
     /**
-     * Tests makeCoffee when there is no stock
-     * 
-     * @author Justin Ryan Uy
+     * Tests {@code makeCoffee} when there is no stock
      */
     @Test(expected = ArithmeticException.class)
     public void testMakeCoffeeInalidEmpty() {

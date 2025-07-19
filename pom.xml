@@ -7,7 +7,7 @@
 
   <groupId>com.ccprog3</groupId>
   <artifactId>mco</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
 
   <name>CCPROG3-MCO</name>
   <description>CCPROG3-MCO for 2024-2025 Term 3 by Justin Ryan Uy and Kyle Thomas Tiu</description>
@@ -20,8 +20,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>22</maven.compiler.source>
+    <maven.compiler.target>22</maven.compiler.target>
   </properties>
 
   <dependencies>

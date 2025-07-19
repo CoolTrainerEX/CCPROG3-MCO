@@ -5,15 +5,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Tests for Money Class
+ * Tests for {@code Money} Class
  * 
  * @author Justin Ryan Uy
  */
 public class MoneyTest {
     /**
+     * Default constructor
+     */
+    public MoneyTest() {
+    }
+
+    /**
      * Tests if constructor accepts positive number
-     * 
-     * @author Justin Ryan Uy
      */
     @Test
     public void testPositive() {
@@ -22,8 +26,6 @@ public class MoneyTest {
 
     /**
      * Tests if constructor accepts zero
-     * 
-     * @author Justin Ryan Uy
      */
     @Test
     public void testZero() {
@@ -32,8 +34,6 @@ public class MoneyTest {
 
     /**
      * Tests if constructor accepts negative number
-     * 
-     * @author Justin Ryan Uy
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNegative() {

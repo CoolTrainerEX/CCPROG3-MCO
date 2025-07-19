@@ -9,26 +9,21 @@ import com.ccprog3.ingredients.Ingredient;
  */
 public class StorageBin {
     /**
-     * Ingredient type stored
-     * 
-     * @author Justin Ryan Uy
+     * {@code Ingredient} type stored
      */
     private final Ingredient ingredient;
 
     /**
-     * Quantity of ingredient
-     * 
-     * @author Justin Ryan Uy
+     * Quantity of {@code Ingredient}
      */
     private double quantity;
 
     /**
-     * Storage Bin constructor
+     * {@code StorageBin} constructor
      * 
-     * @param ingredient Ingredient type stored
-     * @param quantity   Amount of the ingredient
+     * @param ingredient {@code Ingredient} type stored
+     * @param quantity   Amount of the {@code Ingredient}
      * @throws ArithmeticException Quantity is negative or over the max capacity
-     * @author Justin Ryan Uy
      */
     public StorageBin(Ingredient ingredient, double quantity) throws ArithmeticException {
         this.ingredient = ingredient;
@@ -38,15 +33,15 @@ public class StorageBin {
         this.quantity = quantity;
     }
 
+    @Override
     public String toString() {
         return ingredient + ": " + quantity + ingredient.getUnit();
     }
 
     /**
-     * Gets the Ingredient stored
+     * Gets the {@code Ingredient} stored
      * 
-     * @return The Ingredient stored
-     * @author Justin Ryan Uy
+     * @return The {@code Ingredient} stored
      */
     public Ingredient getIngredient() {
         return ingredient;
@@ -56,7 +51,6 @@ public class StorageBin {
      * Gets the quantity
      * 
      * @return The quantity
-     * @author Justin Ryan Uy
      */
     public double getQuantity() {
         return quantity;
@@ -76,12 +70,12 @@ public class StorageBin {
     }
 
     /**
-     * Adds to the quantity of the Storage Bin. Negative numbers can be used to
+     * Adds to the quantity of the {@code StorageBin}. Negative numbers can be used
+     * to
      * subtract.
      * 
      * @param quantity The quantity to add
      * @throws ArithmeticException Quantity is negative or over the max capacity
-     * @author Justin Ryan Uy
      */
     public void addQuantity(double quantity) throws ArithmeticException {
         checkQuantity(quantity + this.quantity);

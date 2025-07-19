@@ -9,43 +9,37 @@ import com.ccprog3.ingredients.Ingredient;
 import com.ccprog3.ingredients.SyrupIngredient;
 
 /**
- * Special Coffee from Special Coffee Truck
+ * Special Coffee from {@code SpecialCoffeeTruck}
  * 
  * @author Justin Ryan Uy
  */
 public class SpecialCoffee extends Coffee {
     /**
-     * Espresso brew
-     * 
-     * @author Justin Ryan Uy
+     * {@code Espresso} brew
      */
     private final Espresso espresso;
 
     /**
      * Syrup addons
-     * 
-     * @author Justin Ryan Uy
      */
     private final List<SyrupIngredient> syrups;
 
     /**
      * Extra shots
-     * 
-     * @author Justin Ryan Uy
      */
     private final List<Espresso> shots;
 
     /**
-     * Special Coffee constructor
+     * {@code SpecialCoffee} constructor
      * 
-     * @param type     Type of Coffee
+     * @param type     Type of {@code Coffee}
      * @param cup      Cup size
-     * @param espresso Espresso brew
+     * @param espresso {@code Espresso} brew
      * @param syrups   Syrup addons
      * @param shots    Extra shots
-     * @throws IllegalArgumentException Ingredient is not a cup; Syrup cannot be
+     * @throws IllegalArgumentException {@code Ingredient} is not a Cup; Syrup
+     *                                  cannot be
      *                                  NONE; Shot cannot be CUSTOM
-     * @author Justin Ryan Uy
      */
     public SpecialCoffee(CoffeeType type, Ingredient cup, Espresso espresso, SyrupIngredient[] syrups, Espresso[] shots)
             throws IllegalArgumentException {
@@ -61,10 +55,9 @@ public class SpecialCoffee extends Coffee {
     }
 
     /**
-     * Gets the Espresso brew
+     * Gets the {@code Espresso} brew
      * 
-     * @return The Espresso brew
-     * @author Justin Ryan Uy
+     * @return The {@code Espresso} brew
      */
     public Espresso getEspresso() {
         return espresso;
@@ -74,7 +67,6 @@ public class SpecialCoffee extends Coffee {
      * Gets the List of Syrup addons
      * 
      * @return The List of Syrup addons
-     * @author Justin Ryan Uy
      */
     public List<SyrupIngredient> getSyrups() {
         return syrups;
@@ -84,31 +76,31 @@ public class SpecialCoffee extends Coffee {
      * Gets the List of extra shots
      * 
      * @return The List of extra shots
-     * @author Justin Ryan Uy
      */
     public List<Espresso> getShots() {
         return shots;
     }
 
+    @Override
     public String toString() {
         return cup + " " + espresso + " " + type;
     }
 
+    @Override
     public Map<Ingredient, Double> getEspressoIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(espresso.getIngredients());
         double espressoQuantity = cup.getCupVolume()
                 * (1 - type.getIngredients().values().stream().mapToDouble(Double::doubleValue).sum());
 
-        ingredients.replaceAll((ingredient, quantity) -> quantity * espressoQuantity);
+        ingredients.replaceAll((_, quantity) -> quantity * espressoQuantity);
 
         return Collections.unmodifiableMap(ingredients);
     }
 
     /**
-     * Gets the ingredients required to make the Syrup
+     * Gets the Ingredients required to make the Syrup
      * 
      * @return Map of Syrup Ingredients and quantities
-     * @author Justin Ryan Uy
      */
     public Map<SyrupIngredient, Double> getSyrupIngredients() {
         Map<SyrupIngredient, Double> syrupIngredients = new HashMap<>();
@@ -120,10 +112,9 @@ public class SpecialCoffee extends Coffee {
     }
 
     /**
-     * Gets the ingredients required to make the extra shots
+     * Gets the Ingredients required to make the extra shots
      * 
      * @return Map of Ingredients and quantities
-     * @author Justin Ryan Uy
      */
     public Map<Ingredient, Double> getShotIngredients() {
         Map<Ingredient, Double> shotIngredients = new HashMap<>();
@@ -135,6 +126,7 @@ public class SpecialCoffee extends Coffee {
         return Collections.unmodifiableMap(shotIngredients);
     }
 
+    @Override
     public Map<Ingredient, Double> getAllIngredients() {
         Map<Ingredient, Double> ingredients = new HashMap<>(super.getAllIngredients());
 
