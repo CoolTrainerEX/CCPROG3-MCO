@@ -1,13 +1,17 @@
 package com.ccprog3;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import com.ccprog3.coffee.CoffeeType;
 import com.ccprog3.coffee.Espresso;
@@ -19,7 +23,7 @@ import com.ccprog3.ingredients.SyrupIngredient;
  * 
  * @author Justin Ryan Uy
  */
-public class UserSingleton implements AutoCloseable {
+public class UserSingleton implements AutoCloseable, Serializable {
     /**
      * Singleton instance of the User
      */
@@ -151,8 +155,13 @@ public class UserSingleton implements AutoCloseable {
     }
 
     @Override
-    public void close() {
-        // TODO Write file
+    public void close() throws IOException {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(username + ".dat"))) {
+            objectOutputStream.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("Error saving user");
+        }
     }
 
     /**
@@ -171,14 +180,15 @@ public class UserSingleton implements AutoCloseable {
      * Logs the user in (opens save file)
      * 
      * @param username Username to log in with
+     * @return User data
      * @throws FileNotFoundException User not found
      */
-    public void login(String username) throws FileNotFoundException {
+    public UserSingleton login(String username) throws FileNotFoundException {
         this.username = username;
 
-        try (Scanner filesc = new Scanner(new File(username))) {
-            // TODO read file
-        } catch (FileNotFoundException e) {
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(username + ".dat"))) {
+            return (UserSingleton) objectInputStream.readObject();
+        } catch (Exception e) {
             throw new FileNotFoundException("User not found. Will save to new user upon exit.");
         }
     }

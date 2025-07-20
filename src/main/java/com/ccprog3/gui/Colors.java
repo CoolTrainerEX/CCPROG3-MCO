@@ -31,7 +31,7 @@ public enum Colors {
     /**
      * Color
      */
-    private Color color;
+    private final Color color;
 
     /**
      * {@code Colors} constructor

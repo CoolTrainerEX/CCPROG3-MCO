@@ -44,7 +44,7 @@ public enum Ingredient {
     /**
      * Max capacity
      */
-    private double max;
+    private final double max;
 
     /**
      * {@code Ingredient} constructor

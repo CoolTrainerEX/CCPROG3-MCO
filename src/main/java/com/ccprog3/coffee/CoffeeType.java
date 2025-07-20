@@ -29,7 +29,7 @@ public enum CoffeeType {
      * The Ingredients needed in percent as a Map of Ingredients. Remaining
      * percentage is {@code Espresso}
      */
-    private Map<Ingredient, Double> ingredients;
+    private final Map<Ingredient, Double> ingredients;
 
     /**
      * {@code CoffeeType} constructor

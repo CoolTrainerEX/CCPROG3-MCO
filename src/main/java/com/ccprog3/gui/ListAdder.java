@@ -1,11 +1,13 @@
 package com.ccprog3.gui;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -20,7 +22,7 @@ public class ListAdder<E> extends JPanel {
     /**
      * List of added elements
      */
-    DefaultListModel<E> resultListModel = new DefaultListModel<>();
+    private final DefaultListModel<E> resultListModel = new DefaultListModel<>();
 
     /**
      * Constructor for the component
@@ -32,6 +34,14 @@ public class ListAdder<E> extends JPanel {
 
         GridBagConstraints c = new GridBagConstraints();
         JList<E> list = new JList<>(listData), resultList = new JList<>(resultListModel);
+
+        list.setFont(new Font("Courier New", Font.PLAIN, 16));
+        resultList.setFont(new Font("Courier New", Font.PLAIN, 16));
+        list.setBackground(Colors.PRIMARY.getColor());
+        resultList.setBackground(Colors.PRIMARY.getColor());
+        list.setBorder(BorderFactory.createLineBorder(Colors.BORDER.getColor()));
+        resultList.setBorder(BorderFactory.createLineBorder(Colors.BORDER.getColor()));
+        setOpaque(false);
 
         c.gridy = 0;
         c.weightx = 1;

@@ -1,6 +1,7 @@
 package com.ccprog3;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 
 import com.ccprog3.coffee.CoffeeType;
@@ -22,10 +23,11 @@ public class ControllerSingleton implements AutoCloseable {
      * Singleton instance of the Controller
      */
     private static final ControllerSingleton instance = new ControllerSingleton();
+
     /**
      * The user to interact with
      */
-    private final UserSingleton user = UserSingleton.getInstance();
+    private UserSingleton user = UserSingleton.getInstance();
 
     /**
      * The {@code UI} for display
@@ -49,9 +51,15 @@ public class ControllerSingleton implements AutoCloseable {
 
     @Override
     public void close() {
-        user.close();
-        if (ui instanceof CLISingleton)
+        if (ui instanceof CLISingleton) {
+            try {
+                user.close();
+            } catch (IOException e) {
+                ui.displayErr(e);
+            }
+
             ((CLISingleton) ui).close();
+        }
     }
 
     // Main
@@ -61,11 +69,10 @@ public class ControllerSingleton implements AutoCloseable {
      */
     public void login() {
         try {
-            user.login(ui.login());
+            user = user.login(ui.login());
         } catch (FileNotFoundException e) {
             ui.displayErr(e);
         }
-
     }
 
     /**
@@ -100,8 +107,13 @@ public class ControllerSingleton implements AutoCloseable {
 
                     return ui.menu(Map.of(
                             "Buy a Coffee", () -> {
-                                ui.makeCoffee(chosenCoffeeTruck.makeCoffee(
-                                        ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck), user));
+                                try {
+                                    ui.makeCoffee(chosenCoffeeTruck.makeCoffee(
+                                            ui.buyCoffee(chosenCoffeeTruck instanceof SpecialCoffeeTruck), user));
+                                } catch (ArithmeticException e) {
+                                    ui.displayErr(e);
+                                }
+
                                 return false;
                             },
 

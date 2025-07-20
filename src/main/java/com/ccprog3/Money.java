@@ -1,11 +1,13 @@
 package com.ccprog3;
 
+import java.io.Serializable;
+
 /**
  * Money class to validate money amount
  * 
  * @author Justin Ryan Uy
  */
-public class Money {
+public class Money implements Serializable {
     /**
      * Amount of money
      */

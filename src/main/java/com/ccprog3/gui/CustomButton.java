@@ -3,14 +3,9 @@ package com.ccprog3.gui;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-
-import com.ccprog3.App;
 
 /**
  * Custom Button component for custom design
@@ -18,19 +13,6 @@ import com.ccprog3.App;
  * @author Justin Ryan Uy
  */
 public class CustomButton extends JButton {
-    /**
-     * Background image
-     */
-    private static BufferedImage background;
-
-    static {
-        try {
-            background = ImageIO.read(App.class.getResourceAsStream("/buttonBackground.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Constructor for {@code CustomButton} component
      * 
@@ -48,7 +30,7 @@ public class CustomButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(Images.PRIMARY_BACKGROUND.getImage(), 0, 0, getWidth(), getHeight(), null);
         super.paintComponent(g);
     }
 }

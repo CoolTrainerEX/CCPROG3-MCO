@@ -1,5 +1,6 @@
 package com.ccprog3.coffeeTruck;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import com.ccprog3.ingredients.Ingredient;
  * 
  * @author Justin Ryan Uy
  */
-public class CoffeeTruck {
+public class CoffeeTruck implements Serializable {
     /**
      * Truck location
      */

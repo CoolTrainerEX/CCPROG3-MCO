@@ -14,12 +14,12 @@ public class DropdownWithNumberInput<E> extends JPanel {
     /**
      * Combo Box component
      */
-    private CustomComboBox<E> comboBox;
+    private final CustomComboBox<E> comboBox;
 
     /**
      * Text field component
      */
-    private CustomTextField textField;
+    private final CustomTextField textField;
 
     /**
      * Constructor for the component
@@ -29,6 +29,7 @@ public class DropdownWithNumberInput<E> extends JPanel {
      */
     public DropdownWithNumberInput(E[] items, String title) {
         setLayout(new GridLayout(1, 2, 10, 0));
+        setOpaque(false);
         add(comboBox = new CustomComboBox<>(items));
         add(textField = new CustomTextField(title));
     }

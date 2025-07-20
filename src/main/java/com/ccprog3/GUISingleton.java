@@ -1,14 +1,14 @@
 package com.ccprog3;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,6 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -45,6 +44,7 @@ import com.ccprog3.gui.CustomDialog;
 import com.ccprog3.gui.CustomLabel;
 import com.ccprog3.gui.CustomTextField;
 import com.ccprog3.gui.DropdownWithNumberInput;
+import com.ccprog3.gui.Images;
 import com.ccprog3.gui.ListAdder;
 import com.ccprog3.gui.TextPanel;
 import com.ccprog3.ingredients.Ingredient;
@@ -70,38 +70,46 @@ public class GUISingleton implements UI {
     /**
      * Previous panels for back button
      */
-    private Stack<JPanel> previousPanels = new Stack<>();
+    private final Stack<JPanel> previousPanels = new Stack<>();
 
     /**
      * Adds design to the frame
      */
     private GUISingleton() {
         frame.setSize(960, 720);
-        frame.setIconImage((new ImageIcon(getClass().getResource("/favicon.jpg"))).getImage());
+        frame.setIconImage((new ImageIcon(Images.FAVICON.getImage())).getImage());
 
-        try {
-            BufferedImage background = ImageIO.read(getClass().getResourceAsStream("/frameBackground.jpg"));
-
-            frame.setContentPane(new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(background, 0, 0, frame.getWidth(), frame.getHeight(), null);
-                }
-            });
-        } catch (IOException e) {
-            displayErr(e);
-        }
+        frame.setContentPane(new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(Images.FRAME_BACKGROUND.getImage(), 0, 0, frame.getWidth(), frame.getHeight(), null);
+            }
+        });
 
         frame.setLayout(new BorderLayout());
-        
-        ImageIcon title = new ImageIcon(getClass().getResource("/title.jpg"));
+
+        ImageIcon title = new ImageIcon(Images.TITLE.getImage());
         JLabel titleLabel = new JLabel(new ImageIcon(title.getImage()
                 .getScaledInstance(title.getIconWidth() * 200 / title.getIconHeight(), 200, Image.SCALE_SMOOTH)));
 
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         frame.add(titleLabel, BorderLayout.NORTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    UserSingleton.getInstance().close();
+                } catch (IOException e1) {
+                    displayErr(e1);
+                }
+
+                frame.dispose();
+            }
+        });
+
         frame.setLocationRelativeTo(null); // Centers to screen
         frame.setVisible(true);
     }
@@ -384,10 +392,7 @@ public class GUISingleton implements UI {
         panel.add(textPanel);
 
         if (!(sale.getKey() instanceof SpecialCoffee)) {
-            CustomLabel priceLabel = new CustomLabel("Price is " + sale.getValue(), Font.BOLD);
-
-            priceLabel.setForeground(Color.RED);
-            panel.add(priceLabel);
+            panel.add(new CustomLabel("Price is " + sale.getValue(), Font.BOLD));
 
             new CustomDialog(frame, "Making Coffee", panel);
 
@@ -421,11 +426,7 @@ public class GUISingleton implements UI {
                     + ingredient.getKey().getUnit(), Font.ITALIC));
 
         panel.add(textPanel);
-
-        CustomLabel priceLabel = new CustomLabel("Price is " + sale.getValue(), Font.BOLD);
-
-        priceLabel.setForeground(Color.RED);
-        panel.add(priceLabel);
+        panel.add(new CustomLabel("Price is " + sale.getValue(), Font.BOLD));
 
         new CustomDialog(frame, "Making Coffee", panel);
     }
@@ -433,44 +434,30 @@ public class GUISingleton implements UI {
     @Override
     public void coffeeTruckInfo(CoffeeTruck coffeeTruck, UserSingleton user) {
         JPanel panel = new JPanel(), textPanel;
-        CustomLabel label;
 
-        label = new CustomLabel(coffeeTruck.toString(), Font.BOLD);
-        label.setBackground(Color.BLUE);
-        panel.add(label);
+        panel.add(new CustomLabel(coffeeTruck.toString(), Font.BOLD));
         textPanel = new TextPanel();
 
-        for (StorageBin storageBin : coffeeTruck.getStorageBins()) {
-            label = new CustomLabel(storageBin.toString(), Font.PLAIN);
-            label.setForeground(Color.GREEN);
-            textPanel.add(label);
-        }
+        for (StorageBin storageBin : coffeeTruck.getStorageBins())
+            textPanel.add(new CustomLabel(storageBin.toString(), Font.PLAIN));
 
         panel.add(textPanel);
 
         for (Map.Entry<Coffee, Money> sale : coffeeTruck.getSales().entrySet()) {
             textPanel = new TextPanel();
-            label = new CustomLabel(sale.getKey() + ": " + sale.getValue(), Font.BOLD | Font.ITALIC);
-            label.setForeground(Color.RED);
-            textPanel.add(label);
+            textPanel.add(new CustomLabel(sale.getKey() + ": " + sale.getValue(), Font.BOLD | Font.ITALIC));
 
-            for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getAllIngredients().entrySet()) {
-                label = new CustomLabel(ingredient.getKey() + ": "
+            for (Map.Entry<Ingredient, Double> ingredient : sale.getKey().getAllIngredients().entrySet())
+                textPanel.add(new CustomLabel(ingredient.getKey() + ": "
                         + (ingredient.getKey().getUnit() == Unit.GRAMS ? Unit.flozToG(ingredient.getValue())
                                 : ingredient.getValue())
-                        + ingredient.getKey().getUnit(), Font.ITALIC);
-                label.setForeground(Color.RED);
-                textPanel.add(label);
-            }
+                        + ingredient.getKey().getUnit(), Font.ITALIC));
 
             if (sale instanceof SpecialCoffee)
                 for (Map.Entry<SyrupIngredient, Double> syrupIngredient : ((SpecialCoffee) sale.getKey())
-                        .getSyrupIngredients().entrySet()) {
-                    label = new CustomLabel(syrupIngredient.getKey() + ": " + syrupIngredient.getValue()
-                            + syrupIngredient.getKey().getUnit(), Font.ITALIC);
-                    label.setForeground(Color.RED);
-                    textPanel.add(label);
-                }
+                        .getSyrupIngredients().entrySet())
+                    textPanel.add(new CustomLabel(syrupIngredient.getKey() + ": " + syrupIngredient.getValue()
+                            + syrupIngredient.getKey().getUnit(), Font.ITALIC));
 
             panel.add(textPanel);
         }
@@ -630,30 +617,20 @@ public class GUISingleton implements UI {
         panel.add(textPanel);
         textPanel = new TextPanel();
 
-        CustomLabel label;
+        for (Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet())
+            textPanel.add(new CustomLabel(
+                    ingredient.getKey() + ": " + ingredient.getValue() + ingredient.getKey().getUnit(), Font.PLAIN));
 
-        for (Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet()) {
-            label = new CustomLabel(ingredient.getKey() + ": " + ingredient.getValue() + ingredient.getKey().getUnit(),
-                    Font.PLAIN);
-            label.setForeground(Color.GREEN);
-            textPanel.add(label);
-        }
-
-        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : syrups.entrySet()) {
-            label = new CustomLabel(
+        for (Map.Entry<SyrupIngredient, Double> syrupIngredient : syrups.entrySet())
+            textPanel.add(new CustomLabel(
                     syrupIngredient.getKey() + ": " + syrupIngredient.getValue() + syrupIngredient.getKey().getUnit(),
-                    Font.PLAIN);
-            label.setForeground(Color.GREEN);
-        }
+                    Font.PLAIN));
 
         panel.add(textPanel);
         textPanel = new TextPanel();
 
-        for (Map.Entry<Coffee, Money> sale : sales.entrySet()) {
-            label = new CustomLabel(sale.getKey() + ": " + sale.getValue(), Font.ITALIC);
-            label.setForeground(Color.RED);
-            textPanel.add(label);
-        }
+        for (Map.Entry<Coffee, Money> sale : sales.entrySet())
+            textPanel.add(new CustomLabel(sale.getKey() + ": " + sale.getValue(), Font.ITALIC));
 
         panel.add(textPanel);
 

@@ -32,10 +32,11 @@ public class CustomDialog extends JDialog {
 
         GridBagLayout layout = new GridBagLayout();
 
+        panel.setBackground(Colors.NEUTRAL.getColor());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(layout);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         CustomButton button = new CustomButton("Done", null);
 
@@ -77,8 +78,6 @@ public class CustomDialog extends JDialog {
         for (Component component : invisibleComponents)
             component.setVisible(false);
 
-        panel.setBackground(Colors.NEUTRAL.getColor());
-        // setBorder(BorderFactory.createLineBorder(Colors.BORDER.getColor()));
         setLocationRelativeTo(null);
         setVisible(true);
     }

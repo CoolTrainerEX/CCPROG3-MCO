@@ -18,6 +18,7 @@ public class CustomLabel extends JLabel {
      */
     public CustomLabel(String text, int style) {
         super(text);
-        setFont(new Font(getFont().getName(), style, getFont().getSize()));
+        setFont(new Font("Comic Sans MS", style, 16));
+        setForeground(Colors.TEXT.getColor());
     }
 }

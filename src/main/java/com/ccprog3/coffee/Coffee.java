@@ -1,5 +1,6 @@
 package com.ccprog3.coffee;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import com.ccprog3.ingredients.Ingredient;
  * 
  * @author Justin Ryan Uy
  */
-public class Coffee {
+public class Coffee implements Serializable {
     /**
      * Type of {@code Coffee} product
      */

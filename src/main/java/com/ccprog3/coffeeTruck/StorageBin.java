@@ -1,5 +1,7 @@
 package com.ccprog3.coffeeTruck;
 
+import java.io.Serializable;
+
 import com.ccprog3.ingredients.Ingredient;
 
 /**
@@ -7,7 +9,7 @@ import com.ccprog3.ingredients.Ingredient;
  * 
  * @author Justin Ryan Uy
  */
-public class StorageBin {
+public class StorageBin implements Serializable {
     /**
      * {@code Ingredient} type stored
      */
