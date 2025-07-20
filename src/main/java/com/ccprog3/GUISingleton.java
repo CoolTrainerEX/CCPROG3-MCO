@@ -91,7 +91,7 @@ public class GUISingleton implements UI {
 
         ImageIcon title = new ImageIcon(Images.TITLE.getImage());
         JLabel titleLabel = new JLabel(new ImageIcon(title.getImage()
-                .getScaledInstance(title.getIconWidth() * 200 / title.getIconHeight(), 200, Image.SCALE_SMOOTH)));
+                .getScaledInstance(title.getIconWidth() * 256 / title.getIconHeight(), 256, Image.SCALE_SMOOTH)));
 
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         frame.add(titleLabel, BorderLayout.NORTH);

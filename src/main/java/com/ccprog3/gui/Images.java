@@ -14,12 +14,12 @@ public enum Images {
     /**
      * App title
      */
-    TITLE("title.jpg"),
+    TITLE("title.png"),
 
     /**
      * App icon
      */
-    FAVICON("favicon.jpg"),
+    FAVICON("favicon.png"),
 
     /**
      * Frame background
