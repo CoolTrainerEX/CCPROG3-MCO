@@ -27,7 +27,7 @@ public class UserSingleton implements AutoCloseable, Serializable {
     /**
      * Singleton instance of the User
      */
-    private static final UserSingleton instance = new UserSingleton();
+    private static UserSingleton instance = new UserSingleton();
 
     /**
      * Username to be used for reading and writing to files
@@ -184,11 +184,10 @@ public class UserSingleton implements AutoCloseable, Serializable {
      * @throws FileNotFoundException User not found
      */
     public UserSingleton login(String username) throws FileNotFoundException {
-        this.username = username;
-
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(username + ".dat"))) {
-            return (UserSingleton) objectInputStream.readObject();
+            return instance = (UserSingleton) objectInputStream.readObject();
         } catch (Exception e) {
+            this.username = username;
             throw new FileNotFoundException("User not found. Will save to new user upon exit.");
         }
     }
